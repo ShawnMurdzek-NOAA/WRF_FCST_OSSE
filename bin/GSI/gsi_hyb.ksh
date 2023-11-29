@@ -138,6 +138,12 @@ MM=`${DATE} +"%m" -d "${START_TIME}"`
 DD=`${DATE} +"%d" -d "${START_TIME}"`
 HH=`${DATE} +"%H" -d "${START_TIME}"`
 
+YYYYMMDD_2=`${DATE} +"%Y%m%d" -d "${START_TIME} -1 day"`
+YYYY_2=`${DATE} +"%Y" -d "${START_TIME} -1 day"`
+MM_2=`${DATE} +"%m" -d "${START_TIME} -1 day"`
+DD_2=`${DATE} +"%d" -d "${START_TIME} -1 day"`
+HH_2=`${DATE} +"%H" -d "${START_TIME} -1 day"`
+
 # Create the working directory and cd into it
 workdir=${DATAHOME}
 ${RM} -rf ${workdir}
@@ -466,9 +472,9 @@ fi
 ## 
 stampcycle=`date -d "${START_TIME}" +%s`
 minHourDiff=100
-loops="006"
+loops="009"
 for loop in $loops; do
-  for timelist in `ls ${ENKF_FCST}/*.gdas.t*z.atmf${loop}.mem080.nemsio`; do
+  for timelist in `ls ${ENKF_FCST}/*.gdas.t*z.atmf${loop}.mem080.nc`; do
     availtimeyy=`basename ${timelist} | cut -c 1-2`
     availtimeyyyy=20${availtimeyy}
     availtimejjj=`basename ${timelist} | cut -c 3-5`
@@ -494,7 +500,7 @@ for loop in $loops; do
 done
 EYYYYMMDD=$(echo ${availtime} | cut -c1-8)
 EHH=$(echo ${availtime} | cut -c9-10)
-${LS} ${ENKF_FCST}/${enkfcstname}.mem???.nemsio > filelist03
+${LS} ${ENKF_FCST}/${enkfcstname}.mem???.nc > filelist03
 
 # SSM 20221127: Use GDAS instead of HRRRDAS
 #
@@ -543,14 +549,14 @@ nummem=$((nummem - 3 ))
 #  ens_fast_read=.true. 
 #  ${ECHO} " Cycle ${YYYYMMDDHH}: GSI hybrid uses HRRRDAS BEC with n_ens=${nummem}" >> ${logfile}
 #elif [[ ${nummem} -eq 80 ]]; then
-  echo "Do hybrid with ${memname}"
+  echo "Do hybrid with GDAS"
   beta1_inv=0.15
   ifhyb=.true.
   regional_ensemble_option=1
   grid_ratio_ens=12
   i_en_perts_io=1
   ens_fast_read=.false. 
-  ${ECHO} " Cycle ${YYYYMMDDHH}: GSI hybrid uses ${memname} with n_ens=${nummem}" >> ${logfile}
+  ${ECHO} " Cycle ${YYYYMMDDHH}: GSI hybrid uses GDAS with n_ens=${nummem}" >> ${logfile}
 #fi
 
 # Set fixed files

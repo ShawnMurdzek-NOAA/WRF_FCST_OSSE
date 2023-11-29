@@ -2,6 +2,7 @@
 # Ignore various directories
 exec/
 log/
+loghistory/
 run/
 static/GSI/
 static/UPP/
