@@ -18,5 +18,6 @@ In order to run WRF_FCST_OSSE, the following directories are also needed:
 
 - `exec`: Executables for the WRF_FCST_OSSE components.
 - `log`: An empty directory for WRF_FCST_OSSE logs.
+- `loghistory`: An empty directory for WRF_FCST_OSSE logs.
 - `run`: An empty directory for WRF_FCST_OSSE output.
 - `static`: The remaining static files that are too large to keep on GitHub.

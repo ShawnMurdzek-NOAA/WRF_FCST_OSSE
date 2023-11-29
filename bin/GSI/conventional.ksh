@@ -27,27 +27,9 @@ DATE=/bin/date
 AWK="/bin/awk --posix"
 SED=/bin/sed
 
-# Set the path to the gsi executable
-ENCODE_TAMDAR=${GSI_ROOT}/process_tamdar_netcdf.exe
-
 # Make sure DATAHOME is defined
 if [ ! "${DATAHOME}" ]; then
   ${ECHO} "ERROR: \$DATAHOME is not defined!"
-  exit 1
-fi
-
-# Make sure GSI_ROOT is defined and exists
-if [ ! "${GSI_ROOT}" ]; then
-  ${ECHO} "ERROR: \$GSI_ROOT is not defined!"
-  exit 1
-fi
-if [ ! -d "${GSI_ROOT}" ]; then
-  ${ECHO} "ERROR: GSI_ROOT directory '${GSI_ROOT}' does not exist!"
-  exit 1
-fi
-
-if [ ! -d "${TAMDAR_ROOT}" ]; then
-  ${ECHO} "ERROR: TAMDAR_ROOT directory '${TAMDAR_ROOT}' does not exist!"
   exit 1
 fi
 
@@ -89,12 +71,6 @@ if [ ! "${EARLY}" ]; then
   exit 1
 fi
 
-# Make sure the GSI executable exists
-if [ ! -x "${ENCODE_TAMDAR}" ]; then
-  ${ECHO} "ERROR: ${ENCODE_TAMDAR} does not exist!"
-  exit 1
-fi
-
 # Create the obsprd directory if necessary and cd into it
 if [ ! -d "${DATAHOME}" ]; then
   ${MKDIR} -p ${DATAHOME}
@@ -115,31 +91,35 @@ HH=`${DATE} +"%H" -d "${START_TIME}"`
 
 # Copy the prepbufr to obs directory so we never do I/O to /public directly
 if [ ${EARLY} -eq 0 ]; then
-  if [ -r "${PREPBUFR}_test/${YYYYJJJHH00}.rap.t${HH}z.prepbufr.tm00.${YYYYMMDD}.test" ]; then
-    ${CP} ${PREPBUFR}_test/${YYYYJJJHH00}.rap.t${HH}z.prepbufr.tm00.${YYYYMMDD}.test .
-    ${LN} -s ${YYYYJJJHH00}.rap.t${HH}z.prepbufr.tm00.${YYYYMMDD}.test newgblav.${YYYYMMDD}.rap.t${HH}z.prepbufr
+  if [ -r "${PREPBUFR}_test/${YYYYMMDDHH}.rap.t${HH}z.prepbufr.tm00.test" ]; then
+    ${CP} ${PREPBUFR}_test/${YYYYMMDDHH}.rap.t${HH}z.prepbufr.tm00.test ./${YYYYJJJHH00}.rap.t${HH}z.prepbufr.tm00.${YYYYMMDD}.test
+    ${LN} -s ${YYYYJJJHH00}.rap.t${HH}z.prepbufr.tm00.${YYYYMMDD}.test prepbufr
+    ${LN} -s ${YYYYMMDDHH}.rap.t${HH}z.prepbufr.tm00.test newgblav.${YYYYMMDD}.rap.t${HH}z.prepbufr
   else
-    if [ -r "${PREPBUFR}/${YYYYJJJHH00}.rap.t${HH}z.prepbufr.tm00.${YYYYMMDD}" ]; then
-      ${ECHO} "Warning: ${YYYYJJJHH00}.rap.t${HH}z.prepbufr.tm00.${YYYYMMDD}.test does not exist!"
-      ${CP} ${PREPBUFR}/${YYYYJJJHH00}.rap.t${HH}z.prepbufr.tm00.${YYYYMMDD} .
-      ${LN} -s ${YYYYJJJHH00}.rap.t${HH}z.prepbufr.tm00.${YYYYMMDD} newgblav.${YYYYMMDD}.rap.t${HH}z.prepbufr
+    if [ -r "${PREPBUFR}/${YYYYMMDDHH}.rap.t${HH}z.prepbufr.tm00" ]; then
+      ${ECHO} "Warning: ${YYYYMMDDHH}.rap.t${HH}z.prepbufr.tm00.test does not exist!"
+      ${CP} ${PREPBUFR}/${YYYYMMDDHH}.rap.t${HH}z.prepbufr.tm00 ./${YYYYJJJHH00}.rap.t${HH}z.prepbufr.tm00.${YYYYMMDD}
+      ${LN} -s ${YYYYJJJHH00}.rap.t${HH}z.prepbufr.tm00.${YYYYMMDD} prepbufr
+      ${LN} -s ${YYYYMMDDHH}.rap.t${HH}z.prepbufr.tm00 newgblav.${YYYYMMDD}.rap.t${HH}z.prepbufr
     else
-      ${ECHO} "Warning: ${YYYYJJJHH00}.rap.t${HH}z.prepbufr.tm00.${YYYYMMDD} does not exist!"
+      ${ECHO} "Warning: ${YYYYMMDDHH}.rap.t${HH}z.prepbufr.tm00 does not exist!"
       ${ECHO} "ERROR: No prepbufr files exist!"
       exit 1
     fi
   fi
 else
   if [ ${EARLY} -eq 1 ]; then
-    if [ -r "${PREPBUFR}_test/${YYYYJJJHH00}.rap_e.t${HH}z.prepbufr.tm00.${YYYYMMDD}.test" ]; then
-      ${CP} ${PREPBUFR}_test/${YYYYJJJHH00}.rap_e.t${HH}z.prepbufr.tm00.${YYYYMMDD}.test .
-      ${LN} -s ${YYYYJJJHH00}.rap_e.t${HH}z.prepbufr.tm00.${YYYYMMDD}.test newgblav.${YYYYMMDD}.rap.t${HH}z.prepbufr
+    if [ -r "${PREPBUFR}_test/${YYYYMMDDHH}.rap_e.t${HH}z.prepbufr.tm00.test" ]; then
+      ${CP} ${PREPBUFR}_test/${YYYYMMDDHH}.rap_e.t${HH}z.prepbufr.tm00.test ./${YYYYJJJHH00}.rap_e.t${HH}z.prepbufr.tm00.${YYYYMMDD}.test
+      ${LN} -s ${YYYYJJJHH00}.rap_e.t${HH}z.prepbufr.tm00.${YYYYMMDD}.test prepbufr
+      ${LN} -s ${YYYYMMDDHH}.rap_e.t${HH}z.prepbufr.tm00.test newgblav.${YYYYMMDD}.rap.t${HH}z.prepbufr
     else
-      if [ -r "${PREPBUFR}/${YYYYJJJHH00}.rap_e.t${HH}z.prepbufr.tm00.${YYYYMMDD}" ]; then
-        ${CP} ${PREPBUFR}/${YYYYJJJHH00}.rap_e.t${HH}z.prepbufr.tm00.${YYYYMMDD} .
-        ${LN} -s ${YYYYJJJHH00}.rap_e.t${HH}z.prepbufr.tm00.${YYYYMMDD} newgblav.${YYYYMMDD}.rap.t${HH}z.prepbufr
+      if [ -r "${PREPBUFR}/${YYYYMMDDHH}.rap_e.t${HH}z.prepbufr.tm00" ]; then
+        ${CP} ${PREPBUFR}/${YYYYMMDDHH}.rap_e.t${HH}z.prepbufr.tm00 ./${YYYYJJJHH00}.rap_e.t${HH}z.prepbufr.tm00.${YYYYMMDD}
+        ${LN} -s ${YYYYJJJHH00}.rap_e.t${HH}z.prepbufr.tm00.${YYYYMMDD} prepbufr
+        ${LN} -s ${YYYYMMDDHH}.rap_e.t${HH}z.prepbufr.tm00 newgblav.${YYYYMMDD}.rap.t${HH}z.prepbufr
       else
-        ${ECHO} "Warning: ${YYYYJJJHH00}.rap_e.t${HH}z.prepbufr.tm00.${YYYYMMDD} does not exist!"
+        ${ECHO} "Warning: ${YYYYMMDDHH}.rap_e.t${HH}z.prepbufr.tm00 does not exist!"
         ${ECHO} "ERROR: No prepbufr files exist!"
         exit 1
       fi
@@ -225,40 +205,7 @@ else
   ${ECHO} "Warning: ${TCVITALS_DIR}/${YYYYMMDDHH}00.tcvitals does not exist!"
 fi
 
-# Add TAMDAR data
-# Save a copy of the GSI executable in the workdir
-${CP} ${ENCODE_TAMDAR} .
-#
-# Link to the TAMDAR data
-#
-filenum=0
-${LS} ${TAMDAR_ROOT}/${PREYYJJJHH}*5r > tamdar_filelist
-${LS} ${TAMDAR_ROOT}/${YYJJJHH}*5r >> tamdar_filelist
-filenum=`more tamdar_filelist | wc -l`
-filenum=$(( filenum -3 ))
-
-echo "found tamdar files: ${filenum}"
-
-# Build the namelist on-the-fly
-${CAT} << EOF > tamdar.namelist
- &SETUP
-   analysis_time = ${YYYYMMDDHH},
-   time_window = 0.5,
-   TAMDAR_filenum  = ${filenum},
- /
-EOF
-
-# Run obs pre-processor
-${CP} newgblav.${YYYYMMDD}.rap.t${HH}z.prepbufr prepbufr_tamdar
-${ENCODE_TAMDAR} > stdout_append_tamdar 2>&1
-error=$?
-if [ ${error} -ne 0 ]; then
-  ${ECHO} "ERROR: ${ENCODE_TAMDAR} crashed  Exit status=${error}"
-  exit ${error}
-fi
-
 # Add nacelle, tower and sodar observations if available
-${CP} newgblav.${YYYYMMDD}.rap.t${HH}z.prepbufr prepbufr_wfip
 if [ -r "${NACELLE_RSD}/${YYJJJHH}000010o" ]; then
   ${LN} -s ${NACELLE_RSD}/${YYJJJHH}000010o ./nacelle_restriced.nc
   ${CP} ${GSI_ROOT}/process_nacelledata_rt.exe .

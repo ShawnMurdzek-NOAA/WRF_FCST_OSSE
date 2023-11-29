@@ -35,7 +35,7 @@
 <!ENTITY SFCOBS_USELIST "/mnt/lfs4/BMC/wrfruc/Ruifang.Li/data/mesonet_uselists">
 <!ENTITY PREPBUFR_DIR "&OBS_DIR;">
 <!ENTITY PREPBUFR_EARLY_DIR "&OBS_DIR;">
-<!ENTITY PREPBUFR_SAT_DIR "&OBS_DIR;/prepbufr">
+<!ENTITY PREPBUFR_SAT_DIR "&OBS_DIR;">
 <!ENTITY LIGHTNING_DIR "&OBS_DIR;/lightning">
 <!ENTITY RADAR_DIR "&OBS_DIR;/reflect/conusPlus">
 <!ENTITY SATELLITE_DIR "&OBS_DIR;/sat/nasa">
@@ -1107,115 +1107,6 @@
 
   </task>
 
-<!--
-
-  <metatask>
-    <var name="min">00 01</var>
-
-    <metatask>
-      <var name="sec">00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59</var>
-
-      <task name="radar_gsi_#min##sec#" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="2">
-
-        &RADAR_RESOURCES;
-        &RESERVATION;
-
-        <command>&SCRIPTS;/GSI/radar.ksh</command>
-        <cores>&RADAR_PROC;</cores>
-        <jobname><cyclestr>HRRR_radar_@H</cyclestr></jobname>
-        <join><cyclestr>&LOG_DIR;/radar_gsi_@Y@m@d@H00.log</cyclestr></join>
-
-        <envar>
-          <name>START_TIME</name>
-          <value><cyclestr>@Y@m@d@H</cyclestr></value>
-        </envar>
-        <envar>
-          <name>SUBH_TIME</name>
-          <value>00</value>
-        </envar>
-        <envar>
-          <name>DATAROOT</name>
-          <value>&DATAROOT;</value>
-        </envar>
-        <envar>
-          <name>DATAHOME</name>
-          <value><cyclestr>&DATAROOT;/@Y@m@d@H/obsprd</cyclestr></value>
-        </envar>
-        <envar>
-          <name>GSI_ROOT</name>
-          <value>&GSI_ROOT;</value>
-        </envar>
-        <envar>
-          <name>FIX_ROOT</name>
-          <value>&FIX_ROOT;</value>
-        </envar>
-        <envar>
-          <name>STATIC_DIR</name>
-          <value>&STATIC_DIR;/WPS</value>
-        </envar>
-        <envar>
-          <name>NSSLMOSAIC</name>
-          <value>&RADAR_DIR;</value>
-        </envar>
-        <envar>
-          <name>MOSAICTILENUM</name>
-          <value>&MOSAIC_TILE_NUM;</value>
-        </envar>
-
-        <dependency>
-          <datadep><cyclestr>&RADAR_DIR;/@Y@m@d-@H#min##sec#.MRMS_MergedReflectivityQC_00.50_@Y@m@d-@H#min##sec#.grib2</cyclestr></datadep>
-        </dependency>
-
-      </task>
-
-    </metatask>
-  </metatask>
-
-  <task name="satellite_gsi_bufr" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="2">
-
-    &SATELLITE_RESOURCES;
-    &RESERVATION;
-
-    <command>&SCRIPTS;/GSI/satellite_bufr.ksh</command>
-    <cores>&SATELLITE_PROC;</cores>
-    <jobname><cyclestr>HRRR_satellite_bufr_@H</cyclestr></jobname>
-    <join><cyclestr>&LOG_DIR;/satellite_gsi_bufr_@Y@m@d@H00.log</cyclestr></join>
-
-    <envar>
-      <name>START_TIME</name>
-      <value><cyclestr>@Y@m@d@H</cyclestr></value>
-    </envar>
-    <envar>
-      <name>DATAROOT</name>
-      <value>&DATAROOT;</value>
-    </envar>
-    <envar>
-      <name>DATAHOME</name>
-      <value><cyclestr>&DATAROOT;/@Y@m@d@H/obsprd</cyclestr></value>
-    </envar>
-    <envar>
-      <name>GSI_ROOT</name>
-      <value>&GSI_ROOT;</value>
-    </envar>
-    <envar>
-      <name>FIX_ROOT</name>
-      <value>&FIX_ROOT;</value>
-    </envar>
-    <envar>
-      <name>STATIC_DIR</name>
-      <value>&STATIC_DIR;/WPS</value>
-    </envar>
-    <envar>
-      <name>NASALARC_DATA</name>
-      <value>&LANGLEY_BUFR_DIR;</value>
-    </envar>
-
-    <dependency>
-      <datadep><cyclestr>&LANGLEY_BUFR_DIR;/@Y@j@H00.rap.t@Hz.lgycld.tm00.bufr_d</cyclestr></datadep>
-    </dependency>
-
-  </task>
-
   <task name="conventional_gsi" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
 
     &CONVENTIONAL_RESOURCES;
@@ -1259,10 +1150,6 @@
       <value>&RADVELLEV2P5_DIR;</value>
     </envar>
     <envar>
-      <name>TAMDAR_ROOT</name>
-      <value>&TAMDAR_DIR;</value>
-    </envar>
-    <envar>
       <name>NACELLE_RSD</name>
       <value>&NACELLE_RSD;</value>
     </envar>
@@ -1284,7 +1171,7 @@
     </envar>
 
     <dependency>
-      <datadep><cyclestr>&PREPBUFR_DIR;/@Y@j@H00.rap.t@Hz.prepbufr.tm00.@Y@m@d</cyclestr></datadep>
+      <datadep><cyclestr>&PREPBUFR_DIR;/@Y@m@d@H.rap.t@Hz.prepbufr.tm00</cyclestr></datadep>
     </dependency>
 
   </task>
@@ -1332,10 +1219,6 @@
       <value>&RADVELLEV2P5_DIR;</value>
     </envar>
     <envar>
-      <name>TAMDAR_ROOT</name>
-      <value>&TAMDAR_DIR;</value>
-    </envar>
-    <envar>
       <name>NACELLE_RSD</name>
       <value>&NACELLE_RSD;</value>
     </envar>
@@ -1357,12 +1240,10 @@
     </envar>
 
     <dependency>
-      <datadep><cyclestr>&PREPBUFR_DIR;/@Y@j@H00.rap_e.t@Hz.prepbufr.tm00.@Y@m@d</cyclestr></datadep>
+      <datadep><cyclestr>&PREPBUFR_DIR;/@Y@m@d@H.rap_e.t@Hz.prepbufr.tm00</cyclestr></datadep>
     </dependency>
 
   </task>
-
--->
 
   <task name="gsi_hyb" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
 
@@ -1466,17 +1347,10 @@
     <dependency>
       <and>
         <taskdep task="wrf_arw_pre"/>
-<!--
-        <datadep age="00:02:00"><cyclestr>&DATAROOT;/@Y@m@d@H/obsprd/NSSLRefInGSI.bufr</cyclestr></datadep>
-        <or>
-          <taskdep task="satellite_gsi_bufr"/>
-          <taskdep task="satellite_gsi_bufr_early"/>
-        </or>
         <or>
           <taskdep task="conventional_gsi"/>
           <taskdep task="conventional_gsi_early"/>
         </or>
--->
       </and>
     </dependency>
 

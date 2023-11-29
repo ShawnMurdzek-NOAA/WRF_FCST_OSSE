@@ -230,6 +230,8 @@ fi
 # turn off the link to prepbufr_tamdar because NCEP feed works. Aug 4th, 2017
 if [ -r ${DATAOBSHOME}/prepbufr_tamdar ]; then
   ${LN} -s ${DATAOBSHOME}/prepbufr_tamdar ./prepbufr
+elif [ -r ${DATAOBSHOME}/prepbufr ]; then
+  ${LN} -s ${DATAOBSHOME}/prepbufr ./prepbufr
 # If obsproc has not executed then look for prepbufr file directly on /public
 #else 2020082723.rap.t23z.prepbufr.tm00
   # Copy the prepbufr to obs directory so we never do I/O to /public directly
