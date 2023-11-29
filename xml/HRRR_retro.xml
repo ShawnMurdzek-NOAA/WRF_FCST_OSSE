@@ -1085,24 +1085,24 @@
       <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd_pre</cyclestr></value>
     </envar>
     <envar>
+      <name>DATAHOME_IC</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd_ic</cyclestr></value>
+    </envar>
+    <envar>
       <name>DATAHOME_BC</name>
       <value><cyclestr offset="-01:00:00">&DATAROOT;/@Y@m@d@H/wrfprd_bc</cyclestr></value>
     </envar>
 
     <dependency>
-      <!--
       <and>
-        <taskdep task="radar_subh_tten"/>
-        <taskdep task="fires_ncfmake" cycle_offset="-01:00:00"/>
-      -->
+        <taskdep task="real_arw_ic"/>
+        <taskdep task="HRRR_soilsave_01" cycle_offset="-01:00:00"/>
         <or>
            <taskdep task="real_arw_bc_long" cycle_offset="-01:00:00"/>
            <taskdep task="real_arw_bc_medium" cycle_offset="-01:00:00"/>
            <taskdep task="real_arw_bc_short" cycle_offset="-01:00:00"/>
         </or>
-      <!--
       </and>
-      -->
     </dependency>
 
   </task>

@@ -101,8 +101,7 @@
 
  &physics
  mp_physics                          = 28,     3,     3,
- mp_tend_lim                         = 0.07,
- mp_tend_radar                       = 1,
+ mp_tend_radar                       = 0,
  do_radar_ref                        = 1,
  ra_lw_physics                       = 4,     1,     1,
  ra_sw_physics                       = 4,     1,     1,

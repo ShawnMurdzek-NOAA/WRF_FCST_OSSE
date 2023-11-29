@@ -226,8 +226,13 @@ if [ -r ${DATAGSIHOME}/wrf_inout ]; then
   ${ECHO} " Initial condition ${DATAGSIHOME}/wrf_inout "
   ${LN} -s ${DATAGSIHOME}/wrf_inout ${DATAHOME}/wrfinput_d01
   ${LN} -s ${DATAHOME}/wrfinput_d01 ${DATAHOME}/wrfvar_output
+elif [ -r ${DATAHOME_IC}/wrfinput_d01 ]; then
+  ${ECHO} " Initial condition ${DATAHOME_IC}/wrfinput_d01 "
+  ${LN} -s ${DATAHOME_IC}/wrfinput_d01 ${DATAHOME}/wrfinput_d01
+  ${LN} -s ${DATAHOME}/wrfinput_d01 ${DATAHOME}/wrfvar_output
 else
-  ${ECHO} "ERROR: ${DATAGSIHOME}/wrf_inout does not exist, or is not readable"
+  ${ECHO} "ERROR: ${DATAGSIHOME}/wrf_inout does not exist, or is not readable AND"
+  ${ECHO} "       ${DATAHOME_IC}/wrfinput_d01 does not exist, or is not readable"
   exit 1
 fi
 
@@ -270,7 +275,7 @@ if [ ${FULLCYC} -eq 0 ]; then
     ${ECHO} "End emissions fields ncks `${DATE}`"
   else # Last resort zeroes
     ${ECHO} "Cycle ${YYYYMMDDHH}: Emissions=${YYYYMMDDHH}/gsiprd/wrf_inout unavailable."
-    exit 1
+#    exit 1
   fi
 fi
 
