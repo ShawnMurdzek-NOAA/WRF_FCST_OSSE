@@ -4,3 +4,6 @@ exec/
 log/
 run/
 static/
+
+# Ignore workflow database files
+*.db
