@@ -1,0 +1,2136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE workflow [
+
+<!ENTITY ACCOUNT "wrfruc">
+<!ENTITY QUEUE "batch">
+<!ENTITY QUEUE_DEBUG "batch">
+<!ENTITY QUEUE_URGENT "urgent">
+<!ENTITY PARTITION "xjet,vjet,kjet">
+<!ENTITY PARTITION_UPP "kjet">
+
+<!ENTITY HOMEBASE_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/syn_data/winter">
+<!ENTITY DATABASE_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/syn_data/winter">
+<!ENTITY OBS_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/obs/winter/corr_errors_1st_iter_v2/syn_bufr">
+<!ENTITY NCL_VER "6.5.0">
+
+<!ENTITY SCRIPTS "&HOMEBASE_DIR;/bin">
+<!ENTITY STATIC_DIR "&HOMEBASE_DIR;/static">
+
+<!ENTITY WPS_ROOT "&HOMEBASE_DIR;/exec/WPS">
+<!ENTITY WRF_ROOT "&HOMEBASE_DIR;/exec/WRF">
+<!ENTITY UNIPOST_EXEC "&HOMEBASE_DIR;/exec/UPP">
+<!ENTITY WGRIB1 "&HOMEBASE_DIR;/exec/UPP/wgrib">
+<!ENTITY WGRIB "&HOMEBASE_DIR;/exec/UPP/wgrib2">
+<!ENTITY GSI_ROOT "&HOMEBASE_DIR;/exec/GSI">
+<!ENTITY FIX_ROOT "&STATIC_DIR;/GSI">
+
+<!ENTITY RAP_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/RAP_data/grib">
+<!ENTITY SST_DIR "/mnt/lfs4/BMC/wrfruc/Ruifang.Li/data/highres_sst">
+
+<!ENTITY GFS_DIR "/mnt/lfs4/BMC/wrfruc/Ruifang.Li/data/gfs/0p25deg/grib2">                         
+<!ENTITY ENKFFCST_DIR "/mnt/lfs4/BMC/wrfruc/Ruifang.Li/data/enkf/atm">       
+
+<!ENTITY AIRCRAFT_REJECT "/mnt/lfs4/BMC/wrfruc/Ruifang.Li/data/amdar_reject_lists">
+<!ENTITY SFCOBS_USELIST "/mnt/lfs4/BMC/wrfruc/Ruifang.Li/data/mesonet_uselists">
+<!ENTITY PREPBUFR_DIR "&OBS_DIR;">
+<!ENTITY PREPBUFR_EARLY_DIR "&OBS_DIR;">
+<!ENTITY PREPBUFR_SAT_DIR "&OBS_DIR;/prepbufr">
+<!ENTITY LIGHTNING_DIR "&OBS_DIR;/lightning">
+<!ENTITY RADAR_DIR "&OBS_DIR;/reflect/conusPlus">
+<!ENTITY SATELLITE_DIR "&OBS_DIR;/sat/nasa">
+<!ENTITY LANGLEY_BUFR_DIR "&OBS_DIR;/langley">
+<!ENTITY RADVELLEV2_DIR "&OBS_DIR;/nexrad">
+<!ENTITY RADVELLEV2P5_DIR "&OBS_DIR;/radwnd">
+<!ENTITY SATWND_DIR "&OBS_DIR;/satwnd">
+<!ENTITY NACELLE_RSD "&OBS_DIR;/tower/restricted/nacelle/netcdf">
+<!ENTITY TOWER_RSD "&OBS_DIR;/tower/restricted/met/netcdf">
+<!ENTITY TOWER_NRSD "&OBS_DIR;/tower/public/netcdf">
+<!ENTITY SODAR_NRSD "&OBS_DIR;/profiler/wind/external/netcdf">
+<!ENTITY TAMDAR_DIR "&OBS_DIR;/acars/raw/netcdf">
+<!ENTITY NCEPSNOW_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/obs/winter/synthetic_ims">
+<!ENTITY HIGHRES_SST_DIR "&SST_DIR;">
+<!ENTITY HIGHRES_SST14KM_DIR "&OBS_DIR;/lowres_sst">
+<!ENTITY GVF_DIR "/mnt/lfs4/BMC/wrfruc/Ruifang.Li/data/gvf/grib2">
+<!ENTITY VIIRS_DIR "&OBS_DIR;/sat/nesdis/viirs/fire_pda">
+<!ENTITY MODIS_DIR "&OBS_DIR;/sat/firms/global">
+<!ENTITY NOAA20_DIR "&OBS_DIR;/sat/nesdis/noaa20/fire_pda">
+<!ENTITY TCVITALS_DIR "&OBS_DIR;/nhc/tcvitals">
+<!ENTITY FVCOM_DIR "&OBS_DIR;/glerl/lakes-ice">
+
+<!ENTITY LOG_DIR "&DATABASE_DIR;/log">
+<!ENTITY DATAROOT_ENS "&DATABASE_DIR;/gfsenkf">
+<!ENTITY DATAROOT "&DATABASE_DIR;/run">
+<!ENTITY DATAROOT_BC "&DATABASE_DIR;/run">
+<!ENTITY DATAROOT_PCYC "&DATABASE_DIR;/run">
+
+<!ENTITY FCST_LENGTH_LONG "12">
+<!ENTITY FCST_LENGTH_MEDIUM "6">
+<!ENTITY FCST_LENGTH_SHORT "1">
+<!ENTITY FCST_LENGTH_BC_LONG "12">
+<!ENTITY FCST_LENGTH_BC_MEDIUM "6">
+<!ENTITY FCST_LENGTH_BC_SHORT "3">
+<!ENTITY FCST_LENGTH_IC "0">
+<!ENTITY FCST_LENGTH_PRE "1">
+<!ENTITY FCST_INTERVAL "1">
+<!ENTITY IC_OFFSET "1">
+<!ENTITY BC_OFFSET "3">
+<!ENTITY MOSAIC_TILE_NUM "1">
+<!ENTITY UPDATE_SST "02">
+<!ENTITY UPDATE_SNOW "02">
+
+<!ENTITY UNGRIB_PROC "1">
+<!ENTITY METGRID_PROC "40">
+<!ENTITY REAL_ARW_PROC "80">
+<!ENTITY WRF_ARW_PRE_PROC "1200">
+<!ENTITY WRF_ARW_PROC "1200">
+
+<!ENTITY CONVENTIONAL_PROC "1">
+<!ENTITY LIGHTNING_PROC "1">
+<!ENTITY RADAR_PROC "33">
+<!ENTITY SATELLITE_PROC "1">
+<!ENTITY RADAR_TTEN_PROC "4">
+<!ENTITY GSI_HYB_PROC "18:ppn=20">
+<!ENTITY GSI_DIAG_PROC "1">
+
+<!ENTITY POST_ANL_PROC "32">
+<!ENTITY POST_PROC "16">
+<!ENTITY COMBINE_PROC "1">
+<!ENTITY NCL_MAIN_PROC "16">
+<!ENTITY NCL_PROC "1">
+<!ENTITY CLEAN_PROC "1">
+
+<!ENTITY UNGRIB_RESOURCES "<walltime>00:20:00</walltime><memory>12G</memory>">
+<!ENTITY METGRID_RESOURCES "<walltime>00:45:00</walltime>">
+<!ENTITY REAL_RESOURCES "<walltime>01:20:00</walltime>">
+<!ENTITY CLEAN_RESOURCES "<walltime>01:20:00</walltime><memory>4G</memory>">
+<!ENTITY LIGHTNING_RESOURCES "<walltime>00:05:00</walltime><memory>4G</memory>">
+<!ENTITY CONVENTIONAL_RESOURCES "<walltime>00:05:00</walltime><memory>2G</memory>">
+<!ENTITY RADAR_RESOURCES "<walltime>00:30:00</walltime>">
+<!ENTITY SATELLITE_RESOURCES "<walltime>00:10:00</walltime><memory>10G</memory>">
+<!ENTITY GSI_HYB_RESOURCES "<walltime>00:15:00</walltime><memory>60G</memory>">
+<!ENTITY GSI_DIAG_RESOURCES "<walltime>00:05:00</walltime><memory>600M</memory>">
+<!ENTITY WRF_ARW_RESOURCES "<walltime>01:30:00</walltime>">
+<!ENTITY WRF_ARW_RESOURCES_SHORT "<walltime>00:10:00</walltime>">
+<!ENTITY WRF_ARW_RESOURCES_PRE "<walltime>00:10:00</walltime>">
+<!ENTITY POST_RESOURCES "<walltime>00:90:00</walltime>">
+<!ENTITY COMBINE_RESOURCES "<walltime>00:15:00</walltime><memory>600M</memory>">
+<!ENTITY NCL_MAIN_RESOURCES "<walltime>01:15:00</walltime><memory>14G</memory>">
+<!ENTITY NCL_RESOURCES "<walltime>01:00:00</walltime><memory>14G</memory>">
+
+<!ENTITY RESERVATION '<partition>&PARTITION;</partition><queue>&QUEUE;</queue><account>&ACCOUNT;</account>'>
+<!ENTITY RESERVATION_DEBUG '<partition>&PARTITION;</partition><queue>&QUEUE_DEBUG;</queue><account>&ACCOUNT;</account>'>
+<!ENTITY RESERVATION_URGENT '<partition>&PARTITION;</partition><queue>&QUEUE_URGENT;</queue><account>&ACCOUNT;</account>'>
+<!ENTITY RESERVATION_UPP '<partition>&PARTITION_UPP;</partition><queue>&QUEUE;</queue><account>&ACCOUNT;</account>'>
+
+
+]>
+
+<workflow realtime="F" scheduler="slurm" cyclethrottle="984" cyclelifespan="299:00:00:00">
+
+  <log>
+    <cyclestr>&LOG_DIR;/workflow_@Y@m@d@H.log</cyclestr>
+  </log>
+
+  <cycledef group="12hr">00 00,12 01 02 2022 *</cycledef>
+  <cycledef group="01hr">00 01,13 01 02 2022 *</cycledef>
+  <cycledef group="02hr">00 02,14 01 02 2022 *</cycledef>
+  <cycledef group="03hr">00 03,15 01 02 2022 *</cycledef>
+  <cycledef group="04hr">00 04,16 01 02 2022 *</cycledef>
+  <cycledef group="05hr">00 05,17 01 02 2022 *</cycledef>
+  <cycledef group="06hr">00 06,18 01 02 2022 *</cycledef>
+  <cycledef group="07hr">00 07,19 01 02 2022 *</cycledef>
+  <cycledef group="08hr">00 08,20 01 02 2022 *</cycledef>
+  <cycledef group="09hr">00 09,21 01 02 2022 *</cycledef>
+  <cycledef group="10hr">00 10,22 01 02 2022 *</cycledef>
+  <cycledef group="11hr">00 11,23 01 02 2022 *</cycledef>
+
+  <task name="ungrib_SST" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+
+    &UNGRIB_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WPS/ungribsstwrapper.ksh</command>
+    <cores>&UNGRIB_PROC;</cores>
+    <jobname><cyclestr>ungrib_SST_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/ungrib_SST_@Y@m@d@H.log</cyclestr></join>
+
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>SCRIPTS</name>
+      <value>&SCRIPTS;/WPS</value>
+    </envar>
+    <envar>
+      <name>SOURCE</name>
+      <value>SST</value>
+    </envar>
+    <envar>
+      <name>SOURCE_PATH</name>
+      <value>&HIGHRES_SST_DIR;</value>
+    </envar>
+    <envar>
+      <name>FORMAT</name>
+      <value><cyclestr>@y@j00000000</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_IC;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>WGRIB</name>
+      <value>&WGRIB;</value>
+    </envar>
+    <envar>
+      <name>WPS_ROOT</name>
+      <value>&WPS_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WPS</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_ic</cyclestr></value>
+    </envar>
+    <envar>
+      <name>DATAHOME_BDY</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_bc</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <datadep><cyclestr>&HIGHRES_SST_DIR;/@y@j00000000</cyclestr></datadep>
+    </dependency>
+ 
+  </task>
+
+  <task name="ungrib_RAP_bc_long" cycledefs="12hr" maxtries="1">
+
+    &UNGRIB_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WPS/ungrib.ksh</command>
+    <cores>&UNGRIB_PROC;</cores>
+    <jobname><cyclestr>HRRR_ungrib_bc_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/ungrib_bc_@Y@m@d@H.log</cyclestr></join>
+
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>SOURCE</name>
+      <value>RAP</value>
+    </envar>
+    <envar>
+      <name>SOURCE_PATH</name>
+      <value><cyclestr offset="-&BC_OFFSET;:00:00">&RAP_DIR;/@Y@m@d@H/postprd</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FORMAT</name>
+      <value>wrfnat_130_%f.grib2</value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_BC_LONG;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>DELAY</name>
+      <value>&BC_OFFSET;</value>
+    </envar>
+    <envar>
+      <name>WPS_ROOT</name>
+      <value>&WPS_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WPS</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_bc</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <and>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&RAP_DIR;/@Y@m@d@H/postprd/wrfnat_130_03.grib2</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&RAP_DIR;/@Y@m@d@H/postprd/wrfnat_130_06.grib2</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&RAP_DIR;/@Y@m@d@H/postprd/wrfnat_130_09.grib2</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&RAP_DIR;/@Y@m@d@H/postprd/wrfnat_130_12.grib2</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&RAP_DIR;/@Y@m@d@H/postprd/wrfnat_130_15.grib2</cyclestr></datadep>
+      </and>
+    </dependency>
+
+  </task>
+
+  <task name="metgrid_RAP_bc_long" cycledefs="12hr" maxtries="1">
+
+    &METGRID_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WPS/metgrid.ksh</command>
+    <cores>&METGRID_PROC;</cores>
+    <jobname><cyclestr>HRRR_metgrid_bc_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/metgrid_bc_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>METGRIDPROC</name>
+      <value>&METGRID_PROC;</value>
+    </envar>
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_BC_LONG;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>WPS_ROOT</name>
+      <value>&WPS_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WPS</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wpsprd_bc</cyclestr></value>
+    </envar>
+    <envar>
+      <name>SOURCE</name>
+      <value>RAP</value>
+    </envar>
+    <envar>
+      <name>SOURCE_PATH</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_bc</cyclestr></value>
+    </envar>
+    <envar>
+      <name>CONSTANTS</name>
+      <value>SST</value>
+    </envar>
+    <envar>
+      <name>CONSTANT_PATH</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_ic</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <and>
+        <taskdep task="ungrib_RAP_bc_long"/>
+        <taskdep task="ungrib_SST"/>
+      </and>
+    </dependency>
+
+  </task>
+
+  <task name="real_arw_bc_long" cycledefs="12hr" maxtries="1">
+
+    &REAL_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WRF/real_arw.ksh</command>
+    <cores>&REAL_ARW_PROC;</cores>
+    <jobname><cyclestr>HRRR_real_arw_bc_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/real_arw_bc_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>REALPROC</name>
+      <value>&REAL_ARW_PROC;</value>
+    </envar>
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_BC_LONG;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>WRF_CORE</name>
+      <value>ARW</value>
+    </envar>
+    <envar>
+      <name>WRF_ROOT</name>
+      <value>&WRF_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WRF</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd_bc</cyclestr></value>
+    </envar>
+    <envar>
+      <name>INPUT_DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wpsprd_bc</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <taskdep task="metgrid_RAP_bc_long"/>
+    </dependency>
+
+  </task>
+
+  <task name="ungrib_RAP_bc_medium" cycledefs="03hr,09hr,06hr" maxtries="1">
+
+    &UNGRIB_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WPS/ungrib.ksh</command>
+    <cores>&UNGRIB_PROC;</cores>
+    <jobname><cyclestr>HRRR_ungrib_bc_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/ungrib_bc_@Y@m@d@H.log</cyclestr></join>
+
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>SOURCE</name>
+      <value>RAP</value>
+    </envar>
+    <envar>
+      <name>SOURCE_PATH</name>
+      <value><cyclestr offset="-&BC_OFFSET;:00:00">&RAP_DIR;/@Y@m@d@H/postprd</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FORMAT</name>
+      <value>wrfnat_130_%f.grib2</value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_BC_MEDIUM;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>DELAY</name>
+      <value>&BC_OFFSET;</value>
+    </envar>
+    <envar>
+      <name>WPS_ROOT</name>
+      <value>&WPS_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WPS</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_bc</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <and>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&RAP_DIR;/@Y@m@d@H/postprd/wrfnat_130_03.grib2</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&RAP_DIR;/@Y@m@d@H/postprd/wrfnat_130_06.grib2</cyclestr></datadep>
+      </and>
+    </dependency>
+
+  </task>
+
+  <task name="metgrid_RAP_bc_medium" cycledefs="03hr,09hr,06hr" maxtries="1">
+
+    &METGRID_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WPS/metgrid.ksh</command>
+    <cores>&METGRID_PROC;</cores>
+    <jobname><cyclestr>HRRR_metgrid_bc_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/metgrid_bc_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>METGRIDPROC</name>
+      <value>&METGRID_PROC;</value>
+    </envar>
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_BC_MEDIUM;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>WPS_ROOT</name>
+      <value>&WPS_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WPS</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wpsprd_bc</cyclestr></value>
+    </envar>
+    <envar>
+      <name>SOURCE</name>
+      <value>RAP</value>
+    </envar>
+    <envar>
+      <name>SOURCE_PATH</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_bc</cyclestr></value>
+    </envar>
+    <envar>
+      <name>CONSTANTS</name>
+      <value>SST</value>
+    </envar>
+    <envar>
+      <name>CONSTANT_PATH</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_ic</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <and>
+        <taskdep task="ungrib_RAP_bc_medium"/>
+        <taskdep task="ungrib_SST"/>
+      </and>
+    </dependency>
+
+  </task>
+
+  <task name="real_arw_bc_medium" cycledefs="03hr,09hr,06hr" maxtries="1">
+
+    &REAL_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WRF/real_arw.ksh</command>
+    <cores>&REAL_ARW_PROC;</cores>
+    <jobname><cyclestr>HRRR_real_arw_bc_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/real_arw_bc_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>REALPROC</name>
+      <value>&REAL_ARW_PROC;</value>
+    </envar>
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_BC_MEDIUM;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>WRF_CORE</name>
+      <value>ARW</value>
+    </envar>
+    <envar>
+      <name>WRF_ROOT</name>
+      <value>&WRF_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WRF</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd_bc</cyclestr></value>
+    </envar>
+    <envar>
+      <name>INPUT_DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wpsprd_bc</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <taskdep task="metgrid_RAP_bc_medium"/>
+    </dependency>
+
+  </task>
+
+  <task name="ungrib_RAP_bc_short" cycledefs="01hr,02hr,04hr,05hr,07hr,08hr,10hr,11hr" maxtries="1">
+
+    &UNGRIB_RESOURCES;
+    &RESERVATION_DEBUG;
+
+    <command>&SCRIPTS;/WPS/ungrib.ksh</command>
+    <cores>&UNGRIB_PROC;</cores>
+    <jobname><cyclestr>HRRR_ungrib_bc_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/ungrib_bc_@Y@m@d@H.log</cyclestr></join>
+
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>SOURCE</name>
+      <value>RAP</value>
+    </envar>
+    <envar>
+      <name>SOURCE_PATH</name>
+      <value><cyclestr offset="-&BC_OFFSET;:00:00">&RAP_DIR;/@Y@m@d@H/postprd</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FORMAT</name>
+      <value>wrfnat_130_%f.grib2</value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_BC_SHORT;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>DELAY</name>
+      <value>&BC_OFFSET;</value>
+    </envar>
+    <envar>
+      <name>WPS_ROOT</name>
+      <value>&WPS_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WPS</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_bc</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <and>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&RAP_DIR;/@Y@m@d@H/postprd/wrfnat_130_03.grib2</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&RAP_DIR;/@Y@m@d@H/postprd/wrfnat_130_06.grib2</cyclestr></datadep>
+      </and>
+    </dependency>
+
+  </task>
+
+  <task name="metgrid_RAP_bc_short" cycledefs="01hr,02hr,04hr,05hr,07hr,08hr,10hr,11hr" maxtries="1">
+
+    &METGRID_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WPS/metgrid.ksh</command>
+    <cores>&METGRID_PROC;</cores>
+    <jobname><cyclestr>HRRR_metgrid_bc_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/metgrid_bc_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>METGRIDPROC</name>
+      <value>&METGRID_PROC;</value>
+    </envar>
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_BC_SHORT;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>WPS_ROOT</name>
+      <value>&WPS_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WPS</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wpsprd_bc</cyclestr></value>
+    </envar>
+    <envar>
+      <name>SOURCE</name>
+      <value>RAP</value>
+    </envar>
+    <envar>
+      <name>SOURCE_PATH</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_bc</cyclestr></value>
+    </envar>
+    <envar>
+      <name>CONSTANTS</name>
+      <value>SST</value>
+    </envar>
+    <envar>
+      <name>CONSTANT_PATH</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_ic</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <and>
+        <taskdep task="ungrib_RAP_bc_short"/>
+        <taskdep task="ungrib_SST"/>
+      </and>
+    </dependency>
+
+  </task>
+
+  <task name="real_arw_bc_short" cycledefs="01hr,02hr,04hr,05hr,07hr,08hr,10hr,11hr" maxtries="1">
+
+    &REAL_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WRF/real_arw.ksh</command>
+    <cores>&REAL_ARW_PROC;</cores>
+    <jobname><cyclestr>HRRR_real_arw_bc_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/real_arw_bc_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>REALPROC</name>
+      <value>&REAL_ARW_PROC;</value>
+    </envar>
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_BC_SHORT;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>WRF_CORE</name>
+      <value>ARW</value>
+    </envar>
+    <envar>
+      <name>WRF_ROOT</name>
+      <value>&WRF_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WRF</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd_bc</cyclestr></value>
+    </envar>
+    <envar>
+      <name>INPUT_DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wpsprd_bc</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <taskdep task="metgrid_RAP_bc_short"/>
+    </dependency>
+
+  </task>
+
+  <task name="ungrib_RAP_ic" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+
+    &UNGRIB_RESOURCES;
+    &RESERVATION_DEBUG;
+
+    <command>&SCRIPTS;/WPS/ungrib.ksh</command>
+    <cores>&UNGRIB_PROC;</cores>
+    <jobname><cyclestr>HRRR_ungrib_RAP_ic_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/ungrib_RAP_ic_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr offset="-&IC_OFFSET;:00:00">@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>SOURCE</name>
+      <value>RAP</value>
+    </envar>
+    <envar>
+      <name>SOURCE_PATH</name>
+      <value><cyclestr offset="-&IC_OFFSET;:00:00">&RAP_DIR;/@Y@m@d@H/postprd</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FORMAT</name>
+      <value>wrfnat_130_00.grib2</value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_IC;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>WPS_ROOT</name>
+      <value>&WPS_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WPS</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_ic</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <datadep age="00:02:00"><cyclestr offset="-&IC_OFFSET;:00:00">&RAP_DIR;/@Y@m@d@H/postprd/wrfnat_130_00.grib2</cyclestr></datadep>
+    </dependency>
+
+  </task>
+
+  <task name="ungrib_RAP_ic_early" cycledefs="01hr" maxtries="1">
+
+    &UNGRIB_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WPS/ungrib.ksh</command>
+    <cores>&UNGRIB_PROC;</cores>
+    <jobname><cyclestr>HRRR_ungrib_RAP_ic_early_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/ungrib_RAP_ic_early_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr offset="-&IC_OFFSET;:00:00">@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>SOURCE</name>
+      <value>RAP</value>
+    </envar>
+    <envar>
+      <name>SOURCE_PATH</name>
+      <value><cyclestr offset="-&IC_OFFSET;:00:00">&RAP_DIR;/@Y@m@d@H/postprd_early</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FORMAT</name>
+      <value>wrfnat_130_00.grib2</value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_IC;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>WPS_ROOT</name>
+      <value>&WPS_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WPS</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_ic</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <datadep age="00:02:00"><cyclestr offset="-&IC_OFFSET;:00:00">&RAP_DIR;/@Y@m@d@H/postprd_early/wrfnat_130_00.grib2</cyclestr></datadep>
+    </dependency>
+
+  </task>
+
+  <task name="metgrid_RAP_ic" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+
+    &METGRID_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WPS/metgrid.ksh</command>
+    <cores>&METGRID_PROC;</cores>
+    <jobname><cyclestr>HRRR_metgrid_ic_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/metgrid_ic_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>METGRIDPROC</name>
+      <value>&METGRID_PROC;</value>
+    </envar>
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr offset="-&IC_OFFSET;:00:00">@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_IC;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>WPS_ROOT</name>
+      <value>&WPS_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WPS</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wpsprd_ic</cyclestr></value>
+    </envar>
+    <envar>
+      <name>SOURCE</name>
+      <value>RAP</value>
+    </envar>
+    <envar>
+      <name>SOURCE_PATH</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_ic</cyclestr></value>
+    </envar>
+    <envar>
+      <name>CONSTANTS</name>
+      <value>SST</value>
+    </envar>
+    <envar>
+      <name>CONSTANT_PATH</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_ic</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <and>
+        <or>
+          <taskdep task="ungrib_RAP_ic"/>
+          <taskdep task="ungrib_RAP_ic_early"/>
+        </or>
+        <taskdep task="ungrib_SST"/>
+      </and>
+    </dependency>
+
+  </task>
+
+  <task name="real_arw_ic" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+
+    &REAL_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WRF/real_arw.ksh</command>
+    <cores>&REAL_ARW_PROC;</cores>
+    <jobname><cyclestr>HRRR_real_arw_ic_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/real_arw_ic_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>REALPROC</name>
+      <value>&REAL_ARW_PROC;</value>
+    </envar>
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr offset="-&IC_OFFSET;:00:00">@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_IC;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>WRF_CORE</name>
+      <value>ARW</value>
+    </envar>
+    <envar>
+      <name>WRF_ROOT</name>
+      <value>&WRF_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WRF</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd_ic</cyclestr></value>
+    </envar>
+    <envar>
+      <name>INPUT_DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wpsprd_ic</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <taskdep task="metgrid_RAP_ic"/>
+    </dependency>
+
+  </task>
+
+  <task name="wrf_arw_pre" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+
+    &WRF_ARW_RESOURCES_PRE;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WRF/wrf_arw.ksh</command>
+    <cores>&WRF_ARW_PRE_PROC;</cores>
+    <jobname><cyclestr>HRRR_wrf_arw_pre_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/wrf_arw_pre_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>WRFPROC</name>
+      <value>&WRF_ARW_PRE_PROC;</value>
+    </envar>
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr offset="-01:00:00">@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>PREV_TIME</name>
+      <value><cyclestr offset="-01:00:00">@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FULLCYC</name>
+      <value>0</value>
+    </envar>
+    <envar>
+      <name>DATABASE_DIR</name>
+      <value>&DATABASE_DIR;</value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_PRE;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>WRF_ROOT</name>
+      <value>&WRF_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WRF</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAGSIHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/reftten_pre</cyclestr></value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd_pre</cyclestr></value>
+    </envar>
+    <envar>
+      <name>DATAHOME_BC</name>
+      <value><cyclestr offset="-01:00:00">&DATAROOT;/@Y@m@d@H/wrfprd_bc</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <!--
+      <and>
+        <taskdep task="radar_subh_tten"/>
+        <taskdep task="fires_ncfmake" cycle_offset="-01:00:00"/>
+      -->
+        <or>
+           <taskdep task="real_arw_bc_long" cycle_offset="-01:00:00"/>
+           <taskdep task="real_arw_bc_medium" cycle_offset="-01:00:00"/>
+           <taskdep task="real_arw_bc_short" cycle_offset="-01:00:00"/>
+        </or>
+      <!--
+      </and>
+      -->
+    </dependency>
+
+  </task>
+
+<!--
+
+  <metatask>
+    <var name="min">00 01</var>
+
+    <metatask>
+      <var name="sec">00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59</var>
+
+      <task name="radar_gsi_#min##sec#" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="2">
+
+        &RADAR_RESOURCES;
+        &RESERVATION;
+
+        <command>&SCRIPTS;/GSI/radar.ksh</command>
+        <cores>&RADAR_PROC;</cores>
+        <jobname><cyclestr>HRRR_radar_@H</cyclestr></jobname>
+        <join><cyclestr>&LOG_DIR;/radar_gsi_@Y@m@d@H00.log</cyclestr></join>
+
+        <envar>
+          <name>START_TIME</name>
+          <value><cyclestr>@Y@m@d@H</cyclestr></value>
+        </envar>
+        <envar>
+          <name>SUBH_TIME</name>
+          <value>00</value>
+        </envar>
+        <envar>
+          <name>DATAROOT</name>
+          <value>&DATAROOT;</value>
+        </envar>
+        <envar>
+          <name>DATAHOME</name>
+          <value><cyclestr>&DATAROOT;/@Y@m@d@H/obsprd</cyclestr></value>
+        </envar>
+        <envar>
+          <name>GSI_ROOT</name>
+          <value>&GSI_ROOT;</value>
+        </envar>
+        <envar>
+          <name>FIX_ROOT</name>
+          <value>&FIX_ROOT;</value>
+        </envar>
+        <envar>
+          <name>STATIC_DIR</name>
+          <value>&STATIC_DIR;/WPS</value>
+        </envar>
+        <envar>
+          <name>NSSLMOSAIC</name>
+          <value>&RADAR_DIR;</value>
+        </envar>
+        <envar>
+          <name>MOSAICTILENUM</name>
+          <value>&MOSAIC_TILE_NUM;</value>
+        </envar>
+
+        <dependency>
+          <datadep><cyclestr>&RADAR_DIR;/@Y@m@d-@H#min##sec#.MRMS_MergedReflectivityQC_00.50_@Y@m@d-@H#min##sec#.grib2</cyclestr></datadep>
+        </dependency>
+
+      </task>
+
+    </metatask>
+  </metatask>
+
+  <task name="satellite_gsi_bufr" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="2">
+
+    &SATELLITE_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/GSI/satellite_bufr.ksh</command>
+    <cores>&SATELLITE_PROC;</cores>
+    <jobname><cyclestr>HRRR_satellite_bufr_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/satellite_gsi_bufr_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/obsprd</cyclestr></value>
+    </envar>
+    <envar>
+      <name>GSI_ROOT</name>
+      <value>&GSI_ROOT;</value>
+    </envar>
+    <envar>
+      <name>FIX_ROOT</name>
+      <value>&FIX_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WPS</value>
+    </envar>
+    <envar>
+      <name>NASALARC_DATA</name>
+      <value>&LANGLEY_BUFR_DIR;</value>
+    </envar>
+
+    <dependency>
+      <datadep><cyclestr>&LANGLEY_BUFR_DIR;/@Y@j@H00.rap.t@Hz.lgycld.tm00.bufr_d</cyclestr></datadep>
+    </dependency>
+
+  </task>
+
+  <task name="conventional_gsi" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+
+    &CONVENTIONAL_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/GSI/conventional.ksh</command>
+    <cores>&CONVENTIONAL_PROC;</cores>
+    <jobname><cyclestr>HRRR_conventional_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/conventional_gsi_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>EARLY</name>
+      <value>0</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/obsprd</cyclestr></value>
+    </envar>
+    <envar>
+      <name>GSI_ROOT</name>
+      <value>&GSI_ROOT;</value>
+    </envar>
+    <envar>
+      <name>PREPBUFR</name>
+      <value>&PREPBUFR_DIR;</value>
+    </envar>
+    <envar>
+      <name>PREPBUFR_SAT</name>
+      <value>&PREPBUFR_SAT_DIR;</value>
+    </envar>
+    <envar>
+      <name>RADVELLEV2_DIR</name>
+      <value>&RADVELLEV2_DIR;</value>
+    </envar>
+    <envar>
+      <name>RADVELLEV2P5_DIR</name>
+      <value>&RADVELLEV2P5_DIR;</value>
+    </envar>
+    <envar>
+      <name>TAMDAR_ROOT</name>
+      <value>&TAMDAR_DIR;</value>
+    </envar>
+    <envar>
+      <name>NACELLE_RSD</name>
+      <value>&NACELLE_RSD;</value>
+    </envar>
+    <envar>
+      <name>TOWER_RSD</name>
+      <value>&TOWER_RSD;</value>
+    </envar>
+    <envar>
+      <name>TOWER_NRSD</name>
+      <value>&TOWER_NRSD;</value>
+    </envar>
+    <envar>
+      <name>SODAR_NRSD</name>
+      <value>&SODAR_NRSD;</value>
+    </envar>
+    <envar>
+      <name>SATWND_DIR</name>
+      <value>&SATWND_DIR;</value>
+    </envar>
+
+    <dependency>
+      <datadep><cyclestr>&PREPBUFR_DIR;/@Y@j@H00.rap.t@Hz.prepbufr.tm00.@Y@m@d</cyclestr></datadep>
+    </dependency>
+
+  </task>
+
+  <task name="conventional_gsi_early" cycledefs="12hr" maxtries="1">
+
+    &CONVENTIONAL_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/GSI/conventional.ksh</command>
+    <cores>&CONVENTIONAL_PROC;</cores>
+    <jobname><cyclestr>HRRR_conventional_early_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/conventional_gsi_early_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>EARLY</name>
+      <value>1</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/obsprd</cyclestr></value>
+    </envar>
+    <envar>
+      <name>GSI_ROOT</name>
+      <value>&GSI_ROOT;</value>
+    </envar>
+    <envar>
+      <name>PREPBUFR</name>
+      <value>&PREPBUFR_DIR;</value>
+    </envar>
+    <envar>
+      <name>PREPBUFR_SAT</name>
+      <value>&PREPBUFR_SAT_DIR;</value>
+    </envar>
+    <envar>
+      <name>RADVELLEV2_DIR</name>
+      <value>&RADVELLEV2_DIR;</value>
+    </envar>
+    <envar>
+      <name>RADVELLEV2P5_DIR</name>
+      <value>&RADVELLEV2P5_DIR;</value>
+    </envar>
+    <envar>
+      <name>TAMDAR_ROOT</name>
+      <value>&TAMDAR_DIR;</value>
+    </envar>
+    <envar>
+      <name>NACELLE_RSD</name>
+      <value>&NACELLE_RSD;</value>
+    </envar>
+    <envar>
+      <name>TOWER_RSD</name>
+      <value>&TOWER_RSD;</value>
+    </envar>
+    <envar>
+      <name>TOWER_NRSD</name>
+      <value>&TOWER_NRSD;</value>
+    </envar>
+    <envar>
+      <name>SODAR_NRSD</name>
+      <value>&SODAR_NRSD;</value>
+    </envar>
+    <envar>
+      <name>SATWND_DIR</name>
+      <value>&SATWND_DIR;</value>
+    </envar>
+
+    <dependency>
+      <datadep><cyclestr>&PREPBUFR_DIR;/@Y@j@H00.rap_e.t@Hz.prepbufr.tm00.@Y@m@d</cyclestr></datadep>
+    </dependency>
+
+  </task>
+
+-->
+
+  <task name="gsi_hyb" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+
+    &GSI_HYB_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/GSI/gsi_hyb.ksh</command>
+    <nodes>&GSI_HYB_PROC;</nodes>
+    <jobname><cyclestr>gsi_hyb_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/gsi_hyb_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>EARLY</name>
+      <value>0</value>
+    </envar>
+    <envar>
+      <name>FULLCYC</name>
+      <value>1</value>
+    </envar>
+    <envar>
+      <name>RAD</name>
+      <value>0</value>
+    </envar>
+    <envar>
+      <name>DATABASE_DIR</name>
+      <value>&DATABASE_DIR;</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME_BK</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd_pre</cyclestr></value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/gsiprd</cyclestr></value>
+    </envar>
+    <envar>
+      <name>DATAOBSHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/obsprd</cyclestr></value>
+    </envar>
+    <envar>
+      <name>GSI_ROOT</name>
+      <value>&GSI_ROOT;</value>
+    </envar>
+    <envar>
+      <name>FIX_ROOT</name>
+      <value>&FIX_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;</value>
+    </envar>
+    <envar>
+      <name>AIRCRAFT_REJECT</name>
+      <value>&AIRCRAFT_REJECT;</value>
+    </envar>
+    <envar>
+      <name>SFCOBS_USELIST</name>
+      <value>&SFCOBS_USELIST;</value>
+    </envar>
+    <envar>
+      <name>PREPBUFR</name>
+      <value>&PREPBUFR_DIR;</value>
+    </envar>
+    <envar>
+      <name>NCEPSNOW</name>
+      <value>&NCEPSNOW_DIR;</value>
+    </envar>
+    <envar>
+      <name>SST_ROOT</name>
+      <value>&HIGHRES_SST_DIR;</value>
+    </envar>
+    <envar>
+      <name>SST_ROOT14km</name>
+      <value>&HIGHRES_SST14KM_DIR;</value>
+    </envar>
+    <envar>
+      <name>ENKF_FCST</name>
+      <value>&ENKFFCST_DIR;</value>
+    </envar>
+    <envar>
+      <name>FVCOM</name>
+      <value>&FVCOM_DIR;</value>
+    </envar>
+    <envar>
+      <name>UPDATE_SST</name>
+      <value>&UPDATE_SST;</value>
+    </envar>
+    <envar>
+      <name>UPDATE_SNOW</name>
+      <value>&UPDATE_SNOW;</value>
+    </envar>
+
+    <dependency>
+      <and>
+        <taskdep task="wrf_arw_pre"/>
+<!--
+        <datadep age="00:02:00"><cyclestr>&DATAROOT;/@Y@m@d@H/obsprd/NSSLRefInGSI.bufr</cyclestr></datadep>
+        <or>
+          <taskdep task="satellite_gsi_bufr"/>
+          <taskdep task="satellite_gsi_bufr_early"/>
+        </or>
+        <or>
+          <taskdep task="conventional_gsi"/>
+          <taskdep task="conventional_gsi_early"/>
+        </or>
+-->
+      </and>
+    </dependency>
+
+  </task>
+
+  <task name="gsi_diag" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+
+    &GSI_DIAG_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/GSI/gsi_diag.ksh</command>
+    <cores>&GSI_DIAG_PROC;</cores>
+    <jobname><cyclestr>gsi_diag_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/gsi_diag_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>GSIPROC</name>
+      <value>&GSI_DIAG_PROC;</value>
+    </envar>
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>DATABASE_DIR</name>
+      <value>&DATABASE_DIR;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>GSI_ROOT</name>
+      <value>&GSI_ROOT;</value>
+    </envar>
+
+    <dependency>
+        <taskdep task="gsi_hyb"/>
+    </dependency>
+
+  </task>
+
+  <task name="wrf_arw_long" cycledefs="12hr" maxtries="1">
+
+    &WRF_ARW_RESOURCES;   
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WRF/wrf_arw.ksh</command>
+    <cores>&WRF_ARW_PROC;</cores>
+    <jobname><cyclestr>HRRR_wrf_arw_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/wrf_arw_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>WRFPROC</name>
+      <value>&WRF_ARW_PROC;</value>
+    </envar>
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>PREV_TIME</name>
+      <value><cyclestr offset="-01:00:00">@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>DATABASE_DIR</name>
+      <value>&DATABASE_DIR;</value>
+    </envar>
+    <envar>
+      <name>FULLCYC</name>
+      <value>1</value>
+    </envar> 
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_LONG;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>WRF_ROOT</name>
+      <value>&WRF_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WRF</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAGSIHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/gsiprd</cyclestr></value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd</cyclestr></value>
+    </envar>
+    <envar>
+      <name>DATAHOME_BC</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd_bc</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <and>
+        <taskdep task="gsi_hyb"/>
+        <taskdep task="fires_ncfmake"/>
+        <taskdep task="wrf_arw_long" cycle_offset="-12:00:00"/>
+        <taskdep task="real_arw_bc_long"/>
+      </and>
+    </dependency>
+
+  </task>
+
+  <task name="wrf_arw_medium" cycledefs="03hr,06hr,09hr" maxtries="1">
+
+    &WRF_ARW_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WRF/wrf_arw.ksh</command>
+    <cores>&WRF_ARW_PROC;</cores>
+    <jobname><cyclestr>HRRR_wrf_arw_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/wrf_arw_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>WRFPROC</name>
+      <value>&WRF_ARW_PROC;</value>
+    </envar>
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>PREV_TIME</name>
+      <value><cyclestr offset="-01:00:00">@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>DATABASE_DIR</name>
+      <value>&DATABASE_DIR;</value>
+    </envar>
+    <envar>
+      <name>FULLCYC</name>
+      <value>1</value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_MEDIUM;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>WRF_ROOT</name>
+      <value>&WRF_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WRF</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAGSIHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/gsiprd</cyclestr></value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd</cyclestr></value>
+    </envar>
+    <envar>
+      <name>DATAHOME_BC</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd_bc</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <and>
+        <taskdep task="gsi_hyb"/>
+        <taskdep task="fires_ncfmake"/>
+        <taskdep task="real_arw_bc_medium"/>
+      </and>
+    </dependency>
+
+  </task>
+
+  <task name="wrf_arw_short" cycledefs="01hr,02hr,04hr,05hr,07hr,08hr,10hr,11hr" maxtries="1">
+
+    &WRF_ARW_RESOURCES_SHORT;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WRF/wrf_arw.ksh</command>
+    <cores>&WRF_ARW_PROC;</cores>
+    <jobname><cyclestr>HRRR_wrf_arw_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/wrf_arw_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>WRFPROC</name>
+      <value>&WRF_ARW_PROC;</value>
+    </envar>
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>PREV_TIME</name>
+      <value><cyclestr offset="-01:00:00">@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>DATABASE_DIR</name>
+      <value>&DATABASE_DIR;</value>
+    </envar>
+    <envar>
+      <name>FULLCYC</name>
+      <value>1</value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_SHORT;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>WRF_ROOT</name>
+      <value>&WRF_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WRF</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAGSIHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/gsiprd</cyclestr></value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd</cyclestr></value>
+    </envar>
+    <envar>
+      <name>DATAHOME_BC</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd_bc</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <and>
+        <taskdep task="gsi_hyb"/>
+        <taskdep task="fires_ncfmake"/>
+        <taskdep task="real_arw_bc_short"/>
+      </and>
+    </dependency>
+
+  </task>
+
+  <task name="save_nc" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+
+    &CLEAN_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/UPP/sel_smoke_vars_surf.sh</command>
+    <cores>&CLEAN_PROC;</cores>
+    <jobname><cyclestr>HRRR_save_nc_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/save_nc_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>PATH1</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <or>
+        <taskdep task="wrf_arw_long"/>
+        <taskdep task="wrf_arw_medium"/>
+        <taskdep task="wrf_arw_short"/>
+      </or>
+    </dependency>
+
+  </task>
+
+  <metatask>
+    <var name="fcsthour">01</var>
+
+    <task name="HRRR_soilsave_#fcsthour#" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+
+      &CLEAN_RESOURCES;
+      &RESERVATION;
+
+      <command>&SCRIPTS;/UPP/soilsave.ksh</command>
+      <cores>&CLEAN_PROC;</cores>
+      <jobname><cyclestr>HRRR_soilsave_@H_#fcsthour#</cyclestr></jobname>
+      <join><cyclestr>&LOG_DIR;/soilsave_@Y@m@d@H00_#fcsthour#.log</cyclestr></join>
+
+      <envar>
+        <name>DATAROOT</name>
+        <value>&DATAROOT;</value>
+      </envar>
+
+      <envar>
+        <name>DATAWRFHOME</name>
+        <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd</cyclestr></value>
+      </envar>
+
+      <envar>
+        <name>START_TIME</name>
+        <value><cyclestr>@Y@m@d@H</cyclestr></value>
+      </envar>
+
+      <envar>
+        <name>FCST_TIME</name>
+        <value>#fcsthour#</value>
+      </envar>
+
+      <dependency>
+        <datadep age="00:05:00">&DATAROOT;/<cyclestr>@Y@m@d@H</cyclestr>/wrfprd<cyclestr offset="#fcsthour#:00:00">/wrfout_d01_@Y-@m-@d_@H_00_00</cyclestr></datadep>
+      </dependency>
+
+    </task>
+
+  </metatask>
+
+  <task name="post_00" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+
+    &POST_RESOURCES;
+    &RESERVATION_UPP;
+
+    <command>&SCRIPTS;/UPP/unipost.ksh</command>
+    <cores>&POST_ANL_PROC;</cores>
+    <jobname><cyclestr>HRRR_post_@H_00</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/post_@Y@m@d@H00_00.log</cyclestr></join>
+
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FCST_TIME</name>
+      <value>00</value>
+    </envar>
+    <envar>
+      <name>STATICWRF_DIR</name>
+      <value>&STATIC_DIR;/WRF</value>
+    </envar>
+    <envar>
+      <name>WRF_ROOT</name>
+      <value>&WRF_ROOT;</value>
+    </envar>
+    <envar>
+      <name>EXE_ROOT</name>
+      <value>&UNIPOST_EXEC;</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/postprd</cyclestr></value>
+    </envar>
+    <envar>
+      <name>DATAWRFHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd</cyclestr></value>
+    </envar>
+    <envar>
+      <name>MODEL</name>
+      <value>RAP</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/UPP</value>
+    </envar>
+
+    <dependency>
+      <datadep age="00:10:00">&DATAROOT;/<cyclestr>@Y@m@d@H</cyclestr>/wrfprd<cyclestr>/wrfout_d01_@Y-@m-@d_@H_00_00</cyclestr></datadep>
+    </dependency>
+
+  </task>
+
+  <metatask>
+    <var name="fcsthour">01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24</var>
+
+    <task name="post_#fcsthour#" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+
+      &POST_RESOURCES;
+      &RESERVATION_UPP;
+
+      <command>&SCRIPTS;/UPP/unipost.ksh</command>
+      <cores>&POST_PROC;</cores>
+      <jobname><cyclestr>HRRR_post_@H_#fcsthour#</cyclestr></jobname>
+      <join><cyclestr>&LOG_DIR;/post_@Y@m@d@H00_#fcsthour#.log</cyclestr></join>
+
+      <envar>
+        <name>START_TIME</name>
+        <value><cyclestr>@Y@m@d@H</cyclestr></value>
+      </envar>
+      <envar>
+        <name>FCST_TIME</name>
+        <value>#fcsthour#</value>
+      </envar>
+      <envar>
+        <name>STATICWRF_DIR</name>
+        <value>&STATIC_DIR;/WRF</value>
+      </envar>
+      <envar>
+        <name>WRF_ROOT</name>
+        <value>&WRF_ROOT;</value>
+      </envar>
+      <envar>
+        <name>EXE_ROOT</name>
+        <value>&UNIPOST_EXEC;</value>
+      </envar>
+      <envar>
+        <name>DATAROOT</name>
+        <value>&DATAROOT;</value>
+      </envar>
+      <envar>
+        <name>DATAHOME</name>
+        <value><cyclestr>&DATAROOT;/@Y@m@d@H/postprd</cyclestr></value>
+      </envar>
+      <envar>
+        <name>DATAWRFHOME</name>
+        <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd</cyclestr></value>
+      </envar>
+      <envar>
+        <name>MODEL</name>
+        <value>RAP</value>
+      </envar>
+      <envar>
+        <name>STATIC_DIR</name>
+        <value>&STATIC_DIR;/UPP</value>
+      </envar>
+
+      <dependency>
+        <datadep age="00:10:00">&DATAROOT;/<cyclestr>@Y@m@d@H</cyclestr>/wrfprd<cyclestr offset="#fcsthour#:00:00">/wrfout_d01_@Y-@m-@d_@H_00_00</cyclestr></datadep>
+      </dependency>
+
+    </task>
+
+  </metatask>
+
+  <task name="post_vis_00" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+
+    &POST_RESOURCES;
+    &RESERVATION_UPP;
+
+    <command>&SCRIPTS;/UPP/unipost_vis.ksh</command>
+    <cores>&POST_ANL_PROC;</cores>
+    <jobname><cyclestr>HRRR_post_vis_@H_00</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/post_vis_@Y@m@d@H00_00.log</cyclestr></join>
+
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FCST_TIME</name>
+      <value>00</value>
+    </envar>
+    <envar>
+      <name>STATICWRF_DIR</name>
+      <value>&STATIC_DIR;/WRF</value>
+    </envar>
+    <envar>
+      <name>WRF_ROOT</name>
+      <value>&WRF_ROOT;</value>
+    </envar>
+    <envar>
+      <name>EXE_ROOT</name>
+      <value>&UNIPOST_EXEC;</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/postprd</cyclestr></value>
+    </envar>
+    <envar>
+      <name>DATAWRFHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd</cyclestr></value>
+    </envar>
+    <envar>
+      <name>MODEL</name>
+      <value>RAP</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/UPP</value>
+    </envar>
+
+    <dependency>
+      <datadep age="00:10:00">&DATAROOT;/<cyclestr>@Y@m@d@H</cyclestr>/wrfprd<cyclestr>/wrfout_d01_@Y-@m-@d_@H_00_00</cyclestr></datadep>
+    </dependency>
+
+  </task>
+
+  <metatask>
+    <var name="fcsthour">01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24</var>
+
+    <task name="post_vis_#fcsthour#" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+
+      &POST_RESOURCES;
+      &RESERVATION_UPP;
+
+      <command>&SCRIPTS;/UPP/unipost_vis.ksh</command>
+      <cores>&POST_PROC;</cores>
+      <jobname><cyclestr>HRRR_post_vis_@H_#fcsthour#</cyclestr></jobname>
+      <join><cyclestr>&LOG_DIR;/post_vis_@Y@m@d@H00_#fcsthour#.log</cyclestr></join>
+
+      <envar>
+        <name>START_TIME</name>
+        <value><cyclestr>@Y@m@d@H</cyclestr></value>
+      </envar>
+      <envar>
+        <name>FCST_TIME</name>
+        <value>#fcsthour#</value>
+      </envar>
+      <envar>
+        <name>STATICWRF_DIR</name>
+        <value>&STATIC_DIR;/WRF</value>
+      </envar>
+      <envar>
+        <name>WRF_ROOT</name>
+        <value>&WRF_ROOT;</value>
+      </envar>
+      <envar>
+        <name>EXE_ROOT</name>
+        <value>&UNIPOST_EXEC;</value>
+      </envar>
+      <envar>
+        <name>DATAROOT</name>
+        <value>&DATAROOT;</value>
+      </envar>
+      <envar>
+        <name>DATAHOME</name>
+        <value><cyclestr>&DATAROOT;/@Y@m@d@H/postprd</cyclestr></value>
+      </envar>
+      <envar>
+        <name>DATAWRFHOME</name>
+        <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd</cyclestr></value>
+      </envar>
+      <envar>
+        <name>MODEL</name>
+        <value>RAP</value>
+      </envar>
+      <envar>
+        <name>STATIC_DIR</name>
+        <value>&STATIC_DIR;/UPP</value>
+      </envar>
+
+      <dependency>
+        <datadep age="00:10:00">&DATAROOT;/<cyclestr>@Y@m@d@H</cyclestr>/wrfprd<cyclestr offset="#fcsthour#:00:00">/wrfout_d01_@Y-@m-@d_@H_00_00</cyclestr></datadep>
+      </dependency>
+
+    </task>
+
+  </metatask>
+
+  <metatask>
+    <var name="fcsthour">00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24</var>
+    <var name="endtime">0 3600 7200 10800 14400 18000 21600 25200 28800 32400 36000 39600 43200 46800 50400 54000 57600 61200 64800 68400 72000 75600 79200 82800 86400</var>
+
+    <task name="ncl_#fcsthour#" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+
+      &NCL_MAIN_RESOURCES;
+      &RESERVATION;
+
+      <command>&SCRIPTS;/NCL/ncl_hrrr.ksh</command>
+      <cores>&NCL_PROC;</cores>
+      <jobname><cyclestr>HRRR_ncl_@H_#fcsthour#</cyclestr></jobname>
+      <join><cyclestr>&LOG_DIR;/ncl_@Y@m@d@H00_#fcsthour#.log</cyclestr></join>
+
+      <envar>
+        <name>START_TIME</name>
+        <value><cyclestr>@Y@m@d@H</cyclestr></value>
+      </envar>
+      <envar>
+        <name>FCST_TIME</name>
+        <value>#fcsthour#</value>
+      </envar>
+      <envar>
+        <name>WRFOUT_NAME</name>
+        <value><cyclestr offset="#endtime#">wrfout_d01_@Y-@m-@d_@H_00_00</cyclestr></value>
+      </envar>
+      <envar>
+        <name>NCL_VER</name>
+        <value>&NCL_VER;</value>
+      </envar>
+      <envar>
+        <name>DATAROOT</name>
+        <value>&DATAROOT;</value>
+      </envar>
+      <envar>
+        <name>DATAHOME</name>
+        <value><cyclestr>&DATAROOT;/@Y@m@d@H</cyclestr></value>
+      </envar>
+      <envar>
+        <name>MODEL</name>
+        <value>HRRR-RETRO</value>
+      </envar>
+
+      <dependency>
+        <taskdep task="post_#fcsthour#"/>
+      </dependency>
+
+    </task>
+
+  </metatask>
+
+  <metatask mode="serial">
+
+    <var name="fcsthour">00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24</var>
+
+    <task name="ncl_zip_#fcsthour#" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+
+      &NCL_RESOURCES;
+      &RESERVATION;
+
+      <command>&SCRIPTS;/NCL/ncl_hrrr_zip.ksh</command>
+      <cores>&NCL_PROC;</cores>
+      <jobname><cyclestr>HRRR_ncl_@H_#fcsthour#_zip</cyclestr></jobname>
+      <join><cyclestr>&LOG_DIR;/ncl_@Y@m@d@H00_#fcsthour#_zip.log</cyclestr></join>
+
+      <envar>
+        <name>START_TIME</name>
+        <value><cyclestr>@Y@m@d@H</cyclestr></value>
+      </envar>
+      <envar>
+        <name>FCST_TIME</name>
+        <value>#fcsthour#</value>
+      </envar>
+      <envar>
+        <name>DATAROOT</name>
+        <value>&DATAROOT;</value>
+      </envar>
+      <envar>
+        <name>DATAHOME</name>
+        <value><cyclestr>&DATAROOT;/@Y@m@d@H</cyclestr></value>
+      </envar>
+
+      <dependency>
+        <taskdep task="ncl_#fcsthour#"/>
+      </dependency>
+
+    </task>
+
+  </metatask>
+
+</workflow>

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+module purge
+module load intel
+module load nco
+
+cd $PATH1
+pwd
+
+for file in wrfout_d01_2018-*
+do
+
+date=$(echo $file | /bin/sed "s/wrfout_..._//;s/:..:..//");
+
+ncks -A -d bottom_top,0,0 -v Times,smoke,SWDOWN,T2,U10,V10,XLAT,XLONG,PBLH,ebu_smoke,COEF_BB_DC,MIN_FPLUME,MAX_FPLUME,FIRE_HIST,TAOD5502D,AOD3D_SMOKE,RAINNC,RAINC $file $PATH1"/out_surf_"$date".nc"
+ncks -A -d bottom_top,0,30 -v Times,XLAT,XLONG,LU_INDEX,smoke,ebu_smoke,U,V,W,T,QVAPOR,QCLOUD,QICE,EXCH_H $file $PATH1"/out_3D_"$date".nc"
+
+echo "out_surf_"$date".nc"
+echo "out_3D_"$date".nc"
+
+done

@@ -1,0 +1,6 @@
+
+# Ignore various directories
+exec/
+log/
+run/
+static/
