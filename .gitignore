@@ -7,3 +7,6 @@ static/
 
 # Ignore workflow database files
 *.db
+
+# Ignore swap files
+*.swp
