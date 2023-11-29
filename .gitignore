@@ -3,7 +3,12 @@
 exec/
 log/
 run/
-static/
+static/GSI/
+static/UPP/
+static/UPP_30sep2019/
+static/WPS/
+static/WRF/run/
+static/smoke/
 
 # Ignore workflow database files
 *.db
