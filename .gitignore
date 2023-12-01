@@ -4,12 +4,15 @@ exec/
 log/
 loghistory/
 run/
-static/GSI/
+static/GSI/*
 static/UPP/
 static/UPP_30sep2019/
 static/WPS/
 static/WRF/run/
 static/smoke/
+
+# Don't ignore certain GSI static files
+!static/GSI/gsiparm.anl.sh
 
 # Ignore workflow database files
 *.db
