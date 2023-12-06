@@ -4,6 +4,7 @@ exec/
 log/
 loghistory/
 run/
+src/
 static/GSI/*
 static/UPP/
 static/UPP_30sep2019/

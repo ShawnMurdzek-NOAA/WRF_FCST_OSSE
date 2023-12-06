@@ -657,7 +657,7 @@ export LEVS=60
 export DELTIM=${DELTIM:-$((3600/($JCAP/20)))}
 ndatrap=62
 grid_ratio=1
-cloudanalysistype=1
+cloudanalysistype=0  # Turn off cloud analysis
 
 # Build the GSI namelist on-the-fly
 . ${fixdir}/gsiparm.anl.sh
