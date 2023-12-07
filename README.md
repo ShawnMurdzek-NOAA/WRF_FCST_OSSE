@@ -19,5 +19,6 @@ In order to run WRF_FCST_OSSE, the following directories are also needed:
 - `exec`: Executables for the WRF_FCST_OSSE components.
 - `log`: An empty directory for WRF_FCST_OSSE logs.
 - `loghistory`: An empty directory for WRF_FCST_OSSE logs.
-- `run`: An empty directory for WRF_FCST_OSSE output.
+- `run`: A mostly empty directory for WRF_FCST_OSSE output. Only output needed to start a forecast run is surface data.
+    - `surface`: Directory containing surface data from previous HRRR runs to initialize the soil state. File naming convention is `wrfout_sfc_HH`, where `HH` is the hour. As the forecast run progresses, this directory will be filled with surface states from completed cycles. 
 - `static`: The remaining static files that are too large to keep on GitHub.
