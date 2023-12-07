@@ -72,7 +72,7 @@
 <!ENTITY FCST_LENGTH_BC_SHORT "3">
 <!ENTITY FCST_LENGTH_IC "0">
 <!ENTITY FCST_LENGTH_PRE "1">
-<!ENTITY FCST_INTERVAL "1">
+<!ENTITY FCST_INTERVAL "3">
 <!ENTITY IC_OFFSET "1">
 <!ENTITY BC_OFFSET "3">
 <!ENTITY MOSAIC_TILE_NUM "1">
@@ -122,6 +122,8 @@
 <!ENTITY RESERVATION_DEBUG '<partition>&PARTITION;</partition><queue>&QUEUE_DEBUG;</queue><account>&ACCOUNT;</account>'>
 <!ENTITY RESERVATION_URGENT '<partition>&PARTITION;</partition><queue>&QUEUE_URGENT;</queue><account>&ACCOUNT;</account>'>
 <!ENTITY RESERVATION_UPP '<partition>&PARTITION_UPP;</partition><queue>&QUEUE;</queue><account>&ACCOUNT;</account>'>
+
+<!ENTITY ATTEMPTS "3">
 
 
 ]>
@@ -281,7 +283,7 @@
 
   </task>
 
-  <task name="metgrid_RAP_bc_long" cycledefs="12hr" maxtries="1">
+  <task name="metgrid_RAP_bc_long" cycledefs="12hr" maxtries="&ATTEMPTS;">
 
     &METGRID_RESOURCES;
     &RESERVATION;
@@ -349,7 +351,7 @@
 
   </task>
 
-  <task name="real_arw_bc_long" cycledefs="12hr" maxtries="1">
+  <task name="real_arw_bc_long" cycledefs="12hr" maxtries="&ATTEMPTS;">
 
     &REAL_RESOURCES;
     &RESERVATION;
@@ -470,7 +472,7 @@
 
   </task>
 
-  <task name="metgrid_RAP_bc_medium" cycledefs="03hr,09hr,06hr" maxtries="1">
+  <task name="metgrid_RAP_bc_medium" cycledefs="03hr,09hr,06hr" maxtries="&ATTEMPTS;">
 
     &METGRID_RESOURCES;
     &RESERVATION;
@@ -538,7 +540,7 @@
 
   </task>
 
-  <task name="real_arw_bc_medium" cycledefs="03hr,09hr,06hr" maxtries="1">
+  <task name="real_arw_bc_medium" cycledefs="03hr,09hr,06hr" maxtries="&ATTEMPTS;">
 
     &REAL_RESOURCES;
     &RESERVATION;
@@ -659,7 +661,7 @@
 
   </task>
 
-  <task name="metgrid_RAP_bc_short" cycledefs="01hr,02hr,04hr,05hr,07hr,08hr,10hr,11hr" maxtries="1">
+  <task name="metgrid_RAP_bc_short" cycledefs="01hr,02hr,04hr,05hr,07hr,08hr,10hr,11hr" maxtries="&ATTEMPTS;">
 
     &METGRID_RESOURCES;
     &RESERVATION;
@@ -727,7 +729,7 @@
 
   </task>
 
-  <task name="real_arw_bc_short" cycledefs="01hr,02hr,04hr,05hr,07hr,08hr,10hr,11hr" maxtries="1">
+  <task name="real_arw_bc_short" cycledefs="01hr,02hr,04hr,05hr,07hr,08hr,10hr,11hr" maxtries="&ATTEMPTS;">
 
     &REAL_RESOURCES;
     &RESERVATION;
@@ -898,7 +900,7 @@
 
   </task>
 
-  <task name="metgrid_RAP_ic" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+  <task name="metgrid_RAP_ic" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="&ATTEMPTS;">
 
     &METGRID_RESOURCES;
     &RESERVATION;
@@ -969,7 +971,7 @@
 
   </task>
 
-  <task name="real_arw_ic" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+  <task name="real_arw_ic" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="&ATTEMPTS;">
 
     &REAL_RESOURCES;
     &RESERVATION;
@@ -1026,7 +1028,7 @@
 
   </task>
 
-  <task name="wrf_arw_pre" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+  <task name="wrf_arw_pre" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="&ATTEMPTS;">
 
     &WRF_ARW_RESOURCES_PRE;
     &RESERVATION;
@@ -1245,7 +1247,7 @@
 
   </task>
 
-  <task name="gsi_hyb" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+  <task name="gsi_hyb" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="&ATTEMPTS;">
 
     &GSI_HYB_RESOURCES;
     &RESERVATION;
@@ -1393,7 +1395,7 @@
 
   </task>
 
-  <task name="wrf_arw_long" cycledefs="12hr" maxtries="1">
+  <task name="wrf_arw_long" cycledefs="12hr" maxtries="&ATTEMPTS;">
 
     &WRF_ARW_RESOURCES;   
     &RESERVATION;
@@ -1459,7 +1461,6 @@
     <dependency>
       <and>
         <taskdep task="gsi_hyb"/>
-        <taskdep task="fires_ncfmake"/>
         <taskdep task="wrf_arw_long" cycle_offset="-12:00:00"/>
         <taskdep task="real_arw_bc_long"/>
       </and>
@@ -1467,7 +1468,7 @@
 
   </task>
 
-  <task name="wrf_arw_medium" cycledefs="03hr,06hr,09hr" maxtries="1">
+  <task name="wrf_arw_medium" cycledefs="03hr,06hr,09hr" maxtries="&ATTEMPTS;">
 
     &WRF_ARW_RESOURCES;
     &RESERVATION;
@@ -1533,14 +1534,13 @@
     <dependency>
       <and>
         <taskdep task="gsi_hyb"/>
-        <taskdep task="fires_ncfmake"/>
         <taskdep task="real_arw_bc_medium"/>
       </and>
     </dependency>
 
   </task>
 
-  <task name="wrf_arw_short" cycledefs="01hr,02hr,04hr,05hr,07hr,08hr,10hr,11hr" maxtries="1">
+  <task name="wrf_arw_short" cycledefs="01hr,02hr,04hr,05hr,07hr,08hr,10hr,11hr" maxtries="&ATTEMPTS;">
 
     &WRF_ARW_RESOURCES_SHORT;
     &RESERVATION;
@@ -1606,7 +1606,6 @@
     <dependency>
       <and>
         <taskdep task="gsi_hyb"/>
-        <taskdep task="fires_ncfmake"/>
         <taskdep task="real_arw_bc_short"/>
       </and>
     </dependency>

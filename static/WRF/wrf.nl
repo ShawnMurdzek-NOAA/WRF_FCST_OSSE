@@ -219,7 +219,7 @@
  /
 
  &chem
- chem_opt                            = 18,       0,
+ chem_opt                            = 0,        0,
  chemdt                              = 0,        0,
  chem_in_opt                         = 1,        0,
  have_bcs_chem                       = .true.,  .false.,
