@@ -128,7 +128,7 @@
 
 ]>
 
-<workflow realtime="F" scheduler="slurm" cyclethrottle="984" cyclelifespan="299:00:00:00">
+<workflow realtime="F" scheduler="slurm" cyclethrottle="12" cyclelifespan="299:00:00:00">
 
   <log>
     <cyclestr>&LOG_DIR;/workflow_@Y@m@d@H.log</cyclestr>
