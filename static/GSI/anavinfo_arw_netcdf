@@ -18,7 +18,7 @@ met_guess::
   qnr      50      10         rain_noconc          qnr
   qnc      50      10         cloud_noconc         qnc
   qni      50      10         ice_noconc           qni
-  th2m      1      -1         2-m_T                th2m
+  t2m       1      -1         2-m_T                t2m
   q2m       1      -1         2-m_Q                q2m
   tskn      1      -1         skin_T               tskn
   tsoil     1      -1         soil_T               tsoil
