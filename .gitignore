@@ -14,6 +14,7 @@ static/smoke/
 
 # Don't ignore certain GSI static files
 !static/GSI/gsiparm.anl.sh
+!static/GSI/anavinfo_arw_netcdf
 
 # Ignore workflow database files
 *.db
