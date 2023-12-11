@@ -69,7 +69,7 @@ fi
 YYMMDDHH=`${DATE} +"%y%m%d%H" -d "${START_TIME}"`
 
 # Create the ram work directory and cd into it
-workdir=${DATAHOME}/gsiprd
+workdir=${DATAHOME}
 cd ${workdir}
 
 # Read conventional observation diag files

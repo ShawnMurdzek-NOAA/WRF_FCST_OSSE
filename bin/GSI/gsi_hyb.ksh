@@ -78,16 +78,6 @@ if [ ! -d "${GSI_ROOT}" ]; then
   exit 1
 fi
 
-# Make sure DATAHOME_BK is defined and exists
-if [ ! "${DATAHOME_BK}" ]; then
-  ${ECHO} "ERROR: \$DATAHOME_BK is not defined!"
-  exit 1
-fi
-if [ ! -d "${DATAHOME_BK}" ]; then
-  ${ECHO} "ERROR: DATAHOME_BK directory '${DATAHOME_BK}' does not exist!"
-  exit 1
-fi
-
 # Check to make sure that STATIC_PATH exists
 if [ ! -d ${STATIC_DIR} ]; then
   ${ECHO} "ERROR: ${STATIC_DIR} does not exist"
@@ -176,35 +166,54 @@ ${CP} ${GSI} .
 time_str=`${DATE} "+%Y-%m-%d_%H_%M_%S" -d "${START_TIME}"`
 ${ECHO} " time_str = ${time_str}"
 
-# Look for bqckground from pre-forecast background
-if [ -r ${DATAHOME_BK}/wrfout_d01_${time_str} ]; then
-  ${ECHO} " Cycled run using ${DATAHOME_BK}/wrfout_d01_${time_str}"
-  cp ${DATAHOME_BK}/wrfout_d01_${time_str} ./wrf_inout
-  ${ECHO} " Cycle ${YYYYMMDDHH}: GSI background=${DATAHOME_BK}/wrfout_d01_${time_str}" >> ${logfile}
+# Define background forecast file
+if [ ${SPINUP} -eq 1 ]; then
+  if [ ${HH} -eq "03" ] || [ ${HH} -eq "15" ]; then
+    BACKGRD_FILE=${DATAHOME_IC}/wrfinput_d01
+  else
+    BACKGRD_FILE=${DATAHOME_SPINUP}/wrfout_d01_${time_str}
+  fi
+else
+  if [ ${HH} -eq "09" ] || [ ${HH} -eq "21" ]; then
+    BACKGRD_FILE=${DATAHOME_SPINUP}/wrfout_d01_${time_str}
+  else
+    BACKGRD_FILE=${DATAHOME_PROD}/wrfout_d01_${time_str}
+  fi
+fi
+
+# Look for background from pre-forecast background
+if [ -r ${BACKGRD_FILE} ]; then
+  ${ECHO} " Cycled run using ${BACKGRD_FILE}"
+  cp ${BACKGRD_FILE} ./wrf_inout
+  ${ECHO} " Cycle ${YYYYMMDDHH}: GSI background=${BACKGRD_FILE}" >> ${logfile}
 
 # No background available so abort
 else
-  ${ECHO} "${DATAHOME_BK}/wrfout_d01_${time_str} does not exist!!"
+  ${ECHO} "${BACKGRD_FILE} does not exist!!"
   ${ECHO} "ERROR: No background file for analysis at ${time_run}!!!!"
   ${ECHO} " Cycle ${YYYYMMDDHH}: GSI failed because of no background" >> ${logfile} 
   exit 1
 fi
 
-# Insert land surface variables into the wrf_inout file
-if [ -r "${DATAROOT}/surface/wrfout_sfc_${HH}" ]; then
-  echo "cycle Surface fields based on ${DATAROOT}/surface/wrfout_sfc_${HH} "
-  ${LN} -s ${DATAROOT}/surface/wrfout_sfc_${HH} ./wrfout_d01_save
-  ${MPIRUN} --ntasks=1 ${GSI_ROOT}/full_cycle_surface.exe > stdout_cycleSurface 2>&1
-  error=$?
-  if [ ${error} -ne 0 ]; then
-    ${ECHO} "ERROR: full_cycle_surface.exe crashed  Exit status=${error}"
-    exit ${error}
-  fi  
-# No time matched HRRR land surface file available
-else
-  ${ECHO} "${DATAROOT}/surface/wrfout_sfc_${HH} does not exist!!"
-  ${ECHO} "ERROR: No land surface data cycled for background at ${time_str}!!!!"
-#  exit 1
+# Insert land surface variables into the wrf_inout file (only needed at beginning of partial cycles)
+if [ ${SPINUP} -eq 1]; then
+  if [ ${HH} -eq "03" ] || [ ${HH} -eq "15" ]; then
+    if [ -r "${DATAROOT}/surface/wrfout_sfc_${HH}" ]; then
+      echo "cycle Surface fields based on ${DATAROOT}/surface/wrfout_sfc_${HH} "
+      ${LN} -s ${DATAROOT}/surface/wrfout_sfc_${HH} ./wrfout_d01_save
+      ${MPIRUN} --ntasks=1 ${GSI_ROOT}/full_cycle_surface.exe > stdout_cycleSurface 2>&1
+      error=$?
+      if [ ${error} -ne 0 ]; then
+        ${ECHO} "ERROR: full_cycle_surface.exe crashed  Exit status=${error}"
+        exit ${error}
+      fi  
+    # No time matched HRRR land surface file available
+    else
+      ${ECHO} "${DATAROOT}/surface/wrfout_sfc_${HH} does not exist!!"
+      ${ECHO} "ERROR: No land surface data cycled for background at ${time_str}!!!!"
+#      exit 1
+    fi
+  fi
 fi
 
 # Compute date & time components for the SST analysis time relative to current analysis time
