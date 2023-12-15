@@ -73,7 +73,7 @@
 <!ENTITY FCST_LENGTH_IC "0">
 <!ENTITY FCST_LENGTH_PRE "1">
 <!ENTITY FCST_INTERVAL "3">
-<!ENTITY IC_OFFSET "1">
+<!ENTITY IC_OFFSET "0">
 <!ENTITY BC_OFFSET "3">
 <!ENTITY MOSAIC_TILE_NUM "1">
 <!ENTITY UPDATE_SST "02">
@@ -1361,7 +1361,24 @@
 
     <dependency>
       <and>
-        <taskdep task="wrf_arw_pre"/>
+        <or>
+          <!-- Start of new production cycle -->
+          <and>
+            <datadep age="00:00:01:00"><cyclestr offset="-1:00:00">&DATAROOT;/@Y@m@d@H/wrfprd_spinup/</cyclestr><cyclestr>wrfout_d01_@Y-@m-@d_@H_@M_@S</cyclestr></datadep>
+            <or>
+              <streq><left>09</left><right><cyclestr>@H</cyclestr></right></streq>
+              <streq><left>21</left><right><cyclestr>@H</cyclestr></right></streq>
+            </or>
+          </and>
+          <!-- Continue production cycle -->
+          <and>
+            <datadep age="00:00:01:00"><cyclestr offset="-1:00:00">&DATAROOT;/@Y@m@d@H/wrfprd/</cyclestr><cyclestr>wrfout_d01_@Y-@m-@d_@H_@M_@S</cyclestr></datadep>
+            <or>
+              <strneq><left>09</left><right><cyclestr>@H</cyclestr></right></strneq>
+              <strneq><left>21</left><right><cyclestr>@H</cyclestr></right></strneq>
+            </or>
+          </and>
+        </or>
         <or>
           <taskdep task="conventional_gsi"/>
           <taskdep task="conventional_gsi_early"/>
