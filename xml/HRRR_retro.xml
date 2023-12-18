@@ -1291,7 +1291,7 @@
     </envar>
     <envar>
       <name>FULLCYC</name>
-      <value>1</value>
+      <value>0</value>
     </envar>
     <envar>
       <name>FCST_LENGTH</name>
