@@ -36,7 +36,7 @@
 /
 
 &metgrid
- fg_name = 'RAP',
+ fg_name = 'GFS',
  constants_name = 'QNWFA_QNIFA_Monthly_GFS',
  io_form_metgrid = 2,
  process_only_bdy = 10,

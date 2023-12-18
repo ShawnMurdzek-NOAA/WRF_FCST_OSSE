@@ -168,6 +168,12 @@ if [ ! "${FCST_LENGTH}" ]; then
   exit 1
 fi
 
+# Check to make sure DATA_INTERVAL was specified
+if [ ! "${DATA_INTERVAL}" ]; then
+  ${ECHO} "ERROR: \$DATA_INTERVAL is not set!"
+  exit 1
+fi
+
 # Check to make sure FCST_INTERVAL was specified
 if [ ! "${FCST_INTERVAL}" ]; then
   ${ECHO} "ERROR: \$FCST_INTERVAL is not set!"
@@ -189,8 +195,9 @@ elif [ ! "`${ECHO} "${START_TIME}" | ${AWK} '/^[[:digit:]]{8}[[:blank:]]{1}[[:di
 fi
 
 # Calculate start and end time date strings
+(( duration_hrs = ${FCST_LENGTH} + ${DATA_INTERVAL} ))
 START_TIME=`${DATE} -d "${START_TIME}"`
-END_TIME=`${DATE} -d "${START_TIME}  ${FCST_LENGTH} hours"`
+END_TIME=`${DATE} -d "${START_TIME}  ${duration_hrs} hours"`
 start_yyyymmdd_hhmmss=`${DATE} +%Y-%m-%d_%H:%M:%S -d "${START_TIME}"`
 end_yyyymmdd_hhmmss=`${DATE} +%Y-%m-%d_%H:%M:%S -d "${END_TIME}"`
 
@@ -264,7 +271,6 @@ ${MV} ${WPSNAMELIST}.new ${WPSNAMELIST}
 ${CAT} ${WPSNAMELIST} | ${SED} "s/\(${prefix}\)${equal}'[[:alnum:]]\{1,\}'/\1 = '${SOURCE}'/" \
                       > ${WPSNAMELIST}.new 
 ${MV} ${WPSNAMELIST}.new ${WPSNAMELIST}
-
 
 # Get start time components to use for matching with grib files
 if [ ! "${DELAY}" ]; then
@@ -363,7 +369,7 @@ if [ ${FORMAT} ]; then
                   elif [ -n "${_f_}" ]; then
                     fhour=${_f_}
                   fi
-                  if (( (fhour >= DELAY) && (fhour <= FCST_LENGTH+DELAY) && ((fhour-DELAY) % FCST_INTERVAL==0) )) then
+                  if (( (fhour >= DELAY) && (fhour <= duration_hrs+DELAY) && ((fhour-DELAY) % FCST_INTERVAL==0) )) then
                     gribfiles[${ngribfiles}]=${file}
                     (( ngribfiles=ngribfiles + 1 ))
                   fi
@@ -444,7 +450,7 @@ fi
 
 # Check to see if we've got all the files we're expecting
 fcst=0
-while [ ${fcst} -le ${FCST_LENGTH} ]; do
+while [ ${fcst} -le ${duration_hrs} ]; do
   filename=${workdir}/${SOURCE}:`${DATE} +%Y-%m-%d_%H -d "${START_TIME}  ${fcst} hours"`
   if [ ! -s ${filename} ]; then
     echo "ERROR: ${filename} is missing"

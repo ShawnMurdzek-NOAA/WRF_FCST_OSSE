@@ -136,8 +136,9 @@ elif [ ! "`${ECHO} "${START_TIME}" | ${AWK} '/^[[:digit:]]{8}[[:blank:]]{1}[[:di
 fi
 
 # Calculate start and end time date strings
+(( duration_hrs = ${FCST_LENGTH} + ${DATA_INTERVAL} ))
 START_TIME=`${DATE} -d "${START_TIME}"`
-END_TIME=`${DATE} -d "${START_TIME}  ${FCST_LENGTH} hours"`
+END_TIME=`${DATE} -d "${START_TIME}  ${duration_hrs} hours"`
 start_yyyymmdd_hhmmss=`${DATE} +%Y-%m-%d_%H:%M:%S -d "${START_TIME}"`
 end_yyyymmdd_hhmmss=`${DATE} +%Y-%m-%d_%H:%M:%S -d "${END_TIME}"`
 
@@ -173,6 +174,7 @@ seconds=[Ss][Ee][Cc][Oo][Nn][Dd][Ss]
 prefix=[Pp][Rr][Ee][Ff][Ii][Xx]
 fg_name=[Ff][Gg][_][Nn][Aa][Mm][Ee]
 constants_name=[Cc][Oo][Nn][Ss][Tt][Aa][Nn][Tt][Ss][_][Nn][Aa][Mm][Ee]
+opt_metgrid_tbl_path=[Oo][Pp][Tt][_][Mm][Ee][Tt][Gg][Rr][Ii][Dd][_][Tt][Bb][Ll][_][Pp][Aa][Tt][Hh]
 yyyymmdd_hhmmss='[[:digit:]]\{4\}-[[:digit:]]\{2\}-[[:digit:]]\{2\}_[[:digit:]]\{2\}:[[:digit:]]\{2\}:[[:digit:]]\{2\}'
 
 # Update the start and end date in namelist
@@ -212,7 +214,19 @@ if [ "${CONSTANTS}" ]; then
 
 fi
 
+# Update METGRID TBL file, it it exists
+if [ -f "${STATIC_DIR}/METGRID.TBL" ]; then
 
+  # Format the STATIC_DIR string so it looks like: 'xxx','yyy',...,'zzz',
+  static_dir_str=`${ECHO} ${STATIC_DIR} | ${SED} "s/\([^',]*\),*/'\1',/g"`
+
+  # Update METGRID TBL path (note that the delimiter needs to be changed b/c static_dir_str contains
+  # the / character
+  ${CAT} ${WPSNAMELIST} | ${SED} "s-\(${opt_metgrid_tbl_path}\)${equal}.*-\1 = ${static_dir_str}-" \
+                        > ${WPSNAMELIST}.new
+  ${MV} ${WPSNAMELIST}.new ${WPSNAMELIST}
+
+fi
 
 # Get the start and end time components
 #start_year=`${DATE} +%Y -d "${START_TIME}"`
@@ -299,7 +313,7 @@ fi
 i=0
 for src in ${source_list[*]}; do
   fcst=0
-  while [ ${fcst} -le ${FCST_LENGTH} ]; do
+  while [ ${fcst} -le ${duration_hrs} ]; do
     datestr=`${DATE} +"%Y-%m-%d_%H" -d "${START_TIME}  ${fcst} hours"`
     ${RM} -f ${src}:${datestr}
     if [ -e ${source_path_list[${i}]}/${src}:${datestr} ]; then
@@ -347,7 +361,7 @@ fi
 
 # Remove pre-existing metgrid files
 fcst=0
-while [ ${fcst} -le ${FCST_LENGTH} ]; do
+while [ ${fcst} -le ${duration_hrs} ]; do
   time_str=`${DATE} +%Y-%m-%d_%H:%M:%S -d "${START_TIME}  ${fcst} hours"`
   ${RM} -f ${metgrid_prefix}.d01.${time_str}${metgrid_suffix}
   (( fcst=${fcst} + ${FCST_INTERVAL} ))
@@ -363,7 +377,7 @@ else
 
   # Check to see if the output is there:
   fcst=0
-  while [ ${fcst} -le ${FCST_LENGTH} ]; do
+  while [ ${fcst} -le ${duration_hrs} ]; do
     time_str=`${DATE} +%Y-%m-%d_%H:%M:%S -d "${START_TIME}  ${fcst} hours"`
     if [ ! -e "${metgrid_prefix}.d01.${time_str}${metgrid_suffix}" ]; then
       ${ECHO} "${METGRID} failed to complete"

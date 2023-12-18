@@ -202,6 +202,28 @@ time_00hago=`${DATE} +"%Y%m%d%H" -d "${START_TIME}  0 hours ago"`
 time_01hago=`${DATE} +"%Y%m%d%H" -d "${START_TIME}  1 hours ago"`
 time_11hago=`${DATE} +"%Y%m%d%H" -d "${START_TIME}  11 hours ago"`
 
+# Get start day and previous day (no hours)
+current_yyyymmdd=`${DATE} +%Y%m%d -d "${START_TIME}"`
+prev_yyyymmdd=`${DATE} +%Y%m%d -d "${START_TIME} 24 hours ago"`
+
+# Get the start and end time components
+start_year=`${DATE} +%Y -d "${START_TIME}"`
+start_month=`${DATE} +%m -d "${START_TIME}"`
+start_day=`${DATE} +%d -d "${START_TIME}"`
+start_hour=`${DATE} +%H -d "${START_TIME}"`
+start_minute=`${DATE} +%M -d "${START_TIME}"`
+start_second=`${DATE} +%S -d "${START_TIME}"`
+end_year=`${DATE} +%Y -d "${END_TIME}"`
+end_month=`${DATE} +%m -d "${END_TIME}"`
+end_day=`${DATE} +%d -d "${END_TIME}"`
+end_hour=`${DATE} +%H -d "${END_TIME}"`
+end_minute=`${DATE} +%M -d "${END_TIME}"`
+end_second=`${DATE} +%S -d "${END_TIME}"`
+
+# Compute number of days and hours for the run
+(( run_days = 0 ))
+(( run_hours = 0 ))
+
 # Set up the work directory and cd into it
 workdir=${DATAHOME}
 ${MKDIR} -p ${workdir}
@@ -241,8 +263,22 @@ if [ -r ${DATAHOME_BC}/wrfbdy_d01 ]; then
   ${ECHO} " Boundary condition ${DATAHOME_BC}/wrfbdy_d01 "
   ${CP} ${DATAHOME_BC}/wrfbdy_d01 ${DATAHOME}/wrfbdy_d01
 else
-  ${ECHO} "ERROR: No viable wrfbdy_d01 boundary files found "
-  exit 1
+  if [ ${start_hour} -lt 6 ]; then
+    new_bc_dir=${DATAROOT}/${current_yyyymmdd}00/wrfprd_bc
+  elif [ ${start_hour} -gt 6 ] && [ ${start_hour} -lt 12 ]; then
+    new_bc_dir=${DATAROOT}/${current_yyyymmdd}06/wrfprd_bc
+  elif [ ${start_hour} -gt 12 ] && [ ${start_hour} -lt 18 ]; then
+    new_bc_dir=${DATAROOT}/${current_yyyymmdd}12/wrfprd_bc
+  else
+    new_bc_dir=${DATAROOT}/${prev_yyyymmdd}18/wrfprd_bc
+  fi
+  if [ -r ${new_bc_dir}/wrfbdy_d01 ]; then
+    ${ECHO} " Boundary condition ${new_bc_dir}/wrfbdy_d01 "
+    ${CP} ${new_bc_dir}/wrfbdy_d01 ${DATAHOME}/wrfbdy_d01
+  else
+    ${ECHO} "ERROR: No viable wrfbdy_d01 boundary files found "
+    exit 1
+  fi
 fi
 
 # If this is a 1h pre-forecast, find the most recent 3D smoke forecast valid at this time
@@ -284,24 +320,6 @@ for file in ${WRF_DAT_FILES[@]}; do
   ${RM} -f `basename ${file}`
   ${LN} -s ${file}
 done
-
-# Get the start and end time components
-start_year=`${DATE} +%Y -d "${START_TIME}"`
-start_month=`${DATE} +%m -d "${START_TIME}"`
-start_day=`${DATE} +%d -d "${START_TIME}"`
-start_hour=`${DATE} +%H -d "${START_TIME}"`
-start_minute=`${DATE} +%M -d "${START_TIME}"`
-start_second=`${DATE} +%S -d "${START_TIME}"`
-end_year=`${DATE} +%Y -d "${END_TIME}"`
-end_month=`${DATE} +%m -d "${END_TIME}"`
-end_day=`${DATE} +%d -d "${END_TIME}"`
-end_hour=`${DATE} +%H -d "${END_TIME}"`
-end_minute=`${DATE} +%M -d "${END_TIME}"`
-end_second=`${DATE} +%S -d "${END_TIME}"`
-
-# Compute number of days and hours for the run
-(( run_days = 0 ))
-(( run_hours = 0 ))
 
 # Create patterns for updating the wrf namelist
 run=[Rr][Uu][Nn]
