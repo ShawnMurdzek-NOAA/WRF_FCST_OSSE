@@ -9,8 +9,8 @@
 <!ENTITY PARTITION "xjet,vjet,kjet">
 <!ENTITY PARTITION_UPP "kjet">
 
-<!ENTITY HOMEBASE_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/syn_data/winter_GFS/WRF_FCST_OSSE">
-<!ENTITY DATABASE_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/syn_data/winter_GFS/WRF_FCST_OSSE">
+<!ENTITY HOMEBASE_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/syn_data/winter_GFS_no_GSI/WRF_FCST_OSSE">
+<!ENTITY DATABASE_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/syn_data/winter_GFS_no_GSI/WRF_FCST_OSSE">
 <!ENTITY OBS_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/obs/winter/corr_errors_1st_iter_v2/syn_bufr">
 <!ENTITY NCL_VER "6.5.0">
 
@@ -107,8 +107,8 @@
 <!ENTITY GSI_HYB_RESOURCES "<walltime>00:15:00</walltime><memory>60G</memory>">
 <!ENTITY GSI_DIAG_RESOURCES "<walltime>00:05:00</walltime><memory>600M</memory>">
 <!ENTITY WRF_ARW_RESOURCES "<walltime>01:30:00</walltime>">
-<!ENTITY WRF_ARW_RESOURCES_SHORT "<walltime>00:10:00</walltime>">
-<!ENTITY WRF_ARW_RESOURCES_PRE "<walltime>00:10:00</walltime>">
+<!ENTITY WRF_ARW_RESOURCES_SHORT "<walltime>00:45:00</walltime>">
+<!ENTITY WRF_ARW_RESOURCES_SPINUP "<walltime>00:10:00</walltime>">
 <!ENTITY POST_RESOURCES "<walltime>00:90:00</walltime>">
 <!ENTITY COMBINE_RESOURCES "<walltime>00:15:00</walltime><memory>600M</memory>">
 <!ENTITY NCL_MAIN_RESOURCES "<walltime>01:15:00</walltime><memory>14G</memory>">
@@ -120,7 +120,7 @@
 <!ENTITY RESERVATION_UPP '<partition>&PARTITION_UPP;</partition><queue>&QUEUE;</queue><account>&ACCOUNT;</account>'>
 
 <!ENTITY ATTEMPTS "3">
-
+<!ENTITY SKIP_GSI_FIRST_SPINUP "1">
 
 ]>
 
@@ -799,6 +799,10 @@
       <value>1</value>
     </envar>
     <envar>
+      <name>SKIP_GSI_FIRST_SPINUP</name>
+      <value>&SKIP_GSI_FIRST_SPINUP;</value>
+    </envar>
+    <envar>
       <name>DATABASE_DIR</name>
       <value>&DATABASE_DIR;</value>
     </envar>
@@ -937,6 +941,10 @@
     <envar>
       <name>SPINUP</name>
       <value>0</value>
+    </envar>
+    <envar>
+      <name>SKIP_GSI_FIRST_SPINUP</name>
+      <value>&SKIP_GSI_FIRST_SPINUP;</value>
     </envar>
     <envar>
       <name>DATABASE_DIR</name>
@@ -1078,6 +1086,14 @@
       <name>GSI_ROOT</name>
       <value>&GSI_ROOT;</value>
     </envar>
+    <envar>
+      <name>SPINUP</name>
+      <value>1</value>
+    </envar>
+    <envar>
+      <name>SKIP_GSI_FIRST_SPINUP</name>
+      <value>&SKIP_GSI_FIRST_SPINUP;</value>
+    </envar>
 
     <dependency>
         <taskdep task="gsi_hyb_spinup"/>
@@ -1114,6 +1130,14 @@
     <envar>
       <name>GSI_ROOT</name>
       <value>&GSI_ROOT;</value>
+    </envar>
+    <envar>
+      <name>SPINUP</name>
+      <value>0</value>
+    </envar>
+    <envar>
+      <name>SKIP_GSI_FIRST_SPINUP</name>
+      <value>&SKIP_GSI_FIRST_SPINUP;</value>
     </envar>
 
     <dependency>
@@ -1265,7 +1289,7 @@
 
   <task name="wrf_arw_spinup" cycledefs="03hr,04hr,05hr,06hr,07hr,08hr" maxtries="&ATTEMPTS;">
 
-    &WRF_ARW_RESOURCES_SHORT;
+    &WRF_ARW_RESOURCES_SPINUP;
     &RESERVATION;
 
     <command>&SCRIPTS;/WRF/wrf_arw.ksh</command>
@@ -1295,7 +1319,7 @@
     </envar>
     <envar>
       <name>FCST_LENGTH</name>
-      <value>&FCST_LENGTH_SHORT;</value>
+      <value>1</value>
     </envar>
     <envar>
       <name>FCST_INTERVAL</name>
