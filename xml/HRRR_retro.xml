@@ -65,7 +65,6 @@
 
 <!ENTITY FCST_LENGTH_LONG "12">
 <!ENTITY FCST_LENGTH_SHORT "6">
-<!ENTITY FCST_LENGTH_BC "12">
 <!ENTITY FCST_LENGTH_IC "0">
 <!ENTITY FCST_INTERVAL "1">
 <!ENTITY IC_OFFSET "3">
@@ -96,7 +95,7 @@
 <!ENTITY NCL_PROC "1">
 <!ENTITY CLEAN_PROC "1">
 
-<!ENTITY UNGRIB_RESOURCES "<walltime>00:20:00</walltime><memory>12G</memory>">
+<!ENTITY UNGRIB_RESOURCES "<walltime>00:30:00</walltime><memory>12G</memory>">
 <!ENTITY METGRID_RESOURCES "<walltime>00:45:00</walltime>">
 <!ENTITY REAL_RESOURCES "<walltime>01:20:00</walltime>">
 <!ENTITY CLEAN_RESOURCES "<walltime>01:20:00</walltime><memory>4G</memory>">
@@ -124,7 +123,7 @@
 
 ]>
 
-<workflow realtime="F" scheduler="slurm" cyclethrottle="12" cyclelifespan="299:00:00:00">
+<workflow realtime="F" scheduler="slurm" cyclethrottle="4" cyclelifespan="299:00:00:00">
 
   <log>
     <cyclestr>&LOG_DIR;/workflow_@Y@m@d@H.log</cyclestr>
@@ -216,7 +215,7 @@
  
   </task>
 
-  <task name="ungrib_GFS_bc" cycledefs="06hr,12hr" maxtries="1">
+  <task name="ungrib_GFS_bc_long" cycledefs="06hr,12hr" maxtries="1">
 
     &UNGRIB_RESOURCES;
     &RESERVATION;
@@ -240,11 +239,11 @@
     </envar>
     <envar>
       <name>FORMAT</name>
-      <value><cyclestr offset="-&BC_OFFSET;:00:00">@y@j@H0000%f</cyclestr></value>
+      <value><cyclestr>%y%j%H0000%f</cyclestr></value>
     </envar>
     <envar>
       <name>FCST_LENGTH</name>
-      <value>&FCST_LENGTH_BC;</value>
+      <value>&FCST_LENGTH_LONG;</value>
     </envar>
     <envar>
       <name>DATA_INTERVAL</name>
@@ -275,6 +274,8 @@
       <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_bc</cyclestr></value>
     </envar>
 
+    <!-- Because we're focusing on retros, we don't really need a dependency here
+
     <dependency>
       <and>
         <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000006</cyclestr></datadep>
@@ -299,9 +300,175 @@
       </and>
     </dependency>
 
+    -->
+
   </task>
 
-  <task name="metgrid_GFS_bc" cycledefs="06hr,12hr" maxtries="&ATTEMPTS;">
+  <task name="ungrib_GFS_bc_short" cycledefs="01hr,02hr,03hr,04hr,05hr,07hr,08hr,09hr,10hr,11hr" maxtries="1">
+
+    &UNGRIB_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WPS/ungrib.ksh</command>
+    <cores>&UNGRIB_PROC;</cores>
+    <jobname><cyclestr>HRRR_ungrib_bc_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/ungrib_bc_@Y@m@d@H.log</cyclestr></join>
+
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>SOURCE</name>
+      <value>GFS</value>
+    </envar>
+    <envar>
+      <name>SOURCE_PATH</name>
+      <value>&GFS_DIR;</value>
+    </envar>
+    <envar>
+      <name>FORMAT</name>
+      <value><cyclestr>%y%j%H0000%f</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_SHORT;</value>
+    </envar>
+    <envar>
+      <name>DATA_INTERVAL</name>
+      <value>&BC_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>DELAY</name>
+      <value>&BC_OFFSET;</value>
+    </envar>
+    <envar>
+      <name>WPS_ROOT</name>
+      <value>&WPS_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WPS</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_bc</cyclestr></value>
+    </envar>
+
+    <!-- Because we're focusing on retros, we don't really need a dependency here
+
+    <dependency>
+      <and>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000006</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000007</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000008</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000009</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000010</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000011</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000012</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000013</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000014</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000015</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000016</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000017</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000018</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000019</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000020</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000021</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000022</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000023</cyclestr></datadep>
+        <datadep age="00:02:00"><cyclestr offset="-&BC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000024</cyclestr></datadep>
+      </and>
+    </dependency>
+
+    -->
+
+  </task>
+
+  <task name="metgrid_GFS_bc_spinup" cycledefs="03hr,04hr,05hr,06hr,07hr,08hr" maxtries="&ATTEMPTS;">
+
+    &METGRID_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WPS/metgrid.ksh</command>
+    <cores>&METGRID_PROC;</cores>
+    <jobname><cyclestr>HRRR_metgrid_bc_spinup_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/metgrid_bc_spinup_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>METGRIDPROC</name>
+      <value>&METGRID_PROC;</value>
+    </envar>
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>1</value>
+    </envar>
+    <envar>
+      <name>DATA_INTERVAL</name>
+      <value>&BC_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>WPS_ROOT</name>
+      <value>&WPS_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WPS</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wpsprd_bc_spinup</cyclestr></value>
+    </envar>
+    <envar>
+      <name>SOURCE</name>
+      <value>GFS</value>
+    </envar>
+    <envar>
+      <name>SOURCE_PATH</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_bc</cyclestr></value>
+    </envar>
+    <envar>
+      <name>CONSTANTS</name>
+      <value>SST</value>
+    </envar>
+    <envar>
+      <name>CONSTANT_PATH</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_ic</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <and>
+        <taskdep task="ungrib_SST"/>
+        <or>
+          <taskdep task="ungrib_GFS_bc_long"/>
+          <taskdep task="ungrib_GFS_bc_short"/>
+        </or>
+      </and>
+    </dependency>
+
+  </task>
+
+  <task name="metgrid_GFS_bc_long" cycledefs="06hr,12hr" maxtries="&ATTEMPTS;">
 
     &METGRID_RESOURCES;
     &RESERVATION;
@@ -321,7 +488,7 @@
     </envar>
     <envar>
       <name>FCST_LENGTH</name>
-      <value>&FCST_LENGTH_BC;</value>
+      <value>&FCST_LENGTH_LONG;</value>
     </envar>
     <envar>
       <name>DATA_INTERVAL</name>
@@ -366,14 +533,147 @@
 
     <dependency>
       <and>
-        <taskdep task="ungrib_GFS_bc"/>
         <taskdep task="ungrib_SST"/>
+        <taskdep task="ungrib_GFS_bc_long"/>
       </and>
     </dependency>
 
   </task>
 
-  <task name="real_arw_bc" cycledefs="06hr,12hr" maxtries="&ATTEMPTS;">
+  <task name="metgrid_GFS_bc_short" cycledefs="01hr,02hr,03hr,04hr,05hr,07hr,08hr,09hr,10hr,11hr" maxtries="&ATTEMPTS;">
+
+    &METGRID_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WPS/metgrid.ksh</command>
+    <cores>&METGRID_PROC;</cores>
+    <jobname><cyclestr>HRRR_metgrid_bc_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/metgrid_bc_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>METGRIDPROC</name>
+      <value>&METGRID_PROC;</value>
+    </envar>
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_SHORT;</value>
+    </envar>
+    <envar>
+      <name>DATA_INTERVAL</name>
+      <value>&BC_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>WPS_ROOT</name>
+      <value>&WPS_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WPS</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wpsprd_bc</cyclestr></value>
+    </envar>
+    <envar>
+      <name>SOURCE</name>
+      <value>GFS</value>
+    </envar>
+    <envar>
+      <name>SOURCE_PATH</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_bc</cyclestr></value>
+    </envar>
+    <envar>
+      <name>CONSTANTS</name>
+      <value>SST</value>
+    </envar>
+    <envar>
+      <name>CONSTANT_PATH</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_ic</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <and>
+        <taskdep task="ungrib_SST"/>
+        <taskdep task="ungrib_GFS_bc_short"/>
+      </and>
+    </dependency>
+
+  </task>
+
+  <task name="real_arw_bc_spinup" cycledefs="03hr,04hr,05hr,06hr,07hr,08hr" maxtries="&ATTEMPTS;">
+
+    &REAL_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WRF/real_arw.ksh</command>
+    <cores>&REAL_ARW_PROC;</cores>
+    <jobname><cyclestr>HRRR_real_arw_bc_spinup_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/real_arw_bc_spinup_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>REALPROC</name>
+      <value>&REAL_ARW_PROC;</value>
+    </envar>
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>1</value>
+    </envar>
+    <envar>
+      <name>DATA_INTERVAL</name>
+      <value>&BC_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>WRF_CORE</name>
+      <value>ARW</value>
+    </envar>
+    <envar>
+      <name>WRF_ROOT</name>
+      <value>&WRF_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WRF</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd_bc_spinup</cyclestr></value>
+    </envar>
+    <envar>
+      <name>INPUT_DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wpsprd_bc_spinup</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <taskdep task="metgrid_GFS_bc_spinup"/>
+    </dependency>
+
+  </task>
+
+  <task name="real_arw_bc_long" cycledefs="06hr,12hr" maxtries="&ATTEMPTS;">
 
     &REAL_RESOURCES;
     &RESERVATION;
@@ -393,7 +693,7 @@
     </envar>
     <envar>
       <name>FCST_LENGTH</name>
-      <value>&FCST_LENGTH_BC;</value>
+      <value>&FCST_LENGTH_LONG;</value>
     </envar>
     <envar>
       <name>DATA_INTERVAL</name>
@@ -429,7 +729,68 @@
     </envar>
 
     <dependency>
-      <taskdep task="metgrid_GFS_bc"/>
+      <taskdep task="metgrid_GFS_bc_long"/>
+    </dependency>
+  
+  </task>
+
+  <task name="real_arw_bc_short" cycledefs="01hr,02hr,03hr,04hr,05hr,07hr,08hr,09hr,10hr,11hr" maxtries="&ATTEMPTS;">
+
+    &REAL_RESOURCES;
+    &RESERVATION;
+
+    <command>&SCRIPTS;/WRF/real_arw.ksh</command>
+    <cores>&REAL_ARW_PROC;</cores>
+    <jobname><cyclestr>HRRR_real_arw_bc_@H</cyclestr></jobname>
+    <join><cyclestr>&LOG_DIR;/real_arw_bc_@Y@m@d@H00.log</cyclestr></join>
+
+    <envar>
+      <name>REALPROC</name>
+      <value>&REAL_ARW_PROC;</value>
+    </envar>
+    <envar>
+      <name>START_TIME</name>
+      <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>FCST_LENGTH</name>
+      <value>&FCST_LENGTH_SHORT;</value>
+    </envar>
+    <envar>
+      <name>DATA_INTERVAL</name>
+      <value>&BC_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>FCST_INTERVAL</name>
+      <value>&FCST_INTERVAL;</value>
+    </envar>
+    <envar>
+      <name>WRF_CORE</name>
+      <value>ARW</value>
+    </envar>
+    <envar>
+      <name>WRF_ROOT</name>
+      <value>&WRF_ROOT;</value>
+    </envar>
+    <envar>
+      <name>STATIC_DIR</name>
+      <value>&STATIC_DIR;/WRF</value>
+    </envar>
+    <envar>
+      <name>DATAROOT</name>
+      <value>&DATAROOT;</value>
+    </envar>
+    <envar>
+      <name>DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd_bc</cyclestr></value>
+    </envar>
+    <envar>
+      <name>INPUT_DATAHOME</name>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wpsprd_bc</cyclestr></value>
+    </envar>
+
+    <dependency>
+      <taskdep task="metgrid_GFS_bc_short"/>
     </dependency>
 
   </task>
@@ -1212,6 +1573,7 @@
     <dependency>
       <and>
         <taskdep task="gsi_hyb"/>
+        <taskdep task="real_arw_bc_long"/>
         <taskdep task="wrf_arw_long" cycle_offset="-12:00:00"/>
       </and>
     </dependency>
@@ -1282,7 +1644,10 @@
     </envar>
 
     <dependency>
-      <taskdep task="gsi_hyb"/>
+      <and>
+        <taskdep task="gsi_hyb"/>
+        <taskdep task="real_arw_bc_short"/>
+      </and>
     </dependency>
 
   </task>
@@ -1347,11 +1712,14 @@
     </envar>
     <envar>
       <name>DATAHOME_BC</name>
-      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd_bc</cyclestr></value>
+      <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd_bc_spinup</cyclestr></value>
     </envar>
 
     <dependency>
-      <taskdep task="gsi_hyb_spinup"/>
+      <and>
+        <taskdep task="gsi_hyb_spinup"/>
+        <taskdep task="real_arw_bc_spinup"/>
+      </and>
     </dependency>
 
   </task>
