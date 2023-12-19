@@ -195,11 +195,11 @@ elif [ ! "`${ECHO} "${START_TIME}" | ${AWK} '/^[[:digit:]]{8}[[:blank:]]{1}[[:di
 fi
 
 # Calculate start and end time date strings
-(( duration_hrs = ${FCST_LENGTH} + ${DATA_INTERVAL} ))
 START_TIME=`${DATE} -d "${START_TIME}"`
-END_TIME=`${DATE} -d "${START_TIME}  ${duration_hrs} hours"`
+END_TIME=`${DATE} -d "${START_TIME}  ${FCST_LENGTH} hours"`
 start_yyyymmdd_hhmmss=`${DATE} +%Y-%m-%d_%H:%M:%S -d "${START_TIME}"`
 end_yyyymmdd_hhmmss=`${DATE} +%Y-%m-%d_%H:%M:%S -d "${END_TIME}"`
+cycle_hour=`${DATE} +%H -d "${START_TIME}"`
 
 #echo $start_yyyymmdd_hhmmss
 #echo $end_yyyymmdd_hhmmss
@@ -274,14 +274,17 @@ ${MV} ${WPSNAMELIST}.new ${WPSNAMELIST}
 
 # Get start time components to use for matching with grib files
 if [ ! "${DELAY}" ]; then
-  DELAY=0
+  new_delay=0
+else
+  new_delay=$(( cycle_hour % 6 + DELAY ))
 fi
-start_year=`${DATE} +%Y -d "${START_TIME} ${DELAY} hours ago"`
-start_yr=`${DATE} +%y -d "${START_TIME} ${DELAY} hours ago"`
-start_month=`${DATE} +%m -d "${START_TIME} ${DELAY} hours ago"`
-start_day=`${DATE} +%d -d "${START_TIME} ${DELAY} hours ago"`
-start_jday=`${DATE} +%j -d "${START_TIME} ${DELAY} hours ago"`
-start_hour=`${DATE} +%H -d "${START_TIME} ${DELAY} hours ago"`
+echo "new_delay = ${new_delay}"
+start_year=`${DATE} +%Y -d "${START_TIME} ${new_delay} hours ago"`
+start_yr=`${DATE} +%y -d "${START_TIME} ${new_delay} hours ago"`
+start_month=`${DATE} +%m -d "${START_TIME} ${new_delay} hours ago"`
+start_day=`${DATE} +%d -d "${START_TIME} ${new_delay} hours ago"`
+start_jday=`${DATE} +%j -d "${START_TIME} ${new_delay} hours ago"`
+start_hour=`${DATE} +%H -d "${START_TIME} ${new_delay} hours ago"`
 
 # Get a list of files in the SRCPATH directory
 grib_files=`${LS} -1 ${SOURCE_PATH} | sort`
@@ -300,12 +303,19 @@ ngribfiles=0
 #  %F - Four digit forecast hour (e.g. 0000, 0001, 0012, 0048, 0096, 0144, etc.)
 #
 if [ ${FORMAT} ]; then
-  ${ECHO} "Using format: '${FORMAT}'"
+  new_format=`${ECHO} ${FORMAT} | ${SED} "s/%Y/${start_year}/g"  \
+                                | ${SED} "s/%y/${start_yr}/g"    \
+                                | ${SED} "s/%m/${start_month}/g" \
+                                | ${SED} "s/%d/${start_day}/g"   \
+                                | ${SED} "s/%j/${start_jday}/g"  \
+                                | ${SED} "s/%H/${start_hour}/g"`
+  ${ECHO} "Using format: '${new_format}'"
+
   set -A flags H j d m y Y F f
   for file in ${grib_files}; do
 
     # Check to see if the file conforms to the specified format
-    filter=`${ECHO} ${FORMAT} | ${SED} 's/%Y/[[:digit:]][[:digit:]][[:digit:]][[:digit:]]/' \
+    filter=`${ECHO} ${new_format} | ${SED} 's/%Y/[[:digit:]][[:digit:]][[:digit:]][[:digit:]]/' \
                            | ${SED} 's/%y/[[:digit:]][[:digit:]]/'                       \
                            | ${SED} 's/%j/[[:digit:]][[:digit:]][[:digit:]]/'            \
                            | ${SED} 's/%m/[[:digit:]][[:digit:]]/'                       \
@@ -327,9 +337,9 @@ if [ ${FORMAT} ]; then
     for flag in ${flags[*]}; do
 
       # If the flag is used, get its value
-      if [ "`${ECHO} ${FORMAT} | ${AWK} "/%${flag}/"`" ]; then
+      if [ "`${ECHO} ${new_format} | ${AWK} "/%${flag}/"`" ]; then
         flagstr="\\\(%${flag}\\\)"
-        format=`${ECHO} ${FORMAT} | ${SED} "s/%${flag}/${flagstr}/"`
+        format=`${ECHO} ${new_format} | ${SED} "s/%${flag}/${flagstr}/"`
         filter=`${ECHO} ${format} | ${SED} 's/%Y/[[:digit:]][[:digit:]][[:digit:]][[:digit:]]/' \
                                | ${SED} 's/%y/[[:digit:]][[:digit:]]/'                       \
                                | ${SED} 's/%j/[[:digit:]][[:digit:]][[:digit:]]/'            \
@@ -369,7 +379,7 @@ if [ ${FORMAT} ]; then
                   elif [ -n "${_f_}" ]; then
                     fhour=${_f_}
                   fi
-                  if (( (fhour >= DELAY) && (fhour <= duration_hrs+DELAY) && ((fhour-DELAY) % FCST_INTERVAL==0) )) then
+                  if (( (fhour >= new_delay) && (fhour <= FCST_LENGTH+new_delay) && ((fhour-new_delay) % FCST_INTERVAL==0) )) then
                     gribfiles[${ngribfiles}]=${file}
                     (( ngribfiles=ngribfiles + 1 ))
                   fi
@@ -450,7 +460,7 @@ fi
 
 # Check to see if we've got all the files we're expecting
 fcst=0
-while [ ${fcst} -le ${duration_hrs} ]; do
+while [ ${fcst} -le ${FCST_LENGTH} ]; do
   filename=${workdir}/${SOURCE}:`${DATE} +%Y-%m-%d_%H -d "${START_TIME}  ${fcst} hours"`
   if [ ! -s ${filename} ]; then
     echo "ERROR: ${filename} is missing"

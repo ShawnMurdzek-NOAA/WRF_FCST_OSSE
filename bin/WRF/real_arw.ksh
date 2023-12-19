@@ -149,18 +149,18 @@ if [ ! "${DATAHOME}" ]; then
   exit 1
 fi
 
-# If $INPUT_DATAROOT is not set, then make sure DATAHOME directory exists
+# Make sure $INPUT_DATAROOT is defined
 if [ ! "${INPUT_DATAHOME}" ]; then
   ${ECHO} "ERROR: \$INPUT_DATAHOME is not defined"
   exit 1
 fi
-  
-# Check for directory 
+
+# Check for INPUT_DATAHOME directory 
 if [ ! -d "${INPUT_DATAHOME}" ]; then
-  ${ECHO} "ERROR: INPUT_DATAHOME directory, '${INPUT_DATAHOME}', does not exist"
+  ${ECHO} "ERROR: \$INPUT_DATAHOME does not exist "
   exit 1
 fi
-
+  
 # Make working directory
 if [ ! -d "${DATAHOME}" ]; then
   ${MKDIR} -p ${DATAHOME}
@@ -373,6 +373,7 @@ ${MV} ${WRF_NAMELIST}.new ${WRF_NAMELIST}
 
 # Update interval in namelist
 (( fcst_interval_sec = ${FCST_INTERVAL} * 3600 ))
+${ECHO} "fcst_interval_sec = ${fcst_interval_sec}"
 ${CAT} ${WRF_NAMELIST} | ${SED} "s/\(${interval}${second}[Ss]\)${equal}[[:digit:]]\{1,\}/\1 = ${fcst_interval_sec}/" \
    > ${WRF_NAMELIST}.new 
 ${MV} ${WRF_NAMELIST}.new ${WRF_NAMELIST}

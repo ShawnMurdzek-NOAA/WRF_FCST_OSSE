@@ -15,7 +15,7 @@
  end_hour                            = 18,
  end_minute                          = 00,
  end_second                          = 00,
- interval_seconds                    = 10800,
+ interval_seconds                    = 3600,
  input_from_file                     = .true.,
  history_interval                    = 15,
  frames_per_outfile                  = 1,

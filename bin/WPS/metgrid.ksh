@@ -136,9 +136,8 @@ elif [ ! "`${ECHO} "${START_TIME}" | ${AWK} '/^[[:digit:]]{8}[[:blank:]]{1}[[:di
 fi
 
 # Calculate start and end time date strings
-(( duration_hrs = ${FCST_LENGTH} + ${DATA_INTERVAL} ))
 START_TIME=`${DATE} -d "${START_TIME}"`
-END_TIME=`${DATE} -d "${START_TIME}  ${duration_hrs} hours"`
+END_TIME=`${DATE} -d "${START_TIME}  ${FCST_LENGTH} hours"`
 start_yyyymmdd_hhmmss=`${DATE} +%Y-%m-%d_%H:%M:%S -d "${START_TIME}"`
 end_yyyymmdd_hhmmss=`${DATE} +%Y-%m-%d_%H:%M:%S -d "${END_TIME}"`
 
@@ -313,7 +312,7 @@ fi
 i=0
 for src in ${source_list[*]}; do
   fcst=0
-  while [ ${fcst} -le ${duration_hrs} ]; do
+  while [ ${fcst} -le ${FCST_LENGTH} ]; do
     datestr=`${DATE} +"%Y-%m-%d_%H" -d "${START_TIME}  ${fcst} hours"`
     ${RM} -f ${src}:${datestr}
     if [ -e ${source_path_list[${i}]}/${src}:${datestr} ]; then
@@ -361,7 +360,7 @@ fi
 
 # Remove pre-existing metgrid files
 fcst=0
-while [ ${fcst} -le ${duration_hrs} ]; do
+while [ ${fcst} -le ${FCST_LENGTH} ]; do
   time_str=`${DATE} +%Y-%m-%d_%H:%M:%S -d "${START_TIME}  ${fcst} hours"`
   ${RM} -f ${metgrid_prefix}.d01.${time_str}${metgrid_suffix}
   (( fcst=${fcst} + ${FCST_INTERVAL} ))
@@ -377,7 +376,7 @@ else
 
   # Check to see if the output is there:
   fcst=0
-  while [ ${fcst} -le ${duration_hrs} ]; do
+  while [ ${fcst} -le ${FCST_LENGTH} ]; do
     time_str=`${DATE} +%Y-%m-%d_%H:%M:%S -d "${START_TIME}  ${fcst} hours"`
     if [ ! -e "${metgrid_prefix}.d01.${time_str}${metgrid_suffix}" ]; then
       ${ECHO} "${METGRID} failed to complete"
