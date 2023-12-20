@@ -7,6 +7,7 @@
 <!ENTITY QUEUE_DEBUG "batch">
 <!ENTITY QUEUE_URGENT "urgent">
 <!ENTITY PARTITION "xjet,vjet,kjet">
+<!ENTITY PARTITION_WRF "xjet,kjet">
 <!ENTITY PARTITION_UPP "kjet">
 
 <!ENTITY HOMEBASE_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/syn_data/winter_GFS_no_GSI/WRF_FCST_OSSE">
@@ -114,6 +115,7 @@
 <!ENTITY NCL_RESOURCES "<walltime>01:00:00</walltime><memory>14G</memory>">
 
 <!ENTITY RESERVATION '<partition>&PARTITION;</partition><queue>&QUEUE;</queue><account>&ACCOUNT;</account>'>
+<!ENTITY RESERVATION_WRF '<partition>&PARTITION_WRF;</partition><queue>&QUEUE;</queue><account>&ACCOUNT;</account>'>
 <!ENTITY RESERVATION_DEBUG '<partition>&PARTITION;</partition><queue>&QUEUE_DEBUG;</queue><account>&ACCOUNT;</account>'>
 <!ENTITY RESERVATION_URGENT '<partition>&PARTITION;</partition><queue>&QUEUE_URGENT;</queue><account>&ACCOUNT;</account>'>
 <!ENTITY RESERVATION_UPP '<partition>&PARTITION_UPP;</partition><queue>&QUEUE;</queue><account>&ACCOUNT;</account>'>
@@ -1510,7 +1512,7 @@
   <task name="wrf_arw_long" cycledefs="06hr,12hr" maxtries="&ATTEMPTS;">
 
     &WRF_ARW_RESOURCES;   
-    &RESERVATION;
+    &RESERVATION_WRF;
 
     <command>&SCRIPTS;/WRF/wrf_arw.ksh</command>
     <cores>&WRF_ARW_PROC;</cores>
@@ -1583,7 +1585,7 @@
   <task name="wrf_arw_short" cycledefs="01hr,02hr,03hr,04hr,05hr,07hr,08hr,09hr,10hr,11hr" maxtries="&ATTEMPTS;">
 
     &WRF_ARW_RESOURCES_SHORT;
-    &RESERVATION;
+    &RESERVATION_WRF;
 
     <command>&SCRIPTS;/WRF/wrf_arw.ksh</command>
     <cores>&WRF_ARW_PROC;</cores>
@@ -1655,7 +1657,7 @@
   <task name="wrf_arw_spinup" cycledefs="03hr,04hr,05hr,06hr,07hr,08hr" maxtries="&ATTEMPTS;">
 
     &WRF_ARW_RESOURCES_SPINUP;
-    &RESERVATION;
+    &RESERVATION_WRF;
 
     <command>&SCRIPTS;/WRF/wrf_arw.ksh</command>
     <cores>&WRF_ARW_PROC;</cores>
