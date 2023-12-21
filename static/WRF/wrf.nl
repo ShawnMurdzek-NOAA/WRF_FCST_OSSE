@@ -89,7 +89,7 @@
           0.1483, 0.1342, 0.1201, 0.1060, 0.0919, 0.0778, 0.0657,
           0.0568, 0.0486, 0.0409, 0.0337, 0.0271, 0.0209, 0.0151,
           0.0097, 0.0047, 0.0000,
- use_adaptive_time_step              = .true.
+ use_adaptive_time_step              = .false.
  step_to_output_time                 = .true.
  target_cfl                          = 1.2
  max_step_increase_pct               = 5
