@@ -2,6 +2,7 @@
 
 <!DOCTYPE workflow [
 
+<!ENTITY MACHINE "HERCULES">
 <!ENTITY ACCOUNT "wrfruc">
 <!ENTITY QUEUE "batch">
 <!ENTITY QUEUE_DEBUG "batch">
@@ -16,6 +17,7 @@
 <!ENTITY NCL_VER "6.5.0">
 
 <!ENTITY SCRIPTS "&HOMEBASE_DIR;/bin">
+<!ENTITY ENV_DIR "&HOMEBASE_DIR;/env/&MACHINE;">
 <!ENTITY STATIC_DIR "&HOMEBASE_DIR;/static">
 
 <!ENTITY WPS_ROOT "&HOMEBASE_DIR;/exec/WPS">
@@ -159,6 +161,10 @@
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
     </envar>
     <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
+    </envar>
+    <envar>
       <name>SCRIPTS</name>
       <value>&SCRIPTS;/WPS</value>
     </envar>
@@ -230,6 +236,10 @@
     <envar>
       <name>START_TIME</name>
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
     </envar>
     <envar>
       <name>SOURCE</name>
@@ -319,6 +329,10 @@
     <envar>
       <name>START_TIME</name>
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
     </envar>
     <envar>
       <name>SOURCE</name>
@@ -414,6 +428,10 @@
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
     </envar>
     <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
+    </envar>
+    <envar>
       <name>FCST_LENGTH</name>
       <value>1</value>
     </envar>
@@ -489,6 +507,10 @@
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
     </envar>
     <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
+    </envar>
+    <envar>
       <name>FCST_LENGTH</name>
       <value>&FCST_LENGTH_LONG;</value>
     </envar>
@@ -559,6 +581,10 @@
     <envar>
       <name>START_TIME</name>
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
     </envar>
     <envar>
       <name>FCST_LENGTH</name>
@@ -633,6 +659,10 @@
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
     </envar>
     <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
+    </envar>
+    <envar>
       <name>FCST_LENGTH</name>
       <value>1</value>
     </envar>
@@ -692,6 +722,10 @@
     <envar>
       <name>START_TIME</name>
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
     </envar>
     <envar>
       <name>FCST_LENGTH</name>
@@ -755,6 +789,10 @@
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
     </envar>
     <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
+    </envar>
+    <envar>
       <name>FCST_LENGTH</name>
       <value>&FCST_LENGTH_SHORT;</value>
     </envar>
@@ -810,6 +848,10 @@
     <envar>
       <name>START_TIME</name>
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
     </envar>
     <envar>
       <name>SOURCE</name>
@@ -875,6 +917,10 @@
     <envar>
       <name>START_TIME</name>
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
     </envar>
     <envar>
       <name>FCST_LENGTH</name>
@@ -951,6 +997,10 @@
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
     </envar>
     <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
+    </envar>
+    <envar>
       <name>FCST_LENGTH</name>
       <value>&FCST_LENGTH_IC;</value>
     </envar>
@@ -1006,6 +1056,10 @@
     <envar>
       <name>START_TIME</name>
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
     </envar>
     <envar>
       <name>EARLY</name>
@@ -1077,6 +1131,10 @@
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
     </envar>
     <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
+    </envar>
+    <envar>
       <name>EARLY</name>
       <value>1</value>
     </envar>
@@ -1144,6 +1202,10 @@
     <envar>
       <name>START_TIME</name>
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
     </envar>
     <envar>
       <name>EARLY</name>
@@ -1288,6 +1350,10 @@
     <envar>
       <name>START_TIME</name>
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
     </envar>
     <envar>
       <name>EARLY</name>
@@ -1438,6 +1504,10 @@
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
     </envar>
     <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
+    </envar>
+    <envar>
       <name>DATABASE_DIR</name>
       <value>&DATABASE_DIR;</value>
     </envar>
@@ -1483,6 +1553,10 @@
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
     </envar>
     <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
+    </envar>
+    <envar>
       <name>DATABASE_DIR</name>
       <value>&DATABASE_DIR;</value>
     </envar>
@@ -1526,6 +1600,10 @@
     <envar>
       <name>START_TIME</name>
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
     </envar>
     <envar>
       <name>PREV_TIME</name>
@@ -1601,6 +1679,10 @@
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
     </envar>
     <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
+    </envar>
+    <envar>
       <name>PREV_TIME</name>
       <value><cyclestr offset="-01:00:00">@Y@m@d@H</cyclestr></value>
     </envar>
@@ -1673,6 +1755,10 @@
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
     </envar>
     <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
+    </envar>
+    <envar>
       <name>PREV_TIME</name>
       <value><cyclestr offset="-01:00:00">@Y@m@d@H</cyclestr></value>
     </envar>
@@ -1740,6 +1826,10 @@
       <name>PATH1</name>
       <value><cyclestr>&DATAROOT;/@Y@m@d@H/wrfprd</cyclestr></value>
     </envar>
+    <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
+    </envar>
 
     <dependency>
       <or>
@@ -1803,6 +1893,10 @@
     <envar>
       <name>START_TIME</name>
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
     </envar>
     <envar>
       <name>FCST_TIME</name>
@@ -1922,6 +2016,10 @@
     <envar>
       <name>START_TIME</name>
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
+    </envar>
+    <envar>
+      <name>ENV_DIR</name>
+      <value>&ENV_DIR;</value>
     </envar>
     <envar>
       <name>FCST_TIME</name>
@@ -2047,6 +2145,10 @@
         <value><cyclestr>@Y@m@d@H</cyclestr></value>
       </envar>
       <envar>
+        <name>ENV_DIR</name>
+        <value>&ENV_DIR;</value>
+      </envar>
+      <envar>
         <name>FCST_TIME</name>
         <value>#fcsthour#</value>
       </envar>
@@ -2096,6 +2198,10 @@
       <envar>
         <name>START_TIME</name>
         <value><cyclestr>@Y@m@d@H</cyclestr></value>
+      </envar>
+      <envar>
+        <name>ENV_DIR</name>
+        <value>&ENV_DIR;</value>
       </envar>
       <envar>
         <name>FCST_TIME</name>

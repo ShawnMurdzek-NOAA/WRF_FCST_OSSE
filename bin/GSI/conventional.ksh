@@ -6,14 +6,8 @@ ulimit -s 512000
 
 # Load modules
 module purge
-module load intel/18.0.5.274
-module load impi/2018.4.274
-module load szip/2.1 hdf5/1.8.9 netcdf/4.2.1.1
-module load pnetcdf/1.6.1
-module load nco/4.1.0
-module load cnvgrib/1.4.0
-module load imagemagick/7.0.8-34
-module load ncl/6.5.0
+module use ${ENV_DIR}
+module load env_gsi
 
 # Set paths to unix commands
 ECHO=/bin/echo

@@ -1,11 +1,8 @@
 #!/bin/bash
 
 module purge
-module load intel
-module load szip
-module load hdf5
-module load netcdf
-module load nco
+module use ${ENV_DIR}
+module load env_upp
 
 cd $PATH1
 pwd
