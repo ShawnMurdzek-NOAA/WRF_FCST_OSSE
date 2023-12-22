@@ -8,7 +8,7 @@ src/
 static/GSI/*
 static/UPP/
 static/UPP_30sep2019/
-static/WPS/
+static/WPS/*nc*
 static/WRF/run/
 static/smoke/
 

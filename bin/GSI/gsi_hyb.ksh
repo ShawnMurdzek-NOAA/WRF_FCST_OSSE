@@ -216,6 +216,13 @@ if [ ${SPINUP} -eq 1]; then
   fi
 fi
 
+# Skip GSI for first spinup cycle
+if [ ${SPINUP} -eq 1 ] && [ ${SKIP_GSI_FIRST_SPINUP} -eq 1 ]; then
+  if [ ${HH} -eq "03" ] || [ ${HH} -eq "15" ] ; then
+    exit 0
+  fi
+fi
+
 # Compute date & time components for the SST analysis time relative to current analysis time
 YYJJJ00000000=`${DATE} +"%y%j00000000" -d "${START_TIME} 1 day ago"`
 YYJJJ1200=`${DATE} +"%y%j1200" -d "${START_TIME} 1 day ago"`

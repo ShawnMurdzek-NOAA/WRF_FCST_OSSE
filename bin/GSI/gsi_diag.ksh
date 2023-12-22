@@ -51,6 +51,18 @@ if [ ! -d "${GSI_ROOT}" ]; then
   exit 1
 fi
 
+# Make sure SPINUP is defined
+if [ ! "${SPINUP}" ]; then
+  ${ECHO} "ERROR: \$SPINUP is not defined!"
+  exit 1
+fi
+
+# Make sure SKIP_GSI_FIRST_SPINUP is defined
+if [ ! "${SKIP_GSI_FIRST_SPINUP}" ]; then
+  ${ECHO} "ERROR: \$SKIP_GSI_FIRST_SPINUP is not defined!"
+  exit 1
+fi
+
 # Make sure START_TIME is defined and in the correct format
 if [ ! "${START_TIME}" ]; then
   ${ECHO} "ERROR: \$START_TIME is not defined!"
@@ -67,10 +79,18 @@ fi
 
 # Compute date & time components for the analysis time
 YYMMDDHH=`${DATE} +"%y%m%d%H" -d "${START_TIME}"`
+HH=`${DATE} +"%H" -d "${START_TIME}"`
 
 # Create the ram work directory and cd into it
 workdir=${DATAHOME}
 cd ${workdir}
+
+# Skip if GSI was not run
+if [ ${SPINUP} -eq 1 ] && [ ${SKIP_GSI_FIRST_SPINUP} -eq 1 ]; then
+  if [ ${HH} -eq "03" ] || [ ${HH} -eq "15" ]; then
+    exit 0
+  fi
+fi
 
 # Read conventional observation diag files
 

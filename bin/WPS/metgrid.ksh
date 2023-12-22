@@ -173,6 +173,7 @@ seconds=[Ss][Ee][Cc][Oo][Nn][Dd][Ss]
 prefix=[Pp][Rr][Ee][Ff][Ii][Xx]
 fg_name=[Ff][Gg][_][Nn][Aa][Mm][Ee]
 constants_name=[Cc][Oo][Nn][Ss][Tt][Aa][Nn][Tt][Ss][_][Nn][Aa][Mm][Ee]
+opt_metgrid_tbl_path=[Oo][Pp][Tt][_][Mm][Ee][Tt][Gg][Rr][Ii][Dd][_][Tt][Bb][Ll][_][Pp][Aa][Tt][Hh]
 yyyymmdd_hhmmss='[[:digit:]]\{4\}-[[:digit:]]\{2\}-[[:digit:]]\{2\}_[[:digit:]]\{2\}:[[:digit:]]\{2\}:[[:digit:]]\{2\}'
 
 # Update the start and end date in namelist
@@ -212,7 +213,19 @@ if [ "${CONSTANTS}" ]; then
 
 fi
 
+# Update METGRID TBL file, it it exists
+if [ -f "${STATIC_DIR}/METGRID.TBL" ]; then
 
+  # Format the STATIC_DIR string so it looks like: 'xxx','yyy',...,'zzz',
+  static_dir_str=`${ECHO} ${STATIC_DIR} | ${SED} "s/\([^',]*\),*/'\1',/g"`
+
+  # Update METGRID TBL path (note that the delimiter needs to be changed b/c static_dir_str contains
+  # the / character
+  ${CAT} ${WPSNAMELIST} | ${SED} "s-\(${opt_metgrid_tbl_path}\)${equal}.*-\1 = ${static_dir_str}-" \
+                        > ${WPSNAMELIST}.new
+  ${MV} ${WPSNAMELIST}.new ${WPSNAMELIST}
+
+fi
 
 # Get the start and end time components
 #start_year=`${DATE} +%Y -d "${START_TIME}"`
