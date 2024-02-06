@@ -1,6 +1,6 @@
 
 # Ignore various directories
-exec/
+exec/*
 log/
 loghistory/
 run/
@@ -15,6 +15,9 @@ static/smoke/
 # Don't ignore certain GSI static files
 !static/GSI/gsiparm.anl.sh
 !static/GSI/anavinfo_arw_netcdf
+
+# Don't ignore executables README
+!exec/README.md
 
 # Ignore workflow database files
 *.db
