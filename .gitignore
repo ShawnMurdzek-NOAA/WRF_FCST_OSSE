@@ -8,11 +8,8 @@ src/*
 static/GSI/*
 static/GSI_HRRR/*
 static/GSI_RRFS/*
-static/UPP/*
-static/UPP_30sep2019/
 static/WPS/*nc*
 static/WRF/run/*
-static/smoke/
 
 # Don't ignore certain GSI static files
 !static/GSI_HRRR/gsiparm.anl.sh
@@ -28,3 +25,6 @@ static/smoke/
 
 # Ignore swap files
 *.swp
+
+# Ignore HRRR_retro.xml
+xml/HRRR_retro.xml
