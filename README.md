@@ -22,3 +22,7 @@ In order to run WRF_FCST_OSSE, the following directories are also needed:
 - `run`: A mostly empty directory for WRF_FCST_OSSE output. Only output needed to start a forecast run is surface data.
     - `surface`: Directory containing surface data from previous HRRR runs to initialize the soil state. File naming convention is `wrfout_sfc_HH`, where `HH` is the hour. As the forecast run progresses, this directory will be filled with surface states from completed cycles. 
 - `static`: The remaining static files that are too large to keep on GitHub.
+
+### Selecting a GSI Version
+
+Two sets of GSI static files are provided: `static/GSI_HRRR` and `static/GSI_RRFS`. These include some of the input static files for running GSI using the HRRRv4-era version of GSI and the RRFS(FV3)-era of GSI. Choose the appropriate directory, then link it to the `static/GSI` directory (e.g., `ln -sf GSI_HRRR GSI`).

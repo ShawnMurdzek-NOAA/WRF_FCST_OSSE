@@ -25,9 +25,9 @@
  WRITE_INPUT                         = .false.,
  INPUTOUT_INTERVAL                   = 60,
  input_outname                       = "wrfinput_out_d<domain>_<date>"
- io_form_history                     = 11 
- io_form_restart                     = 11
- io_form_input                       = 11
+ io_form_history                     = 2
+ io_form_restart                     = 2
+ io_form_input                       = 2
  io_form_boundary                    = 2
  debug_level                         = 0
  diag_print                          = 1

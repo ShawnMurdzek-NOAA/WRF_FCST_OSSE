@@ -5,7 +5,7 @@ np=`cat $PBS_NODEFILE | wc -l`
 # Load modules
 module purge
 module use ${ENV_DIR}
-module load env_gsi
+module load env_gsi_prep
 
 # Set up paths to unix commands
 RM=/bin/rm
@@ -696,8 +696,9 @@ done
 
 
 # Run GSI
-#${MPIRUN} ${GSI} < gsiparm.anl > stdout 2>&1
-module load contrib wrap-mpi
+module purge
+module use ${ENV_DIR}
+module load env_gsi
 mpirun ${GSI} < gsiparm.anl > stdout 2>&1
 error=$?
 if [ ${error} -ne 0 ]; then

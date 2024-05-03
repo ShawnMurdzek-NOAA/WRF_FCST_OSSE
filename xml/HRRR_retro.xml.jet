@@ -11,9 +11,9 @@
 <!ENTITY PARTITION_WRF "xjet,kjet">
 <!ENTITY PARTITION_UPP "kjet">
 
-<!ENTITY HOMEBASE_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/syn_data/winter_GFS_no_GSI/WRF_FCST_OSSE">
-<!ENTITY DATABASE_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/syn_data/winter_GFS_no_GSI/WRF_FCST_OSSE">
-<!ENTITY OBS_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/obs/winter/corr_errors_1st_iter_v2/syn_bufr">
+<!ENTITY HOMEBASE_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/real_data_sims/winter/WRF_FCST_OSSE">
+<!ENTITY DATABASE_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/real_data_sims/winter/WRF_FCST_OSSE">
+<!ENTITY OBS_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/obs/winter/perfect_conv/real_red_bufr">
 <!ENTITY NCL_VER "6.5.0">
 
 <!ENTITY SCRIPTS "&HOMEBASE_DIR;/bin">
@@ -50,7 +50,7 @@
 <!ENTITY TOWER_NRSD "&OBS_DIR;/tower/public/netcdf">
 <!ENTITY SODAR_NRSD "&OBS_DIR;/profiler/wind/external/netcdf">
 <!ENTITY TAMDAR_DIR "&OBS_DIR;/acars/raw/netcdf">
-<!ENTITY NCEPSNOW_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/obs/winter/synthetic_ims">
+<!ENTITY NCEPSNOW_DIR "/mnt/lfs4/BMC/wrfruc/RRFS_RETRO_DATA/snow/ims96/grib2">
 <!ENTITY HIGHRES_SST_DIR "&SST_DIR;">
 <!ENTITY HIGHRES_SST14KM_DIR "&OBS_DIR;/lowres_sst">
 <!ENTITY GVF_DIR "/mnt/lfs4/BMC/wrfruc/RRFS_RETRO_DATA/gvf/grib2">

@@ -1,20 +1,24 @@
 
 # Ignore various directories
 exec/*
-log/
-loghistory/
-run/
-src/
+log/*
+loghistory/*
+run/*
+src/*
 static/GSI/*
-static/UPP/
+static/GSI_HRRR/*
+static/GSI_RRFS/*
+static/UPP/*
 static/UPP_30sep2019/
 static/WPS/*nc*
-static/WRF/run/
+static/WRF/run/*
 static/smoke/
 
 # Don't ignore certain GSI static files
-!static/GSI/gsiparm.anl.sh
-!static/GSI/anavinfo_arw_netcdf
+!static/GSI_HRRR/gsiparm.anl.sh
+!static/GSI_HRRR/anavinfo_arw_netcdf
+!static/GSI_RRFS/gsiparm.anl.sh
+!static/GSI_RRFS/anavinfo_arw_netcdf
 
 # Don't ignore executables README
 !exec/README.md
