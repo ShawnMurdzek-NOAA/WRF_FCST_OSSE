@@ -23,8 +23,8 @@
 <!ENTITY WPS_ROOT "&HOMEBASE_DIR;/exec/WPS">
 <!ENTITY WRF_ROOT "&HOMEBASE_DIR;/exec/WRF">
 <!ENTITY UNIPOST_EXEC "&HOMEBASE_DIR;/exec/UPP">
-<!ENTITY WGRIB1 "&HOMEBASE_DIR;/exec/UPP/wgrib">
-<!ENTITY WGRIB "&HOMEBASE_DIR;/exec/UPP/wgrib2">
+<!ENTITY WGRIB1 "&HOMEBASE_DIR;/exec/WPS/wgrib">
+<!ENTITY WGRIB "&HOMEBASE_DIR;/exec/WPS/wgrib2">
 <!ENTITY GSI_ROOT "&HOMEBASE_DIR;/exec/GSI">
 <!ENTITY FIX_ROOT "&STATIC_DIR;/GSI">
 
@@ -127,7 +127,7 @@
 
 ]>
 
-<workflow realtime="F" scheduler="slurm" cyclethrottle="12" cyclelifespan="299:00:00:00">
+<workflow realtime="F" scheduler="slurm" cyclethrottle="6" cyclelifespan="299:00:00:00">
 
   <log>
     <cyclestr>&LOG_DIR;/workflow_@Y@m@d@H.log</cyclestr>

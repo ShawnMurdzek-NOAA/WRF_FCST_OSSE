@@ -12,6 +12,7 @@
 | WPS | geogrid.exe | [WPS](https://www2.mmm.ucar.edu/wrf/users/download/get_source.html) |
 | WPS | metgrid.exe | [WPS](https://www2.mmm.ucar.edu/wrf/users/download/get_source.html) |
 | WPS | ungrib.exe | [WPS](https://www2.mmm.ucar.edu/wrf/users/download/get_source.html) |
+| WPS | wgrib2 | |
 | WRF | da\_update\_bc.exe | [WRFDA](https://www2.mmm.ucar.edu/wrf/users/download/get_source.html) |
 | WRF | real.exe | [WRF](https://www2.mmm.ucar.edu/wrf/users/download/get_source.html) |
 | WRF | wrf.exe | [WRF](https://www2.mmm.ucar.edu/wrf/users/download/get_source.html) |
