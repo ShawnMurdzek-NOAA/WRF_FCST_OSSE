@@ -34,7 +34,7 @@
 <!ENTITY ENKFFCST_DIR "/mnt/lfs4/BMC/wrfruc/RRFS_RETRO_DATA/enkf/atm">
 
 <!ENTITY AIRCRAFT_REJECT "/mnt/lfs4/BMC/wrfruc/RRFS_RETRO_DATA/amdar_reject_lists">
-<!ENTITY SFCOBS_USELIST "/mnt/lfs4/BMC/wrfruc/RRFS_RETRO_DATA/mesonet_uselists">
+<!ENTITY SFCOBS_USELIST "/mnt/lfs4/BMC/wrfruc/RRFS_RETRO_DATA/mesonet_uselist">
 <!ENTITY PREPBUFR_DIR "&OBS_DIR;">
 <!ENTITY PREPBUFR_EARLY_DIR "&OBS_DIR;">
 <!ENTITY PREPBUFR_SAT_DIR "&OBS_DIR;">
