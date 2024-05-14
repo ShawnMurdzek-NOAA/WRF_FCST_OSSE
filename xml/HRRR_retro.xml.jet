@@ -80,8 +80,11 @@
 <!ENTITY UNGRIB_PROC "1">
 <!ENTITY METGRID_PROC "40">
 <!ENTITY REAL_ARW_PROC "80">
-<!ENTITY WRF_ARW_PRE_PROC "1200">
 <!ENTITY WRF_ARW_PROC "1200">
+<!--
+<!ENTITY WRF_ARW_NODES "60">
+<!ENTITY WRF_ARW_PPN "12">
+-->
 
 <!ENTITY CONVENTIONAL_PROC "1">
 <!ENTITY LIGHTNING_PROC "1">
@@ -1589,14 +1592,18 @@
     &RESERVATION_WRF;
 
     <command>&SCRIPTS;/WRF/wrf_arw.ksh</command>
+    <!-- <cores>&WRF_ARW_PROC;</cores> -->
     <cores>&WRF_ARW_PROC;</cores>
+    <!-- <nodes>&WRF_ARW_NODES;:ppn=&WRF_ARW_PPN;</nodes> -->
     <jobname><cyclestr>HRRR_wrf_arw_@H</cyclestr></jobname>
     <join><cyclestr>&LOG_DIR;/wrf_arw_@Y@m@d@H00.log</cyclestr></join>
 
+    <!--
     <envar>
       <name>WRFPROC</name>
       <value>&WRF_ARW_PROC;</value>
     </envar>
+    -->
     <envar>
       <name>START_TIME</name>
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
@@ -1666,14 +1673,18 @@
     &RESERVATION_WRF;
 
     <command>&SCRIPTS;/WRF/wrf_arw.ksh</command>
+    <!-- <cores>&WRF_ARW_PROC;</cores> -->
     <cores>&WRF_ARW_PROC;</cores>
+    <!-- <nodes>&WRF_ARW_NODES;:ppn=&WRF_ARW_PPN;</nodes> -->
     <jobname><cyclestr>HRRR_wrf_arw_@H</cyclestr></jobname>
     <join><cyclestr>&LOG_DIR;/wrf_arw_@Y@m@d@H00.log</cyclestr></join>
 
+    <!--
     <envar>
       <name>WRFPROC</name>
       <value>&WRF_ARW_PROC;</value>
     </envar>
+    -->
     <envar>
       <name>START_TIME</name>
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
@@ -1742,14 +1753,18 @@
     &RESERVATION_WRF;
 
     <command>&SCRIPTS;/WRF/wrf_arw.ksh</command>
+    <!-- <cores>&WRF_ARW_PROC;</cores> -->
     <cores>&WRF_ARW_PROC;</cores>
+    <!-- <nodes>&WRF_ARW_NODES;:ppn=&WRF_ARW_PPN;</nodes> -->
     <jobname><cyclestr>HRRR_wrf_arw_spinup_@H</cyclestr></jobname>
     <join><cyclestr>&LOG_DIR;/wrf_arw_spinup_@Y@m@d@H00.log</cyclestr></join>
 
+    <!--
     <envar>
       <name>WRFPROC</name>
       <value>&WRF_ARW_PROC;</value>
     </envar>
+    -->
     <envar>
       <name>START_TIME</name>
       <value><cyclestr>@Y@m@d@H</cyclestr></value>
