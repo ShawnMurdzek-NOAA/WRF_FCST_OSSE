@@ -1974,6 +1974,10 @@
         <value><cyclestr>@Y@m@d@H</cyclestr></value>
       </envar>
       <envar>
+        <name>ENV_DIR</name>
+        <value>&ENV_DIR;</value>
+      </envar>
+      <envar>
         <name>FCST_TIME</name>
         <value>#fcsthour#</value>
       </envar>
@@ -2095,6 +2099,10 @@
       <envar>
         <name>START_TIME</name>
         <value><cyclestr>@Y@m@d@H</cyclestr></value>
+      </envar>
+      <envar>
+        <name>ENV_DIR</name>
+        <value>&ENV_DIR;</value>
       </envar>
       <envar>
         <name>FCST_TIME</name>
