@@ -119,10 +119,10 @@ if [ ! -x ${WRF} ]; then
 fi
 
 # Check to make sure the number of processors for running WRF was specified
-if [ -z "${WRFPROC}" ]; then
-  ${ECHO} "ERROR: The variable $WRFPROC must be set to contain the number of processors to run WRF"
-  exit 1
-fi
+#if [ -z "${WRFPROC}" ]; then
+#  ${ECHO} "ERROR: The variable $WRFPROC must be set to contain the number of processors to run WRF"
+#  exit 1
+#fi
 
 # Check to make sure that the DATAROOT exists
 if [ ! -d ${DATAROOT} ]; then
