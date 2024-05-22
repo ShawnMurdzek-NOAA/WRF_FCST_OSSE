@@ -5,7 +5,7 @@ ulimit -s 512000
 # Load modules
 module purge
 module use ${ENV_DIR}
-module load env_gsi
+module load env_gsi_diag
 
 # Vars used for testing.  Should be commented out for production mode
 
