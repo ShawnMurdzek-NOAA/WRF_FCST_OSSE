@@ -252,7 +252,7 @@ ${CAT} WRFNAT.GrbF${FCST_TIME} WRFTWO.GrbF${FCST_TIME} > ${workdir}/WRFNAT.GrbF$
 ${MV} WRFNAT.GrbF${FCST_TIME}.new ${workdir}/wrfnat_hrconus_${FCST_TIME}.grib2
 
 ${MV} ${workdir}/WRFTWO.GrbF${FCST_TIME} ${workdir}/wrftwo_hrconus_${FCST_TIME}.grib2
-${MV} ${workdir}/WRFMSL.GrbF${FCST_TIME} ${workdir}/wrfmsl_hrconus_${FCST_TIME}.grib2
+#${MV} ${workdir}/WRFMSL.GrbF${FCST_TIME} ${workdir}/wrfmsl_hrconus_${FCST_TIME}.grib2
 
 # Check to make sure all Post  output files were produced
 if [ ! -s "${workdir}/wrfprs_hrconus_${FCST_TIME}.grib2" ]; then
@@ -267,16 +267,16 @@ if [ ! -s "${workdir}/wrfnat_hrconus_${FCST_TIME}.grib2" ]; then
   ${ECHO} "unipost crashed! wrfnat_hrconus_${FCST_TIME}.grib2 is missing"
   exit 1
 fi
-if [ ! -s "${workdir}/wrfmsl_hrconus_${FCST_TIME}.grib2" ]; then
-  ${ECHO} "unipost crashed! wrfmsl_hrconus_${FCST_TIME}.grib2 is missing"
-  exit 1
-fi
+#if [ ! -s "${workdir}/wrfmsl_hrconus_${FCST_TIME}.grib2" ]; then
+#  ${ECHO} "unipost crashed! wrfmsl_hrconus_${FCST_TIME}.grib2 is missing"
+#  exit 1
+#fi
 
 # Move the output files to postprd
 ${MV} ${workdir}/wrfprs_hrconus_${FCST_TIME}.grib2 ${DATAHOME}
 ${MV} ${workdir}/wrftwo_hrconus_${FCST_TIME}.grib2 ${DATAHOME}
 ${MV} ${workdir}/wrfnat_hrconus_${FCST_TIME}.grib2 ${DATAHOME}
-${MV} ${workdir}/wrfmsl_hrconus_${FCST_TIME}.grib2 ${DATAHOME}
+#${MV} ${workdir}/wrfmsl_hrconus_${FCST_TIME}.grib2 ${DATAHOME}
 ${RM} -rf ${workdir}
 
 ${ECHO} "unipost.ksh completed at `${DATE}`"
