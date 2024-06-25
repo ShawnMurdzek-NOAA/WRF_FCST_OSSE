@@ -2,12 +2,18 @@
 
 ulimit -s 512000
 
+# Vars used for testing.  Should be commented out for production mode
+#ENV_DIR='/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/real_data_sims/winter/WRF_FCST_OSSE/env/JET'
+#DATAHOME='/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/real_data_sims/winter/WRF_FCST_OSSE/run/2022020109/gsiprd'
+#GSI_ROOT='/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/real_data_sims/winter/WRF_FCST_OSSE/exec/GSI'
+#SPINUP=0
+#SKIP_GSI_FIRST_SPINUP=1
+#START_TIME=2022020109
+
 # Load modules
 module purge
 module use ${ENV_DIR}
 module load env_gsi_diag
-
-# Vars used for testing.  Should be commented out for production mode
 
 # Set up paths to unix commands
 RM=/bin/rm
@@ -73,6 +79,7 @@ fi
 
 # Compute date & time components for the analysis time
 YYMMDDHH=`${DATE} +"%y%m%d%H" -d "${START_TIME}"`
+YYYYMMDDHH=`${DATE} +"%Y%m%d%H" -d "${START_TIME}"`
 HH=`${DATE} +"%H" -d "${START_TIME}"`
 
 # Create the ram work directory and cd into it
@@ -88,39 +95,64 @@ fi
 
 # Read conventional observation diag files
 
+# SSM 20240625 OLD - DO NOT USE
+#${CAT} << EOF > namelist.conv
+# &iosetup
+#  dirname='${workdir}',
+#  outfilename='./diag_results',
+#  ndate=${YYMMDDHH},
+#  nloop=1,0,1,0,0,
+#  $iosetup
+# /     
+#EOF
+#
+#cp ${GSI_ROOT}/read_diag_conv.exe .
+#./read_diag_conv.exe > stdout_read_diag_conv 2>&1
+
+cp ${GSI_ROOT}/read_diag_conv.exe .
+
 ${CAT} << EOF > namelist.conv
  &iosetup
-  dirname='${workdir}',
-  outfilename='./diag_results',
-  ndate=${YYMMDDHH},
-  nloop=1,0,1,0,0,
+  infilename='${workdir}/diag_conv_ges.${YYYYMMDDHH}',
+  outfilename='${workdir}/diag_results.conv_ges',
+  l_obsprvdiag=.false.,
+  dump_pseudo_obs_too=.true.,
   $iosetup
  /     
 EOF
+./read_diag_conv.exe > stdout_read_diag_conv_ges 2>&1
 
-cp ${GSI_ROOT}/read_diag_conv.exe .
-./read_diag_conv.exe > stdout_read_diag_conv 2>&1
-
-# Read radiance diag file
-${CAT} << EOF > namelist.rad
+${CAT} << EOF > namelist.conv
  &iosetup
-  dirname='${workdir}',
-  outfilename='./diag_results',
-  ndate=${YYMMDDHH},
-  nloop=1,0,1,0,0,
-  instrument='amsub_n16','amsub_n17','hirs3_n17',
+  infilename='${workdir}/diag_conv_anl.${YYYYMMDDHH}',
+  outfilename='${workdir}/diag_results.conv_anl',
+  l_obsprvdiag=.false.,
+  dump_pseudo_obs_too=.true.,
   $iosetup
- /
+ /     
 EOF
+./read_diag_conv.exe > stdout_read_diag_conv_anl 2>&1
 
-cp ${GSI_ROOT}/read_diag_rad.exe .
-./read_diag_rad.exe > stdout_read_diag_rad 2>&1
 
+# SSM 20240625: Turn off GSI diag file reader for satellite radiances (no satellite DA in OSSE)
+# Read radiance diag file
+#${CAT} << EOF > namelist.rad
+# &iosetup
+#  dirname='${workdir}',
+#  outfilename='./diag_results',
+#  ndate=${YYMMDDHH},
+#  nloop=1,0,1,0,0,
+#  instrument='amsub_n16','amsub_n17','hirs3_n17',
+#  $iosetup
+# /
+#EOF
+
+# SSM 20240625: Turn off ob counter b/c I cannot find the executable
 #
 #  Data number summary
 #
-cp ${GSI_ROOT}/count_obs.exe . 
-./count_obs.exe > stdout_count_obs 2>&1
-cat obs_num_summary.txt >> ${DATABASE_DIR}/loghistory/HRRR_GSI_dataNumber.log
+#cp ${GSI_ROOT}/count_obs.exe . 
+#./count_obs.exe > stdout_count_obs 2>&1
+#cat obs_num_summary.txt >> ${DATABASE_DIR}/loghistory/HRRR_GSI_dataNumber.log
 
 exit 0
