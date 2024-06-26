@@ -1946,7 +1946,7 @@
   </task>
 
   <metatask>
-    <var name="fcsthour">01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24</var>
+    <var name="fcsthour">01 02 03 04 05 06 07 08 09 10 11 12</var>
 
     <task name="post_#fcsthour#" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
 
