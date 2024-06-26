@@ -1847,7 +1847,7 @@
   <metatask>
     <var name="fcsthour">01</var>
 
-    <task name="HRRR_soilsave_#fcsthour#" cycledefs="02hr" maxtries="1">
+    <task name="HRRR_soilsave_#fcsthour#" cycledefs="03hr" maxtries="1">
 
       &CLEAN_RESOURCES;
       &RESERVATION;
