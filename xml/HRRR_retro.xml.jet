@@ -66,6 +66,8 @@
 <!ENTITY DATAROOT_BC "&DATABASE_DIR;/run">
 <!ENTITY DATAROOT_PCYC "&DATABASE_DIR;/run">
 
+<!ENTITY CRTM_DIR "/lfs4/BMC/nrtrr/FIX_RRFS/crtm/CRTM_v2.3.0">
+
 <!ENTITY PYGRAF_DIR "&HOMEBASE_DIR;/exec/PYGRAF/pygraf">
 <!ENTITY PYGRAF_YML_FILE "&HOMEBASE_DIR;/static/PYGRAF/wrf_fcst_osse_subset.yml">
 <!ENTITY PYGRAF_SITE_FILE "&HOMEBASE_DIR;/static/PYGRAF/conus_raobs.txt">
@@ -115,7 +117,7 @@
 <!ENTITY CONVENTIONAL_RESOURCES "<walltime>00:05:00</walltime><memory>2G</memory>">
 <!ENTITY RADAR_RESOURCES "<walltime>00:30:00</walltime>">
 <!ENTITY SATELLITE_RESOURCES "<walltime>00:10:00</walltime><memory>10G</memory>">
-<!ENTITY GSI_HYB_RESOURCES "<walltime>00:15:00</walltime><memory>60G</memory>">
+<!ENTITY GSI_HYB_RESOURCES "<walltime>00:20:00</walltime><memory>60G</memory>">
 <!ENTITY GSI_DIAG_RESOURCES "<walltime>00:05:00</walltime><memory>600M</memory>">
 <!ENTITY WRF_ARW_RESOURCES "<walltime>01:30:00</walltime>">
 <!ENTITY WRF_ARW_RESOURCES_SHORT "<walltime>00:45:00</walltime>">
@@ -1954,6 +1956,10 @@
       <name>STATIC_DIR</name>
       <value>&STATIC_DIR;/UPP</value>
     </envar>
+    <envar>
+      <name>CRTM</name>
+      <value>&CRTM_DIR;</value>
+    </envar>
 
     <dependency>
       <datadep age="00:10:00">&DATAROOT;/<cyclestr>@Y@m@d@H</cyclestr>/wrfprd<cyclestr>/wrfout_d01_@Y-@m-@d_@H_00_00</cyclestr></datadep>
@@ -2017,6 +2023,10 @@
       <envar>
         <name>STATIC_DIR</name>
         <value>&STATIC_DIR;/UPP</value>
+      </envar>
+      <envar>
+        <name>CRTM</name>
+        <value>&CRTM_DIR;</value>
       </envar>
 
       <dependency>
@@ -2083,6 +2093,10 @@
       <envar>
         <name>STATIC_DIR</name>
         <value>&STATIC_DIR;/UPP</value>
+      </envar>
+      <envar>
+        <name>CRTM</name>
+        <value>&CRTM_DIR;</value>
       </envar>
 
       <dependency>

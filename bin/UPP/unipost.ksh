@@ -58,8 +58,6 @@ MPIRUN=srun
 CNVGRIB=${EXE_ROOT}/cnvgrib.exe
 CNVOPTS='-g12 -p32'
 
-export CRTM="/lfs1/BMC/nrtrr/FIX_RRFS/crtm/CRTM_v2.3.0"
-
 # Print run parameters
 ${ECHO}
 ${ECHO} "unipost.ksh started at `${DATE}`"
