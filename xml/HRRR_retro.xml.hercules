@@ -1660,7 +1660,6 @@
       <and>
         <taskdep task="gsi_hyb"/>
         <taskdep task="real_arw_bc_long"/>
-        <taskdep task="wrf_arw_long" cycle_offset="-12:00:00"/>
       </and>
     </dependency>
 
