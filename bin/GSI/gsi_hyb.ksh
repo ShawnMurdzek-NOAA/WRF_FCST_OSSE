@@ -110,7 +110,13 @@ if [ ! -x "${GSI}" ]; then
   exit 1
 fi
 
+# print some information
+echo "GSI hybrid DA task"
 echo "Running system: ${SYSTEM_ID}"
+echo "Cycle time: ${START_TIME}"
+echo "Spinup? ${SPINUP}"
+echo
+
 # Compute date & time components for the analysis time
 YYYYJJJHH00=`${DATE} +"%Y%j%H00" -d "${START_TIME}"`
 YYYYJJJHH=`${DATE} +"%Y%j%H" -d "${START_TIME}"`
@@ -191,7 +197,7 @@ fi
 
 # Insert land surface variables into the wrf_inout file (only needed at beginning of partial cycles)
 # Swap out land surface variables at 04 and 16 UTC b/c I only have initial surface fields at that time (this also better matches RRFSv1)
-if [ ${SPINUP} -eq 1]; then
+if [ ${SPINUP} -eq 1 ]; then
   if [ ${HH} -eq "04" ] || [ ${HH} -eq "16" ]; then
     if [ -r "${DATAROOT}/surface/wrfout_sfc_${HH}" ]; then
       echo "cycle Surface fields based on ${DATAROOT}/surface/wrfout_sfc_${HH} "
@@ -208,6 +214,8 @@ if [ ${SPINUP} -eq 1]; then
       ${ECHO} "ERROR: No land surface data cycled for background at ${time_str}!!!!"
 #      exit 1
     fi
+  else
+    echo "NOTE: No surface field update at ${HH}!"
   fi
 fi
 
