@@ -55,7 +55,6 @@ SED=/bin/sed
 DATE=/bin/date
 BC=/usr/bin/bc
 MPIRUN=srun
-CNVGRIB=${EXE_ROOT}/cnvgrib.exe
 CNVOPTS='-g12 -p32'
 
 export CRTM="/lfs1/BMC/nrtrr/FIX_EXEC_MODULE/crtm/CRTM_v2.2.6"

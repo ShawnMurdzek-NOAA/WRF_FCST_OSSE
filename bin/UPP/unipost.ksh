@@ -55,7 +55,6 @@ SED=/bin/sed
 DATE=/bin/date
 BC=/usr/bin/bc
 MPIRUN=srun
-CNVGRIB=${EXE_ROOT}/cnvgrib.exe
 CNVOPTS='-g12 -p32'
 
 # Print run parameters

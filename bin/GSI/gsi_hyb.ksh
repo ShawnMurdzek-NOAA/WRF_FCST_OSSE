@@ -22,7 +22,6 @@ DATE=/bin/date
 AWK="/bin/awk --posix"
 SED=/bin/sed
 TAIL=/usr/bin/tail
-CNVGRIB=/apps/cnvgrib/1.4.0/bin/cnvgrib
 MPIRUN=srun
 
 # Set endian conversion options for use with Intel compilers
@@ -773,6 +772,11 @@ ${CP} fort.204    fit_q1.${YYYYMMDDHH}
 ${CP} fort.207    fit_rad1.${YYYYMMDDHH}
 cat fort.* > ${DATABASE_DIR}/log/fits_${YYYYMMDDHH}.txt
 
+# Load modules
+module purge
+module use ${ENV_DIR}
+module load env_gsi_prep
+
 #---------------------------------------------------------------------
 # Compute date & time components for the snow cover analysis time relative to current analysis time
 YYJJJHH00000000=`${DATE} +"%y%j%H00000000" -d "${START_TIME} 4 hours ago"`
@@ -788,7 +792,6 @@ if [[ ${HH} -eq ${UPDATE_SNOW} ]]; then
     ${ECHO} "ERROR: No snow triming for background at ${time_str}!!!!"
   fi  
   if [ -r "imssnow2" ]; then
-     ${CNVGRIB} -g21 imssnow2 imssnow
      ${CP} ${STATIC_DIR}/WPS/geo_em.d01.nc ./geo_em.d01.nc
      ${CP} ${STATIC_DIR}/UPP/nam_imsmask ./nam_imsmask
      ${MPIRUN} --ntasks=1 ${GSI_ROOT}/process_NESDIS_imssnow.exe > stdout_snowupdate 2>&1
