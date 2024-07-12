@@ -23,9 +23,31 @@ Steps to run WRF_FCST_OSSE:
 5. Link `static/GSI_HRRR` or `static/GSI_RRFS` to `static/GSI`.
 6. Create empty `run`, `log`, and `loghistory` directories (on the same level as `bin`, `env`, etc.).
 7. Within `run`, create a subdirectory called `surface` and add surface data from a previous HRRR run to initialize the soil state. File naming convention is `wrfout_sfc_HH`, where `HH` is the hour.
-8. Update the upper portion of `xml/HRRR_retro.xml.<machine>` to have the correct machine, directory, etc.
+8. Update the upper portion of `xml/HRRR_retro.xml.<machine>` to have the correct machine, directories, etc.
 9. Link `xml/HRRR_retro.xml.<machine>` to `xml/HRRR_retro.xml`.
 10. Run the workflow using `xml/run_hrrr_retro.ksh`.
+
+## Input Data Formatting  
+  
+Input data for WRF_FCST_OSSE should follow these naming conventions (first part of each path is defined in `xml/HRRR_retro.xml`):  
+  
+- Conventional observations (prepBUFR format): `OBS_DIR/YYYYMMDDHH.rap.tHHz.prepbufr.tm00`
+- Sea surface temperature analyses (GRIB2 format): `SST_DIR/YYJJJHH000000`
+- GFS forecasts for ICs and LBCs (GRIB2 format): `GFS_DIR/YYJJJHH0000FF`
+- GDAS forecasts for flow-dependent background error covariances (HDF5 format): `ENKFFCST_DIR/YYJJJJHH00.gdas.tHHz.atmf0FF.memMMM.nc`
+- Commercial aircraft observation reject list (ASCII format): `AIRCRAFT_REJECT/YYYYMMDD_rejects.txt`
+- Mesonet observation uselist (ASCII format): `SFCOBS_USELIST/YYYY-MM-DD_meso_uselist.txt`
+- Snow and ice analyses (GRIB2 format): `NCEPSNOW_DIR/YYJJJHH00000000`
+
+where... 
+  
+- `YYYY`: 4-digit year (valid time for obs, init time for models) 
+- `MM`: 2-digit month (valid time for obs, init time for models) 
+- `DD`: 2-digit day (valid time for obs, init time for models) 
+- `JJJ`: 3-digit Julian day (valid time for obs, init time for models) 
+- `HH`: 2-digit hour (valid time for obs, init time for models) 
+- `FF`: 2-digit forecast hour  
+- `MMM`: 3-digit ensemble member number  
 
 ## Notes
 
