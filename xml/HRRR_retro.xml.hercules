@@ -1340,6 +1340,14 @@
           <taskdep task="conventional_gsi"/>
           <taskdep task="conventional_gsi_early"/>
         </or>
+	<!--
+        Ensure that spinup cycle does not surpass product cycle.
+        Necessary to ensure that surface fields from the product cycle are available for surface cycling
+        -->
+        <or>
+          <taskdep task="wrf_arw_long"/>
+          <taskdep task="wrf_arw_short"/>
+        </or>
       </and>
     </dependency>
 
@@ -2383,7 +2391,10 @@
         </envar>
 
         <dependency>
-          <datadep age="00:30:00">&DATAROOT;/<cyclestr>@Y@m@d@H</cyclestr>/postprd/wrfprs_hrconus_00.grib2</datadep>
+	  <and>
+            <taskdep task="wrf_arw_#len_name#"/>
+            <datadep age="00:45:00">&DATAROOT;/<cyclestr>@Y@m@d@H</cyclestr>/postprd/wrfnat_hrconus_00.grib2</datadep>
+          </and>
         </dependency>
       </task>
     </metatask>
@@ -2432,7 +2443,10 @@
       </envar>
 
       <dependency>
-        <datadep age="00:30:00">&DATAROOT;/<cyclestr>@Y@m@d@H</cyclestr>/postprd/wrfnat_hrconus_00.grib2</datadep>
+	<and>
+          <taskdep task="wrf_arw_#len_name#"/>
+          <datadep age="00:45:00">&DATAROOT;/<cyclestr>@Y@m@d@H</cyclestr>/postprd/wrfnat_hrconus_00.grib2</datadep>
+        </and>
       </dependency>
     </task>
 
