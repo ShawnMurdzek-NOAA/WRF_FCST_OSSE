@@ -154,7 +154,7 @@
   <cycledef group="10hr">00 10,22 01-02 02 2022 *</cycledef>
   <cycledef group="11hr">00 11,23 01-02 02 2022 *</cycledef>
 
-  <task name="ungrib_SST" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+  <task name="ungrib_SST" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="2">
 
     &UNGRIB_RESOURCES;
     &RESERVATION;
@@ -231,7 +231,7 @@
  
   </task>
 
-  <task name="ungrib_GFS_bc_long" cycledefs="&FCST_LONG_HRS;" maxtries="1">
+  <task name="ungrib_GFS_bc_long" cycledefs="&FCST_LONG_HRS;" maxtries="2">
 
     &UNGRIB_RESOURCES;
     &RESERVATION;
@@ -324,7 +324,7 @@
 
   </task>
 
-  <task name="ungrib_GFS_bc_short" cycledefs="&FCST_SHORT_HRS;" maxtries="1">
+  <task name="ungrib_GFS_bc_short" cycledefs="&FCST_SHORT_HRS;" maxtries="2">
 
     &UNGRIB_RESOURCES;
     &RESERVATION;
@@ -843,7 +843,7 @@
 
   </task>
 
-  <task name="ungrib_GFS_ic" cycledefs="03hr" maxtries="1">
+  <task name="ungrib_GFS_ic" cycledefs="03hr" maxtries="2">
 
     &UNGRIB_RESOURCES;
     &RESERVATION_DEBUG;
@@ -1051,7 +1051,7 @@
 
   </task>
 
-  <task name="conventional_gsi" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+  <task name="conventional_gsi" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="2">
 
     &CONVENTIONAL_RESOURCES;
     &RESERVATION;
@@ -1124,7 +1124,7 @@
 
   </task>
 
-  <task name="conventional_gsi_early" cycledefs="12hr" maxtries="1">
+  <task name="conventional_gsi_early" cycledefs="12hr" maxtries="2">
 
     &CONVENTIONAL_RESOURCES;
     &RESERVATION;
@@ -1501,7 +1501,7 @@
 
   </task>
   
-  <task name="gsi_diag_spinup" cycledefs="03hr,04hr,05hr,06hr,07hr,08hr" maxtries="1">
+  <task name="gsi_diag_spinup" cycledefs="03hr,04hr,05hr,06hr,07hr,08hr" maxtries="2">
 
     &GSI_DIAG_RESOURCES;
     &RESERVATION;
@@ -1550,7 +1550,7 @@
 
   </task>
 
-  <task name="gsi_diag" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+  <task name="gsi_diag" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="2">
 
     &GSI_DIAG_RESOURCES;
     &RESERVATION;
@@ -1827,7 +1827,7 @@
 
   </task>
 
-  <task name="save_nc" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+  <task name="save_nc" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="2">
 
     &CLEAN_RESOURCES;
     &RESERVATION;
@@ -1858,7 +1858,7 @@
   <metatask>
     <var name="fcsthour">01</var>
 
-    <task name="HRRR_soilsave_#fcsthour#" cycledefs="03hr" maxtries="1">
+    <task name="HRRR_soilsave_#fcsthour#" cycledefs="03hr" maxtries="2">
 
       &CLEAN_RESOURCES;
       &RESERVATION;
@@ -1895,7 +1895,7 @@
 
   </metatask>
 
-  <task name="post_00" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+  <task name="post_00" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="3">
 
     &POST_RESOURCES;
     &RESERVATION_UPP;
