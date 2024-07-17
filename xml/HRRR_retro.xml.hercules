@@ -1963,7 +1963,7 @@
   <metatask>
     <var name="fcsthour">01 02 03 04 05 06</var>
 
-    <task name="post_#fcsthour#" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="1">
+    <task name="post_#fcsthour#" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="3">
 
       &POST_RESOURCES;
       &RESERVATION_UPP;
@@ -2033,7 +2033,7 @@
   <metatask>
     <var name="fcsthour">07 08 09 10 11 12</var>
 
-    <task name="post_#fcsthour#" cycledefs="&FCST_LONG_HRS;" maxtries="1">
+    <task name="post_#fcsthour#" cycledefs="&FCST_LONG_HRS;" maxtries="3">
 
       &POST_RESOURCES;
       &RESERVATION_UPP;
