@@ -1489,10 +1489,10 @@
           <!-- Continue production cycle -->
           <and>
             <datadep age="00:00:01:00"><cyclestr offset="-1:00:00">&DATAROOT;/@Y@m@d@H/wrfprd/</cyclestr><cyclestr>wrfout_d01_@Y-@m-@d_@H_@M_@S</cyclestr></datadep>
-            <or>
+            <and>
               <strneq><left>09</left><right><cyclestr>@H</cyclestr></right></strneq>
               <strneq><left>21</left><right><cyclestr>@H</cyclestr></right></strneq>
-            </or>
+            </and>
           </and>
         </or>
         <or>
