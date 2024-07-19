@@ -122,7 +122,7 @@
 <!ENTITY WRF_ARW_RESOURCES "<walltime>01:30:00</walltime>">
 <!ENTITY WRF_ARW_RESOURCES_SHORT "<walltime>00:45:00</walltime>">
 <!ENTITY WRF_ARW_RESOURCES_SPINUP "<walltime>00:30:00</walltime>">
-<!ENTITY POST_RESOURCES "<walltime>00:90:00</walltime>">
+<!ENTITY POST_RESOURCES "<walltime>00:30:00</walltime>">
 <!ENTITY COMBINE_RESOURCES "<walltime>00:15:00</walltime><memory>600M</memory>">
 <!ENTITY NCL_MAIN_RESOURCES "<walltime>01:15:00</walltime><memory>14G</memory>">
 <!ENTITY NCL_RESOURCES "<walltime>01:00:00</walltime><memory>14G</memory>">
@@ -144,18 +144,18 @@
     <cyclestr>&LOG_DIR;/workflow_@Y@m@d@H.log</cyclestr>
   </log>
 
-  <cycledef group="12hr">00 00,12 29-30 04 2022 *</cycledef>
-  <cycledef group="01hr">00 01,13 29-30 04 2022 *</cycledef>
-  <cycledef group="02hr">00 02,14 29-30 04 2022 *</cycledef>
-  <cycledef group="03hr">00 03,15 29-30 04 2022 *</cycledef>
-  <cycledef group="04hr">00 04,16 29-30 04 2022 *</cycledef>
-  <cycledef group="05hr">00 05,17 29-30 04 2022 *</cycledef>
-  <cycledef group="06hr">00 06,18 29-30 04 2022 *</cycledef>
-  <cycledef group="07hr">00 07,19 29-30 04 2022 *</cycledef>
-  <cycledef group="08hr">00 08,20 29-30 04 2022 *</cycledef>
-  <cycledef group="09hr">00 09,21 29-30 04 2022 *</cycledef>
-  <cycledef group="10hr">00 10,22 29-30 04 2022 *</cycledef>
-  <cycledef group="11hr">00 11,23 29-30 04 2022 *</cycledef>
+  <cycledef group="12hr">00 00,12 01-06 05 2022 *</cycledef>
+  <cycledef group="01hr">00 01,13 01-06 05 2022 *</cycledef>
+  <cycledef group="02hr">00 02,14 01-06 05 2022 *</cycledef>
+  <cycledef group="03hr">00 03,15 01-06 05 2022 *</cycledef>
+  <cycledef group="04hr">00 04,16 01-06 05 2022 *</cycledef>
+  <cycledef group="05hr">00 05,17 01-06 05 2022 *</cycledef>
+  <cycledef group="06hr">00 06,18 01-06 05 2022 *</cycledef>
+  <cycledef group="07hr">00 07,19 01-06 05 2022 *</cycledef>
+  <cycledef group="08hr">00 08,20 01-06 05 2022 *</cycledef>
+  <cycledef group="09hr">00 09,21 01-06 05 2022 *</cycledef>
+  <cycledef group="10hr">00 10,22 01-06 05 2022 *</cycledef>
+  <cycledef group="11hr">00 11,23 01-06 05 2022 *</cycledef>
 
   <task name="ungrib_SST" cycledefs="01hr,02hr,03hr,04hr,05hr,06hr,07hr,08hr,09hr,10hr,11hr,12hr" maxtries="2">
 
