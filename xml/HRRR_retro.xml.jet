@@ -11,9 +11,9 @@
 <!ENTITY PARTITION_WRF "xjet,kjet">
 <!ENTITY PARTITION_UPP "kjet">
 
-<!ENTITY HOMEBASE_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/real_data_sims/spring/WRF_FCST_OSSE">
-<!ENTITY DATABASE_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/real_data_sims/spring/WRF_FCST_OSSE">
-<!ENTITY OBS_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/obs/spring/perfect_conv/real_red_bufr">
+<!ENTITY HOMEBASE_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/syn_data_sims/spring_uas_150km/WRF_FCST_OSSE">
+<!ENTITY DATABASE_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/syn_data_sims/spring_uas_150km/WRF_FCST_OSSE">
+<!ENTITY OBS_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/obs/spring/uas_obs_150km/syn_bufr">
 <!ENTITY NCL_VER "6.5.0">
 
 <!ENTITY SCRIPTS "&HOMEBASE_DIR;/bin">
@@ -50,7 +50,7 @@
 <!ENTITY TOWER_NRSD "&OBS_DIR;/tower/public/netcdf">
 <!ENTITY SODAR_NRSD "&OBS_DIR;/profiler/wind/external/netcdf">
 <!ENTITY TAMDAR_DIR "&OBS_DIR;/acars/raw/netcdf">
-<!ENTITY NCEPSNOW_DIR "/mnt/lfs4/BMC/wrfruc/RRFS_RETRO_DATA/snow/ims96/grib2">
+<!ENTITY NCEPSNOW_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/obs/spring/synthetic_ims">
 <!ENTITY HIGHRES_SST_DIR "&SST_DIR;">
 <!ENTITY HIGHRES_SST14KM_DIR "&OBS_DIR;/lowres_sst">
 <!ENTITY GVF_DIR "/mnt/lfs4/BMC/wrfruc/RRFS_RETRO_DATA/gvf/grib2">
@@ -1126,7 +1126,7 @@
     </dependency>
 
   </task>
-
+<!--
   <task name="conventional_gsi_early" cycledefs="12hr" maxtries="2">
 
     &CONVENTIONAL_RESOURCES;
@@ -1199,7 +1199,7 @@
     </dependency>
 
   </task>
-
+-->
   <task name="gsi_hyb_spinup" cycledefs="03hr,04hr,05hr,06hr,07hr,08hr" maxtries="&ATTEMPTS;">
 
     &GSI_HYB_RESOURCES;
@@ -1339,10 +1339,7 @@
             </or>
           </and>
         </or>
-        <or>
-          <taskdep task="conventional_gsi"/>
-          <taskdep task="conventional_gsi_early"/>
-        </or>
+        <taskdep task="conventional_gsi"/>
 	<!-- 
 	Ensure that spinup cycle does not surpass product cycle. 
         Necessary to ensure that surface fields from the product cycle are available for surface cycling
@@ -1495,10 +1492,7 @@
             </and>
           </and>
         </or>
-        <or>
-          <taskdep task="conventional_gsi"/>
-          <taskdep task="conventional_gsi_early"/>
-        </or>
+        <taskdep task="conventional_gsi"/>
       </and>
     </dependency>
 

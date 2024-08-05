@@ -1123,7 +1123,7 @@
     </dependency>
 
   </task>
-
+<!--
   <task name="conventional_gsi_early" cycledefs="12hr" maxtries="2">
 
     &CONVENTIONAL_RESOURCES;
@@ -1196,7 +1196,7 @@
     </dependency>
 
   </task>
-
+-->
   <task name="gsi_hyb_spinup" cycledefs="03hr,04hr,05hr,06hr,07hr,08hr" maxtries="&ATTEMPTS;">
 
     &GSI_HYB_RESOURCES;
@@ -1336,10 +1336,7 @@
             </or>
           </and>
         </or>
-        <or>
-          <taskdep task="conventional_gsi"/>
-          <taskdep task="conventional_gsi_early"/>
-        </or>
+        <taskdep task="conventional_gsi"/>
 	<!--
         Ensure that spinup cycle does not surpass product cycle.
         Necessary to ensure that surface fields from the product cycle are available for surface cycling
@@ -1492,10 +1489,7 @@
             </and>
           </and>
         </or>
-        <or>
-          <taskdep task="conventional_gsi"/>
-          <taskdep task="conventional_gsi_early"/>
-        </or>
+        <taskdep task="conventional_gsi"/>
       </and>
     </dependency>
 
