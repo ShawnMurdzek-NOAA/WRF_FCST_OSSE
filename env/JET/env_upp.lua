@@ -5,7 +5,7 @@ the JET using Intel-2021.5.0 (Rocky 8)
 
 whatis([===[Loads libraries needed for building WRF on Jet ]===])
 
-prepend_path("MODULEPATH","/lfs4/HFIP/hfv3gfs/role.epic/spack-stack/spack-stack-1.6.0/envs/unified-env-rocky8/install/modulefiles/Core")
+prepend_path("MODULEPATH","/contrib/spack-stack/spack-stack-1.6.0/envs/unified-env-rocky8/install/modulefiles/Core")
 load(pathJoin("stack-intel", os.getenv("stack_intel_ver") or "2021.5.0"))
 load(pathJoin("stack-intel-oneapi-mpi", os.getenv("stack_intel_oneapi_mpi_ver") or "2021.5.1"))
 load(pathJoin("hdf5", os.getenv("hdf5_ver") or "1.14.0"))

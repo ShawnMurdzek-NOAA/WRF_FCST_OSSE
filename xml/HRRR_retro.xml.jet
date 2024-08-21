@@ -11,9 +11,9 @@
 <!ENTITY PARTITION_WRF "xjet,kjet">
 <!ENTITY PARTITION_UPP "kjet">
 
-<!ENTITY HOMEBASE_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/syn_data_sims/spring_uas_150km/WRF_FCST_OSSE">
-<!ENTITY DATABASE_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/syn_data_sims/spring_uas_150km/WRF_FCST_OSSE">
-<!ENTITY OBS_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/obs/spring/uas_obs_150km/syn_bufr">
+<!ENTITY HOMEBASE_DIR "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/syn_data_sims/spring_no_rap_e/WRF_FCST_OSSE">
+<!ENTITY DATABASE_DIR "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/syn_data_sims/spring_no_rap_e/WRF_FCST_OSSE">
+<!ENTITY OBS_DIR "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/obs/spring/corr_errors_2iter/syn_bufr">
 <!ENTITY NCL_VER "6.5.0">
 
 <!ENTITY SCRIPTS "&HOMEBASE_DIR;/bin">
@@ -28,13 +28,13 @@
 <!ENTITY GSI_ROOT "&HOMEBASE_DIR;/exec/GSI">
 <!ENTITY FIX_ROOT "&STATIC_DIR;/GSI">
 
-<!ENTITY SST_DIR "/mnt/lfs4/BMC/wrfruc/RRFS_RETRO_DATA/highres_sst">
+<!ENTITY SST_DIR "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/inputs/highres_sst">
 
-<!ENTITY GFS_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/inputs/gfs/0p25deg/grib2">
-<!ENTITY ENKFFCST_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/inputs/enkf/atm">
+<!ENTITY GFS_DIR "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/inputs/gfs/0p25deg/grib2">
+<!ENTITY ENKFFCST_DIR "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/inputs/enkf/atm">
 
-<!ENTITY AIRCRAFT_REJECT "/mnt/lfs4/BMC/wrfruc/RRFS_RETRO_DATA/amdar_reject_lists">
-<!ENTITY SFCOBS_USELIST "/mnt/lfs4/BMC/wrfruc/RRFS_RETRO_DATA/mesonet_uselist">
+<!ENTITY AIRCRAFT_REJECT "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/inputs/amdar_reject_lists">
+<!ENTITY SFCOBS_USELIST "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/inputs/mesonet_uselist">
 <!ENTITY PREPBUFR_DIR "&OBS_DIR;">
 <!ENTITY PREPBUFR_EARLY_DIR "&OBS_DIR;">
 <!ENTITY PREPBUFR_SAT_DIR "&OBS_DIR;">
@@ -50,10 +50,10 @@
 <!ENTITY TOWER_NRSD "&OBS_DIR;/tower/public/netcdf">
 <!ENTITY SODAR_NRSD "&OBS_DIR;/profiler/wind/external/netcdf">
 <!ENTITY TAMDAR_DIR "&OBS_DIR;/acars/raw/netcdf">
-<!ENTITY NCEPSNOW_DIR "/mnt/lfs4/BMC/wrfruc/murdzek/HRRR_OSSE/obs/spring/synthetic_ims">
+<!ENTITY NCEPSNOW_DIR "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/obs/spring/synthetic_ims">
 <!ENTITY HIGHRES_SST_DIR "&SST_DIR;">
 <!ENTITY HIGHRES_SST14KM_DIR "&OBS_DIR;/lowres_sst">
-<!ENTITY GVF_DIR "/mnt/lfs4/BMC/wrfruc/RRFS_RETRO_DATA/gvf/grib2">
+<!ENTITY GVF_DIR "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/inputs/gvf/grib2">
 <!ENTITY VIIRS_DIR "&OBS_DIR;/sat/nesdis/viirs/fire_pda">
 <!ENTITY MODIS_DIR "&OBS_DIR;/sat/firms/global">
 <!ENTITY NOAA20_DIR "&OBS_DIR;/sat/nesdis/noaa20/fire_pda">
@@ -66,7 +66,7 @@
 <!ENTITY DATAROOT_BC "&DATABASE_DIR;/run">
 <!ENTITY DATAROOT_PCYC "&DATABASE_DIR;/run">
 
-<!ENTITY CRTM_DIR "/lfs4/BMC/nrtrr/FIX_RRFS/crtm/CRTM_v2.3.0">
+<!ENTITY CRTM_DIR "/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/inputs/CRTM/v2.3.0">
 
 <!ENTITY PYGRAF_DIR "&HOMEBASE_DIR;/exec/PYGRAF/pygraf">
 <!ENTITY PYGRAF_YML_FILE "&HOMEBASE_DIR;/static/PYGRAF/wrf_fcst_osse_subset.yml">
