@@ -211,7 +211,7 @@ if [ ${SPINUP} -eq 1 ]; then
     else
       ${ECHO} "${DATAROOT}/surface/wrfout_sfc_${HH} does not exist!!"
       ${ECHO} "ERROR: No land surface data cycled for background at ${time_str}!!!!"
-#      exit 1
+      exit 1
     fi
   else
     echo "NOTE: No surface field update at ${HH}!"
@@ -238,13 +238,20 @@ if [ ${HH} -eq ${UPDATE_SST} ]; then
   else
     ${ECHO} "${SST_ROOT} data does not exist!!"
     ${ECHO} "ERROR: No SST update at ${time_str}!!!!"
+    exit 1
   fi  
   if [ -r "latest.SST" ]; then
     ${CP} ${STATIC_DIR}/UPP/RTG_SST_landmask.dat ./RTG_SST_landmask.dat
     ${CP} ${STATIC_DIR}/WPS/geo_em.d01.nc ./geo_em.d01.nc
     ${MPIRUN} ${GSI_ROOT}/process_SST.exe > stdout_sstupdate 2>&1
+    error=$?
+    if [ ${error} -ne 0 ]; then
+      ${ECHO} "ERROR: process_SST.exe crashed  Exit status=${error}"
+      exit ${error}
+    fi  
   else
     ${ECHO} "ERROR: No latest SST file for update at ${time_str}!!!!"
+    exit 1
   fi
 else
   ${ECHO} "NOTE: No update for SST at ${time_str}!"
@@ -790,13 +797,20 @@ if [[ ${HH} -eq ${UPDATE_SNOW} ]]; then
   else
     ${ECHO} "${NCEPSNOW} data does not exist!!"
     ${ECHO} "ERROR: No snow triming for background at ${time_str}!!!!"
+    exit 1
   fi  
   if [ -r "imssnow2" ]; then
      ${CP} ${STATIC_DIR}/WPS/geo_em.d01.nc ./geo_em.d01.nc
      ${CP} ${STATIC_DIR}/UPP/nam_imsmask ./nam_imsmask
      ${MPIRUN} --ntasks=1 ${GSI_ROOT}/process_NESDIS_imssnow.exe > stdout_snowupdate 2>&1
+     error=$?
+     if [ ${error} -ne 0 ]; then
+       ${ECHO} "ERROR: process_NESDIS_imssnow.exe crashed  Exit status=${error}"
+       exit ${error}
+     fi
   else
     ${ECHO} "ERROR: No imssnow2 file for snow triming for background at ${time_str}!!!!"
+    exit 1
   fi  
 else
   ${ECHO} "NOTE: No update for snow cover at ${time_str}!"
