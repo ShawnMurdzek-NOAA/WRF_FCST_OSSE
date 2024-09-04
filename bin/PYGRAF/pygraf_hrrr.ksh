@@ -25,7 +25,7 @@ module purge
 module use ${ENV_DIR}
 module load env_pygraf
 conda activate base
-conda activate /mnt/lfs4/BMC/wrfruc/murdzek/conda/env/my_pygraf
+conda activate ${PYGRAF_ENV}
 
 date
 export PS4='+ $SECONDS + '

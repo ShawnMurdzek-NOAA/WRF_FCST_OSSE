@@ -11,8 +11,8 @@
 <!ENTITY PARTITION_WRF "xjet,kjet">
 <!ENTITY PARTITION_UPP "kjet">
 
-<!ENTITY HOMEBASE_DIR "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/syn_data_sims/spring_no_rap_e/WRF_FCST_OSSE">
-<!ENTITY DATABASE_DIR "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/syn_data_sims/spring_no_rap_e/WRF_FCST_OSSE">
+<!ENTITY HOMEBASE_DIR "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/syn_data_sims/spring_no_aircft/WRF_FCST_OSSE">
+<!ENTITY DATABASE_DIR "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/syn_data_sims/spring_no_aircft/WRF_FCST_OSSE">
 <!ENTITY OBS_DIR "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/obs/spring/corr_errors_2iter/syn_bufr">
 <!ENTITY NCL_VER "6.5.0">
 
@@ -1126,7 +1126,7 @@
     </dependency>
 
   </task>
-<!--
+
   <task name="conventional_gsi_early" cycledefs="12hr" maxtries="2">
 
     &CONVENTIONAL_RESOURCES;
@@ -1199,7 +1199,7 @@
     </dependency>
 
   </task>
--->
+
   <task name="gsi_hyb_spinup" cycledefs="03hr,04hr,05hr,06hr,07hr,08hr" maxtries="&ATTEMPTS;">
 
     &GSI_HYB_RESOURCES;
@@ -1339,7 +1339,10 @@
             </or>
           </and>
         </or>
-        <taskdep task="conventional_gsi"/>
+	<or>
+          <taskdep task="conventional_gsi"/>
+          <taskdep task="conventional_gsi_early"/>
+        </or>
 	<!-- 
 	Ensure that spinup cycle does not surpass product cycle. 
         Necessary to ensure that surface fields from the product cycle are available for surface cycling
@@ -1492,7 +1495,10 @@
             </and>
           </and>
         </or>
-        <taskdep task="conventional_gsi"/>
+	<or>
+          <taskdep task="conventional_gsi"/>
+          <taskdep task="conventional_gsi_early"/>
+	</or>
       </and>
     </dependency>
 
