@@ -42,6 +42,10 @@ module purge
 module use ${ENV_DIR}
 module load env_wrf
 
+# Necessary on Hercules to avoid crashes
+ulimit -s unlimited
+ulimit -a
+
 # Set up paths to shell commands
 LS=/bin/ls
 LN=/bin/ln

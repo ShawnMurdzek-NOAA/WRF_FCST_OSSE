@@ -7,6 +7,10 @@ module purge
 module use ${ENV_DIR}
 module load env_gsi_prep
 
+# Necessary on Hercules to avoid crashes
+ulimit -s unlimited
+ulimit -a
+
 # Set up paths to unix commands
 RM=/bin/rm
 CP=/bin/cp

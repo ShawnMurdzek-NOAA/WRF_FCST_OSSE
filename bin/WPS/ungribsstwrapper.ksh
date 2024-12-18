@@ -71,7 +71,7 @@ fi
 # Calculate the name of the SST file we are going to use
 SSTFILE="${SOURCE_PATH}/${FORMAT}"
 
-${ECHO} "    START_TIME = `${DATE} +"%Y%m%d %H" -d "${START_TIME}"`"
+#${ECHO} "    START_TIME = `${DATE} +"%Y%m%d %H" -d "${START_TIME}"`"
 ${ECHO} "       SSTFILE = ${SSTFILE}"
 ${ECHO} "        FORMAT = `basename ${SSTFILE}`"
 

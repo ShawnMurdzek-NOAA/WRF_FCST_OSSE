@@ -41,6 +41,12 @@
 module purge
 module use ${ENV_DIR}
 module load env_wps
+module list
+echo "NETCDF = ${NETCDF}"
+
+# Necessary on Hercules to avoid crashes
+ulimit -s unlimited
+ulimit -a
 
 # Make sure we are using GMT time zone for time computations
 export TZ="GMT"
@@ -58,7 +64,7 @@ CUT=`which cut`
 AWK="/bin/gawk --posix"
 SED=/bin/sed
 DATE=/bin/date
-MPIRUN=srun
+MPIRUN="srun"
 
 # Set up some constants
 export WPSNAMELIST=${DATAHOME}/namelist.wps

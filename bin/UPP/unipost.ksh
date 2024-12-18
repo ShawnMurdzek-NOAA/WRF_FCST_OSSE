@@ -36,6 +36,10 @@ module purge
 module use ${ENV_DIR}
 module load env_upp
 
+# Necessary on Hercules to avoid crashes
+ulimit -s unlimited
+ulimit -a
+
 # Make sure we are using GMT time zone for time computations
 export TZ="GMT"
 
