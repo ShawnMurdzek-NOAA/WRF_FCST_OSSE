@@ -1968,6 +1968,10 @@
       <name>CRTM</name>
       <value>&CRTM_DIR;</value>
     </envar>
+    <envar>
+      <name>MACHINE</name>
+      <value>&MACHINE;</value>
+    </envar>
 
     <dependency>
       <datadep age="00:10:00">&DATAROOT;/<cyclestr>@Y@m@d@H</cyclestr>/wrfprd<cyclestr>/wrfout_d01_@Y-@m-@d_@H_00_00</cyclestr></datadep>
@@ -2035,6 +2039,10 @@
       <envar>
         <name>CRTM</name>
         <value>&CRTM_DIR;</value>
+      </envar>
+      <envar>
+        <name>MACHINE</name>
+        <value>&MACHINE;</value>
       </envar>
 
       <dependency>
@@ -2105,6 +2113,10 @@
       <envar>
         <name>CRTM</name>
         <value>&CRTM_DIR;</value>
+      </envar>
+      <envar>
+        <name>MACHINE</name>
+        <value>&MACHINE;</value>
       </envar>
 
       <dependency>

@@ -170,8 +170,15 @@ EOF
 ${RM} -f fort.*
 ln -s ${STATIC_DIR}/post_avblflds.xml post_avblflds.xml
 ln -s ${STATIC_DIR}/params_grib2_tbl_new params_grib2_tbl_new
-ln -s ${STATIC_DIR}/postcntrl.xml postcntrl.xml
-ln -s ${STATIC_DIR}/postxconfig-NT.txt postxconfig-NT.txt
+if [ "${MACHINE}" == "HERCULES" ]; then
+  # Newer HRRR flat text file for Hercules (generated using ${STATIC_DIR}/postcntrl_hrrr_hercules.xml)
+  ln -s ${STATIC_DIR}/postxconfig-NT-hrrr-hercules.txt postxconfig-NT.txt
+  ln -s ${STATIC_DIR}/postcntrl_hrrr_hercules.xml postcntrl.xml
+else
+  # Original flat text file, which does not work on Hercules
+  ln -s ${STATIC_DIR}/postxconfig-NT.txt postxconfig-NT.txt
+  ln -s ${STATIC_DIR}/postcntrl.xml postcntrl.xml
+fi
 ln -s ${STATIC_DIR}/gtg.config.raphrrr gtg.config
 if [ "${MODEL}" == "RAP" ]; then
   ln -s ${STATICWRF_DIR}/run/ETAMPNEW_DATA eta_micro_lookup.dat

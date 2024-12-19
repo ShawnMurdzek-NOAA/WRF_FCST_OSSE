@@ -1,6 +1,6 @@
 #!/bin/ksh --login
 
-module load rocoto
+module load contrib rocoto
 
 rocotorun -w HRRR_retro.xml -d HRRR_retro.db
 
