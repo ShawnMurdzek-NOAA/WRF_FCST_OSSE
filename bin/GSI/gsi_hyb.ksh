@@ -9,6 +9,8 @@ module load env_gsi_prep
 
 # Necessary on Hercules to avoid crashes
 ulimit -s unlimited
+export OMP_NUM_THREADS=1
+export OMP_STACKSIZE=1024M
 ulimit -a
 
 # Set up paths to unix commands
@@ -718,7 +720,7 @@ done
 module purge
 module use ${ENV_DIR}
 module load env_gsi
-mpirun ${GSI} < gsiparm.anl > stdout 2>&1
+${MPIRUN} ${GSI} < gsiparm.anl > stdout 2>&1
 error=$?
 if [ ${error} -ne 0 ]; then
   ${ECHO} "ERROR: ${GSI} crashed  Exit status=${error}"

@@ -1,1 +1,1 @@
-build_hercules_intel.lua
+env_wrf.lua

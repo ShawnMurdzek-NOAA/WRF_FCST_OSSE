@@ -15,7 +15,7 @@ gsi_namelist="
    reset_bad_radbc=.true.,
    l4densvar=.false.,nhr_obsbin=3,
    use_gfs_nemsio=.false.,use_gfs_ncio=.true.,
-   verbose=.false.,
+   verbose=.true.,
  /     
  &GRIDOPTS
    JCAP=$JCAP,JCAP_B=$JCAP_B,NLAT=$NLAT,NLON=$LONA,nsig=$LEVS,
