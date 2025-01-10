@@ -33,6 +33,10 @@
 <!ENTITY GFS_DIR "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/inputs/gfs/0p25deg/grib2">
 <!ENTITY ENKFFCST_DIR "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/inputs/enkf/atm">
 
+<!-- To use GFS and SST files that are already ungribbed, set RUN_UNGRIB to TRUE and specify the UNGRIB_DIR -->
+<!ENTITY RUN_UNGRIB "TRUE">
+<!ENTITY UNGRIB_DIR "/work/noaa/wrfruc/murdzek/HRRR_OSSE/ungribbed_data/spring">
+
 <!ENTITY AIRCRAFT_REJECT "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/inputs/amdar_reject_lists">
 <!ENTITY SFCOBS_USELIST "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/inputs/mesonet_uselists">
 <!ENTITY PREPBUFR_DIR "&OBS_DIR;">
@@ -227,6 +231,14 @@
       <name>DATAHOME_BDY</name>
       <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_bc</cyclestr></value>
     </envar>
+    <envar>
+      <name>RUN_UNGRIB</name>
+      <value>&RUN_UNGRIB;</value>
+    </envar>
+    <envar>
+      <name>UNGRIB_DIR</name>
+      <value><cyclestr>&UNGRIB_DIR;/@Y@m@d@H/extprd_ic</cyclestr></value>
+    </envar>
 
     <dependency>
       <datadep><cyclestr>&HIGHRES_SST_DIR;/@y@j00000000</cyclestr></datadep>
@@ -295,6 +307,14 @@
     <envar>
       <name>DATAHOME</name>
       <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_bc</cyclestr></value>
+    </envar>
+    <envar>
+      <name>RUN_UNGRIB</name>
+      <value>&RUN_UNGRIB;</value>
+    </envar>
+    <envar>
+      <name>UNGRIB_DIR</name>
+      <value><cyclestr>&UNGRIB_DIR;/@Y@m@d@H/extprd_bc</cyclestr></value>
     </envar>
 
     <!-- Because we're focusing on retros, we don't really need a dependency here
@@ -388,6 +408,14 @@
     <envar>
       <name>DATAHOME</name>
       <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_bc</cyclestr></value>
+    </envar>
+    <envar>
+      <name>RUN_UNGRIB</name>
+      <value>&RUN_UNGRIB;</value>
+    </envar>
+    <envar>
+      <name>UNGRIB_DIR</name>
+      <value><cyclestr>&UNGRIB_DIR;/@Y@m@d@H/extprd_bc</cyclestr></value>
     </envar>
 
     <!-- Because we're focusing on retros, we don't really need a dependency here
@@ -904,6 +932,15 @@
       <name>DATAHOME</name>
       <value><cyclestr>&DATAROOT;/@Y@m@d@H/extprd_ic</cyclestr></value>
     </envar>
+    <envar>
+      <name>RUN_UNGRIB</name>
+      <value>&RUN_UNGRIB;</value>
+    </envar>
+    <envar>
+      <name>UNGRIB_DIR</name>
+      <value><cyclestr>&UNGRIB_DIR;/@Y@m@d@H/extprd_ic</cyclestr></value>
+    </envar>
+
 
     <dependency>
       <datadep age="00:02:00"><cyclestr offset="-&IC_OFFSET;:00:00">&GFS_DIR;/@y@j@H000003</cyclestr></datadep>

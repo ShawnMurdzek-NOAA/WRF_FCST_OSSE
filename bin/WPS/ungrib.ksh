@@ -174,6 +174,12 @@ if [ ! "${FCST_INTERVAL}" ]; then
   exit 1
 fi
 
+# Check to make sure RUN_UNGRIB was specified
+if [ ! "${RUN_UNGRIB}" ]; then
+  ${ECHO} "ERROR: \$RUN_UNGRIB is not set!"
+  exit 1
+fi
+
 # Check to make sure the Vtable for the source exists
 if [ ! -r ${STATIC_DIR}/Vtable.${SOURCE} ]; then
   ${ECHO} "ERROR: ${STATIC_DIR}/Vtable.${SOURCE} does not exist or is not readable"
@@ -197,6 +203,44 @@ cycle_hour=`${DATE} +%H -d "${START_TIME}"`
 
 #echo $start_yyyymmdd_hhmmss
 #echo $end_yyyymmdd_hhmmss
+
+# If input files are already ungribbed, simply copy them over and exit
+if [[ "${RUN_UNGRIB}" == "FALSE" ]]; then
+  ${ECHO} "Copying over data that has already been ungribbed"
+  ${MKDIR} -p ${DATAHOME}
+  cd ${DATAHOME}
+
+  # Check that UNGRIB_DIR exists
+  if [ ! "${UNGRIB_DIR}" ]; then
+    ${ECHO} "ERROR: \$RUNGRIB_DIR is not set!"
+    exit 1
+  fi
+
+  # Copy over ungribbed files
+  fcst=0
+  while [ ${fcst} -le ${FCST_LENGTH} ]; do
+    filename=${UNGRIB_DIR}/${SOURCE}:`${DATE} +%Y-%m-%d_%H -d "${START_TIME}  ${fcst} hours"`
+    ${ECHO} "Copying ${filename}"
+    ${CP} ${filename} .
+    (( fcst=fcst+FCST_INTERVAL ))
+  done
+
+  # Check to see if we've got all the files we're expecting
+  fcst=0
+  while [ ${fcst} -le ${FCST_LENGTH} ]; do
+    filename=${DATAHOME}/${SOURCE}:`${DATE} +%Y-%m-%d_%H -d "${START_TIME}  ${fcst} hours"`
+    if [ ! -s ${filename} ]; then
+      echo "ERROR: ${filename} is missing"
+      exit 1
+    fi
+    (( fcst=fcst+FCST_INTERVAL ))
+  done
+
+  # Exit
+  ${ECHO} "ungrib.ksh terminated at `${DATE}`"
+  exit 0
+
+fi
 
 # Get the forecast interval in seconds
 (( fcst_interval_sec = ${FCST_INTERVAL} * 3600 ))
