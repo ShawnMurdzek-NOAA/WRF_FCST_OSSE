@@ -87,8 +87,6 @@ hourly:
     li:
       - best
       - sfc
-    ltg3:
-      - sfc
     mfrp:
       - sfc
     mref:
@@ -119,17 +117,17 @@ hourly:
       - sfc
     snod:
       - sfc
-    soilt: &soilt_levs
-      - 0cm
-      - 1cm
-      - 4cm
-      - 10cm
-      - 30cm
-      - 60cm
-      - 1m
-      - 1.6m
-      - 3m
-    soilw: *soilt_levs
+   #soilt: &soilt_levs
+   #   - 0cm
+   #   - 1cm
+   #   - 4cm
+   #   - 10cm
+   #   - 30cm
+   #   - 60cm
+   #   - 1m
+   #   - 1.6m
+   #   - 3m
+   # soilw: *soilt_levs
     solar:
       - sfc
     ssrun:
@@ -144,9 +142,6 @@ hourly:
       - sfc
     totp:
       - sfc
-    trc1:
-      - sfc
-      - int
     ulwrf:
       - sfc
       - top
@@ -179,5 +174,3 @@ hourly:
       - 250mb
       - 850mb
       - max
-      - mdn
-      - mup

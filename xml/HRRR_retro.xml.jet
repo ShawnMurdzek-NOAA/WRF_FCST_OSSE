@@ -73,6 +73,7 @@
 <!ENTITY CRTM_DIR "/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/inputs/CRTM/v2.3.0">
 
 <!ENTITY PYGRAF_DIR "&HOMEBASE_DIR;/exec/PYGRAF/pygraf">
+<!ENTITY PYGRAF_DEFAULT_SPECS_FILE "&HOMEBASE_DIR;/static/PYGRAF/default_specs.yml">
 <!ENTITY PYGRAF_YML_FILE "&HOMEBASE_DIR;/static/PYGRAF/wrf_fcst_osse_subset.yml">
 <!ENTITY PYGRAF_SITE_FILE "&HOMEBASE_DIR;/static/PYGRAF/conus_raobs.txt">
 
@@ -2428,6 +2429,10 @@
         <envar>
           <name>FCST_LEN_HRS</name>
           <value>#fcst_len#</value>
+        </envar>
+	<envar>
+          <name>DEFAULT_SPECS_YML_FILE</name>
+          <value>&PYGRAF_DEFAULT_SPECS_FILE;</value>
         </envar>
         <envar>
           <name>IMAGES_YML_FILE</name>

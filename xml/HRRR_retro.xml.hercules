@@ -11,8 +11,8 @@
 <!ENTITY PARTITION_WRF "hercules">
 <!ENTITY PARTITION_UPP "hercules">
 
-<!ENTITY HOMEBASE_DIR "/work2/noaa/wrfruc/murdzek/HRRR_OSSE/hercules_test2/WRF_FCST_OSSE">
-<!ENTITY DATABASE_DIR "/work2/noaa/wrfruc/murdzek/HRRR_OSSE/hercules_test2/WRF_FCST_OSSE">
+<!ENTITY HOMEBASE_DIR "/work2/noaa/wrfruc/murdzek/HRRR_OSSE/hercules_test2/test/WRF_FCST_OSSE">
+<!ENTITY DATABASE_DIR "/work2/noaa/wrfruc/murdzek/HRRR_OSSE/hercules_test2/test/WRF_FCST_OSSE">
 <!ENTITY OBS_DIR "/work/noaa/wrfruc/murdzek/nature_run_spring/obs/corr_errors_2iter/syn_bufr">
 <!ENTITY NCL_VER "6.5.0">
 
@@ -54,7 +54,7 @@
 <!ENTITY TOWER_NRSD "&OBS_DIR;/tower/public/netcdf">
 <!ENTITY SODAR_NRSD "&OBS_DIR;/profiler/wind/external/netcdf">
 <!ENTITY TAMDAR_DIR "&OBS_DIR;/acars/raw/netcdf">
-<!ENTITY NCEPSNOW_DIR "/work2/noaa/wrfruc/murdzek/nature_run_spring/obs/synthetic_ims">
+<!ENTITY NCEPSNOW_DIR "/work/noaa/wrfruc/murdzek/nature_run_spring/obs/synthetic_ims">
 <!ENTITY HIGHRES_SST_DIR "&SST_DIR;">
 <!ENTITY HIGHRES_SST14KM_DIR "&OBS_DIR;/lowres_sst">
 <!ENTITY GVF_DIR "/work2/noaa/wrfruc/murdzek/RRFS_input_data/gvf/grib2">
@@ -73,6 +73,7 @@
 <!ENTITY CRTM_DIR "/work2/noaa/wrfruc/murdzek/RRFS_input_data/FIX_RRFS/crtm/CRTM_v2.3.0">
 
 <!ENTITY PYGRAF_DIR "&HOMEBASE_DIR;/exec/PYGRAF/pygraf">
+<!ENTITY PYGRAF_DEFAULT_SPECS_FILE "&HOMEBASE_DIR;/static/PYGRAF/default_specs.yml">
 <!ENTITY PYGRAF_YML_FILE "&HOMEBASE_DIR;/static/PYGRAF/wrf_fcst_osse_subset.yml">
 <!ENTITY PYGRAF_SITE_FILE "&HOMEBASE_DIR;/static/PYGRAF/conus_raobs.txt">
 
@@ -2406,6 +2407,10 @@
         <envar>
           <name>FCST_LEN_HRS</name>
           <value>#fcst_len#</value>
+        </envar>
+        <envar>
+          <name>DEFAULT_SPECS_YML_FILE</name>
+          <value>&PYGRAF_DEFAULT_SPECS_FILE;</value>
         </envar>
         <envar>
           <name>IMAGES_YML_FILE</name>

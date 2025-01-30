@@ -85,6 +85,7 @@ case ${GRAPHICS_TYPE} in
     file_tmpl="wrfprs_hrconus_{FCST_TIME:02d}.grib2"
     file_type=prs
     extra_args="\
+      --specs ${DEFAULT_SPECS_YML_FILE} \
       --tiles ${tiles} \
       --images ${IMAGES_YML_FILE} hourly"
     if [ ${ALL_LEADS:-true} = "true" ] ; then
