@@ -1,0 +1,3 @@
+To create a new "flat text" (postxconfig) file for Hercules, run the following:
+
+/usr/bin/perl PostXMLPreprocessor.pl postcntrl_hrrr_hercules.xml post_avblflds_hercules.xml postxconfig-NT-hrrr-hercules.txt
