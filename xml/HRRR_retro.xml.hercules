@@ -11,9 +11,9 @@
 <!ENTITY PARTITION_WRF "hercules">
 <!ENTITY PARTITION_UPP "hercules">
 
-<!ENTITY HOMEBASE_DIR "/work2/noaa/wrfruc/murdzek/HRRR_OSSE/hercules_test2/test/WRF_FCST_OSSE">
-<!ENTITY DATABASE_DIR "/work2/noaa/wrfruc/murdzek/HRRR_OSSE/hercules_test2/test/WRF_FCST_OSSE">
-<!ENTITY OBS_DIR "/work/noaa/wrfruc/murdzek/nature_run_spring/obs/corr_errors_2iter/syn_bufr">
+<!ENTITY HOMEBASE_DIR "/work2/noaa/wrfruc/murdzek/HRRR_OSSE/syn_data_WRF_FCST_OSSE_hercules/spring_uas_35km/WRF_FCST_OSSE">
+<!ENTITY DATABASE_DIR "/work2/noaa/wrfruc/murdzek/HRRR_OSSE/syn_data_WRF_FCST_OSSE_hercules/spring_uas_35km/WRF_FCST_OSSE">
+<!ENTITY OBS_DIR "/work/noaa/wrfruc/murdzek/nature_run_spring/obs/uas_obs_35km/combine_obs/syn_bufr">
 <!ENTITY NCL_VER "6.5.0">
 
 <!ENTITY SCRIPTS "&HOMEBASE_DIR;/bin">
@@ -140,7 +140,7 @@
 
 ]>
 
-<workflow realtime="F" scheduler="slurm" cyclethrottle="4" cyclelifespan="299:00:00:00">
+<workflow realtime="F" scheduler="slurm" cyclethrottle="10" cyclelifespan="299:00:00:00">
 
   <log>
     <cyclestr>&LOG_DIR;/workflow_@Y@m@d@H.log</cyclestr>
