@@ -33,7 +33,7 @@
 <!ENTITY GFS_DIR "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/inputs/gfs/0p25deg/grib2">
 <!ENTITY ENKFFCST_DIR "/mnt/lfs5/BMC/wrfruc/murdzek/HRRR_OSSE/inputs/enkf/atm">
 
-<!-- To use GFS and SST files that are already ungribbed, set RUN_UNGRIB to TRUE and specify the UNGRIB_DIR -->
+<!-- To use GFS and SST files that are already ungribbed, set RUN_UNGRIB to FALSE and specify the UNGRIB_DIR -->
 <!ENTITY RUN_UNGRIB "TRUE">
 <!ENTITY UNGRIB_DIR "/work/noaa/wrfruc/murdzek/HRRR_OSSE/ungribbed_data/spring">
 
