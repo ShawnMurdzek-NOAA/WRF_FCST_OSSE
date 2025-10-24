@@ -5,17 +5,8 @@ log/*
 loghistory/*
 run/*
 src/*
-static/GSI/*
-static/GSI_HRRR/*
-static/GSI_RRFS/*
 static/WPS/*nc*
 static/WRF/run/*
-
-# Don't ignore certain GSI static files
-!static/GSI_HRRR/gsiparm.anl.sh
-!static/GSI_HRRR/anavinfo_arw_netcdf
-!static/GSI_RRFS/gsiparm.anl.sh
-!static/GSI_RRFS/anavinfo_arw_netcdf
 
 # Don't ignore executables README
 !exec/README.md
