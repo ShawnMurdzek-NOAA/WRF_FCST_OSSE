@@ -28,6 +28,8 @@ Steps to run WRF_FCST_OSSE:
 10. Run the workflow using `xml/run_hrrr_retro.ksh`.
 11. NOTE: To start the initial spinup cycle, the wrf_arw_short and wrf_arw_long tasks for all initialization hours for that spinup period (i.e., 03-08 or 15-20 UTC) must be manually completed, because these tasks are dependencies for the gsi_hyb_spinup task.
 
+Steps (2) - (7) above can be completed using the `setup_exp.sh` script on supported HPC platforms. Simply change the beginning of the script to reflect your HPC system and desired season.
+
 ## Input Data Formatting  
   
 Input data for WRF_FCST_OSSE should follow these naming conventions (first part of each path is defined in `xml/HRRR_retro.xml`):  
