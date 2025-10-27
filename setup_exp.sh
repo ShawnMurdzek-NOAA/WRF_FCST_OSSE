@@ -22,6 +22,7 @@ if [[ ${machine} == 'hercules' ]]; then
   upp_exec='/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/attempt2/UPP/exec/upp.x'
   wps_exec=('/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/attempt2/hrrr_wps2.fd/WPSV3.9.1/geogrid.exe'
 	    '/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/attempt2/hrrr_wps2.fd/WPSV3.9.1/metgrid.exe'
+	    '/work/noaa/wrfruc/murdzek/HRRR_OSSE/exec/WPS/ungrib.exe'
 	    '/work/noaa/epic/role-epic/spack-stack/hercules/spack-stack-1.6.0/envs/unified-env/install/intel/2021.9.0/wgrib2-2.0.8-53fnkln/bin/wgrib2')
   wrf_exec=('/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/attempt2/hrrr_update_bc.fd/hrrr_update_bc.exe'
 	    '/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/attempt2/WRFV3.9_no_pnetcdf/main/real.exe'
