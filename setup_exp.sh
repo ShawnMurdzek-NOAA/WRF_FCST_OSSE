@@ -89,6 +89,10 @@ case ${machine} in
     cd ./exec/UPP
     ln -sf upp.x ncep_post.exe
     cd ../../
+
+    cd ./exec/WRF
+    ln -sf hrrr_update_bc.exe da_update_bc.exe
+    cd ../../
   ;;
 
 esac
