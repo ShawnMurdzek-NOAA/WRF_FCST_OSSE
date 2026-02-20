@@ -5,7 +5,7 @@
 # Inputs
 
 machine='hercules'
-season='winter'
+season='spring'
 
 #===================================================================================================
 # You shouldn't need to change anything below here
