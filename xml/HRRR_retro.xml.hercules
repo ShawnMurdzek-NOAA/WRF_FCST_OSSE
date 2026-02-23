@@ -19,6 +19,7 @@
 <!ENTITY SCRIPTS "&HOMEBASE_DIR;/bin">
 <!ENTITY ENV_DIR "&HOMEBASE_DIR;/env/&MACHINE;">
 <!ENTITY STATIC_DIR "&HOMEBASE_DIR;/static">
+<!ENTITY SUBMODULES_DIR "&HOMEBASE_DIR;/submodules">
 
 <!ENTITY WPS_ROOT "&HOMEBASE_DIR;/exec/WPS">
 <!ENTITY WRF_ROOT "&HOMEBASE_DIR;/exec/WRF">
@@ -72,7 +73,7 @@
 
 <!ENTITY CRTM_DIR "/work2/noaa/wrfruc/murdzek/RRFS_input_data/FIX_RRFS/crtm/CRTM_v2.3.0">
 
-<!ENTITY GSI_DIAG_PLOTS_DIR "&HOMEBASE_DIR;/exec/GSI_DIAG_PLOTS/pygraf">
+<!ENTITY GSI_DIAG_PLOTS_DIR "&HOMEBASE_DIR;/exec/GSI_DIAG_PLOTS">
 <!ENTITY PYGRAF_DIR "&HOMEBASE_DIR;/exec/PYGRAF/pygraf">
 <!ENTITY PYGRAF_DEFAULT_SPECS_FILE "&HOMEBASE_DIR;/static/PYGRAF/default_specs.yml">
 <!ENTITY PYGRAF_YML_FILE "&HOMEBASE_DIR;/static/PYGRAF/wrf_fcst_osse_subset.yml">
@@ -1651,6 +1652,10 @@
       <value>&ENV_DIR;</value>
     </envar>
     <envar>
+      <name>SUBMODULES_DIR</name>
+      <value>&SUBMODULES_DIR;</value>
+    </envar>
+    <envar>
       <name>OUT_DIR</name>
       <value><cyclestr>&DATAROOT;/@Y@m@d@H/gsi_diag_plots_spinup</cyclestr></value>
     </envar>
@@ -1694,6 +1699,10 @@
     <envar>
       <name>ENV_DIR</name>
       <value>&ENV_DIR;</value>
+    </envar>
+    <envar>
+      <name>SUBMODULES_DIR</name>
+      <value>&SUBMODULES_DIR;</value>
     </envar>
     <envar>
       <name>OUT_DIR</name>

@@ -23,7 +23,7 @@
 # Load modules and proper Python environment
 module purge
 module use ${ENV_DIR}
-module load env_pygraf
+module load env_python
 conda activate base
 conda activate ${PYGRAF_ENV}
 

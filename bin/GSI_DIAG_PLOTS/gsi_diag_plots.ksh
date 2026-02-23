@@ -19,9 +19,10 @@
 # Load modules and proper Python environment
 module purge
 module use ${ENV_DIR}
-module load env_pygraf
+module load env_python
 conda activate base
-conda activate ${PYGRAF_ENV}
+conda activate ${MYPY_ENV}
+export PYTHONPATH=$PYTHONPATH:${SUBMODULES_DIR}
 
 date
 export PS4='+ $SECONDS + '
@@ -34,6 +35,7 @@ export PS4='+ $SECONDS + '
 #-----------------------------------------------------------------------
 #
 { save_shell_opts; set -u -x; } > /dev/null 2>&1
+shopt -s nullglob
 #
 #-----------------------------------------------------------------------
 #
@@ -66,7 +68,7 @@ echo
 #
 #-----------------------------------------------------------------------
 #
-HH=`date +"%H" -d "${TIME}"`
+HH=`date +"%H" -d "${TIME::8} ${TIME:8:2}"`
 
 # Skip if GSI was not run
 if [ ${SPINUP} -eq 1 ] && [ ${SKIP_GSI_FIRST_SPINUP} -eq 1 ]; then
@@ -82,6 +84,7 @@ fi
 #-----------------------------------------------------------------------
 #
 mkdir -p "${OUT_DIR}"
+cd ${OUT_DIR}
 #
 #-----------------------------------------------------------------------
 #
@@ -89,7 +92,7 @@ mkdir -p "${OUT_DIR}"
 #
 #-----------------------------------------------------------------------
 #
-cd ${GSI_DIAG_PLOTS_DIR}
+cp ${GSI_DIAG_PLOTS_DIR}/gsi_diag_plots.py .
 python -u gsi_diag_plots.py \
 	${DATAGSIHOME}/diag_results.conv_ges \
 	${DATAGSIHOME}/diag_results.conv_anl \
@@ -103,9 +106,14 @@ err=$?
 #
 #-----------------------------------------------------------------------
 #
-cd ${OUT_DIR}
-zip gsi_diag_plots.zip *png
-rm *.png
+if [[ ${err} -eq 0 ]]; then
+  out_pngs=(*png)
+  if [[ ${#out_pngs[@]} -gt 0 ]]; then
+    echo "Zipping PNG files"
+    zip gsi_diag_plots.zip *png
+    rm *.png
+  fi
+fi
 #
 #-----------------------------------------------------------------------
 #
