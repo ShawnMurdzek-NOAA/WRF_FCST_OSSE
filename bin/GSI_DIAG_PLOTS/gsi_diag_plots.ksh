@@ -3,11 +3,7 @@
 #
 #-----------------------------------------------------------------------
 #
-# This script runs the pygraf create_graphics driver for creating
-# PNG figures and zipping them for dissemination to the web.
-#
-# Loosely based on JRRFS_RUN_PYTHON_GRAPHICS from rrfs-workflow for 
-# RRFSv1
+# This script runs the Python GSI diag plotting script
 #
 #-----------------------------------------------------------------------
 #
@@ -25,7 +21,8 @@ module purge
 module use ${ENV_DIR}
 module load env_python
 conda activate base
-conda activate ${PYGRAF_ENV}
+conda activate ${MYPY_ENV}
+export PYTHONPATH=$PYTHONPATH:${SUBMODULES_DIR}
 
 date
 export PS4='+ $SECONDS + '
@@ -38,6 +35,7 @@ export PS4='+ $SECONDS + '
 #-----------------------------------------------------------------------
 #
 { save_shell_opts; set -u -x; } > /dev/null 2>&1
+shopt -s nullglob
 #
 #-----------------------------------------------------------------------
 #
@@ -66,50 +64,27 @@ echo
 #
 #-----------------------------------------------------------------------
 #
+# Check whether we need to run GSI diag plots
+#
+#-----------------------------------------------------------------------
+#
+HH=`date +"%H" -d "${TIME::8} ${TIME:8:2}"`
+
+# Skip if GSI was not run
+if [ ${SPINUP} -eq 1 ] && [ ${SKIP_GSI_FIRST_SPINUP} -eq 1 ]; then
+  if [ ${HH} -eq "03" ] || [ ${HH} -eq "15" ]; then
+    exit 0
+  fi
+fi
+#
+#-----------------------------------------------------------------------
+#
 # Set the run directory and post directories.
 #
 #-----------------------------------------------------------------------
 #
-postprd_dir="${DATAUPPHOME}"
-run_dir="${DATAHOME}/pyprd"
-zip_dir="${DATAHOME}/nclprd"
-
-fcst_length=${FCST_LEN_HRS}
-tiles=${TILES:-full}
-
-# Choose the appropriate file template for graphics type
-case ${GRAPHICS_TYPE} in
-
-  "maps")
-
-    file_tmpl="wrfprs_hrconus_{FCST_TIME:02d}.grib2"
-    file_type=prs
-    extra_args="\
-      --specs ${DEFAULT_SPECS_YML_FILE} \
-      --tiles ${tiles} \
-      --images ${IMAGES_YML_FILE} hourly"
-    if [ ${ALL_LEADS:-true} = "true" ] ; then
-        extra_args="\
-          ${extra_args} \
-          --all_leads"
-    fi
-    ;;
-
-  "skewts")
-
-    file_tmpl="wrfnat_hrconus_{FCST_TIME:02d}.grib2"
-    file_type=nat
-    extra_args="\
-      --sites ${SITE_FILE} \
-      --max_plev 100"
-    ;;
-
-  *)
-    err_exit "\
-      GRAPHICS_TYPE \"${GRAPHICS_TYPE}\" is not recognized."
-    ;;
-esac
-mkdir -p "${run_dir}"
+mkdir -p "${OUT_DIR}"
+cd ${OUT_DIR}
 #
 #-----------------------------------------------------------------------
 #
@@ -117,22 +92,28 @@ mkdir -p "${run_dir}"
 #
 #-----------------------------------------------------------------------
 #
-cd ${PYTHON_GRAPHICS_DIR}
-python -u ${PYTHON_GRAPHICS_DIR}/create_graphics.py \
-  ${GRAPHICS_TYPE} \
-  -a ${age:-3} \
-  -d ${postprd_dir} \
-  -f ${start_hour:-0} ${fcst_length} \
-  --file_tmpl ${file_tmpl} \
-  --file_type ${file_type} \
-  -m "WRF_FCST_OSSE" \
-  -n ${SLURM_CPUS_ON_NODE:-12} \
-  -o ${run_dir} \
-  -s ${CDATE} \
-  -w ${wait_time:-30} \
-  -z ${zip_dir} \
-  ${extra_args}
+cp ${GSI_DIAG_PLOTS_DIR}/gsi_diag_plots.py .
+python -u gsi_diag_plots.py \
+	${DATAGSIHOME}/diag_results.conv_ges \
+	${DATAGSIHOME}/diag_results.conv_anl \
+	${TIME} \
+	${OUT_DIR}
 err=$?
+#
+#-----------------------------------------------------------------------
+#
+# Zip output
+#
+#-----------------------------------------------------------------------
+#
+if [[ ${err} -eq 0 ]]; then
+  out_pngs=(*png)
+  if [[ ${#out_pngs[@]} -gt 0 ]]; then
+    echo "Zipping PNG files"
+    zip gsi_diag_plots.zip *png
+    rm *.png
+  fi
+fi
 #
 #-----------------------------------------------------------------------
 #

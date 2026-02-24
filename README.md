@@ -16,7 +16,7 @@ All development is currently being done on Jet. No other NOAA RDHPCS systems hav
 
 Steps to run WRF_FCST_OSSE:
 
-1. Clone WRF_FCST_OSSE.
+1. Clone WRF_FCST_OSSE: `git clone --recursive https://github.com/ShawnMurdzek-NOAA/WRF_FCST_OSSE.git`
 2. Link necessary executables in `exec`. See `exec/README.md` for a list of necessary executables.
 3. Update environment lua files in `env` to match the environments used to compile the executables in `exec`.
 4. Download the additional `static` files. See `static/README.md` for additional information.

@@ -10,6 +10,7 @@ static/WRF/run/*
 
 # Don't ignore executables README
 !exec/README.md
+!exec/GSI_DIAG_PLOTS
 
 # Ignore workflow database files
 *.db
