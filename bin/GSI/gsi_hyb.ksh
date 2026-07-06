@@ -95,6 +95,11 @@ if [ ! "${FULLCYC}" ]; then
   exit 1
 fi
 
+# Set PARTIAL_CYC to 1 if it does not exist
+if [ ! ${PARTIAL_CYC} ]; then
+  PARTIAL_CYC=1
+fi
+
 # Make sure START_TIME is defined and in the correct format
 if [ ! "${START_TIME}" ]; then
   ${ECHO} "ERROR: \$START_TIME is not defined!"
@@ -179,8 +184,12 @@ if [ ${SPINUP} -eq 1 ]; then
     BACKGRD_FILE=${DATAHOME_SPINUP}/wrfout_d01_${time_str}
   fi
 else
-  if [ ${HH} -eq "09" ] || [ ${HH} -eq "21" ]; then
-    BACKGRD_FILE=${DATAHOME_SPINUP}/wrfout_d01_${time_str}
+  if [ ${PARTIAL_CYC} -eq 1 ]; then
+    if [ ${HH} -eq "09" ] || [ ${HH} -eq "21" ]; then
+      BACKGRD_FILE=${DATAHOME_SPINUP}/wrfout_d01_${time_str}
+    else
+      BACKGRD_FILE=${DATAHOME_PROD}/wrfout_d01_${time_str}
+    fi
   else
     BACKGRD_FILE=${DATAHOME_PROD}/wrfout_d01_${time_str}
   fi

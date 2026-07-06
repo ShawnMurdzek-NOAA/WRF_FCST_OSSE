@@ -139,6 +139,7 @@
 
 <!ENTITY ATTEMPTS "3">
 <!ENTITY SKIP_GSI_FIRST_SPINUP "1">
+<!ENTITY PARTIAL_CYC "0">
 
 ]>
 
@@ -1000,6 +1001,10 @@
     <envar>
       <name>SKIP_GSI_FIRST_SPINUP</name>
       <value>&SKIP_GSI_FIRST_SPINUP;</value>
+    </envar>
+    <envar>
+      <name>PARTIAL_CYC</name>
+      <value>&PARTIAL_CYC;</value>
     </envar>
     <envar>
       <name>DATABASE_DIR</name>
