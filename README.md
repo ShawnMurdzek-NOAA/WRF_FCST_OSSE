@@ -12,23 +12,28 @@ A WRF-Based forecast system for OSSEs. Loosely based on HRRRv4.
 
 ## Running WRF_FCST_OSSE
 
-All development is currently being done on Jet. No other NOAA RDHPCS systems have been tested.
+All development is currently being done on Hercules. No other NOAA RDHPCS systems have been tested.
 
 Steps to run WRF_FCST_OSSE:
 
-1. Clone WRF_FCST_OSSE: `git clone --recursive https://github.com/ShawnMurdzek-NOAA/WRF_FCST_OSSE.git`
-2. Link necessary executables in `exec`. See `exec/README.md` for a list of necessary executables.
-3. Update environment lua files in `env` to match the environments used to compile the executables in `exec`.
-4. Download the additional `static` files. See `static/README.md` for additional information.
-5. Link `static/GSI_HRRR` or `static/GSI_RRFS` to `static/GSI`.
-6. Create empty `run`, `log`, and `loghistory` directories (on the same level as `bin`, `env`, etc.).
-7. Within `run`, create a subdirectory called `surface` and add surface data from a previous HRRR run to initialize the soil state. File naming convention is `wrfout_sfc_HH`, where `HH` is the hour.
-8. Update the upper portion of `xml/HRRR_retro.xml.<machine>` to have the correct machine, directories, etc.
-9. Link `xml/HRRR_retro.xml.<machine>` to `xml/HRRR_retro.xml`.
-10. Run the workflow using `xml/run_hrrr_retro.ksh`.
-11. NOTE: To start the initial spinup cycle, the wrf_arw_short and wrf_arw_long tasks for all initialization hours for that spinup period (i.e., 03-08 or 15-20 UTC) must be manually completed, because these tasks are dependencies for the gsi_hyb_spinup task.
+1. Clone WRF_FCST_OSSE: `git clone --recursive https://github.com/ShawnMurdzek-NOAA/WRF_FCST_OSSE.git`.
+2. `cd WRF_FCST_OSSE`.
+3. If necessary, edit the top portion of `setup_exp.sh` so it has the correct machine and season.
+4. Run `setup_exp.sh`, which does the following:
+    1. Link necessary executables in `exec`. See `exec/README.md` for a list of necessary executables.
+    2. Update environment lua files in `env` to match the environments used to compile the executables in `exec`.
+    3. Download the additional `static` files. See `static/README.md` for additional information.
+    4. Link `static/GSI_HRRR` or `static/GSI_RRFS` to `static/GSI`.
+    5. Create empty `run`, `log`, and `loghistory` directories (on the same level as `bin`, `env`, etc.).
+    6. Within `run`, create a subdirectory called `surface` and add surface data from a previous HRRR run to initialize the soil state. File naming convention is `wrfout_sfc_HH`, where `HH` is the hour.
+5. Update the upper portion of `xml/HRRR_retro.xml.<machine>` to have the correct machine, directories, etc.
+6. Link `xml/HRRR_retro.xml.<machine>` to `xml/HRRR_retro.xml`.
+7. Run the workflow using `xml/run_hrrr_retro.ksh`.
+8. NOTE: To start the initial spinup cycle, the wrf_arw_short and wrf_arw_long tasks for all initialization hours for that spinup period (i.e., 03-08 or 15-20 UTC) must be manually completed, because these tasks are dependencies for the gsi_hyb_spinup task.
 
-Steps (2) - (7) above can be completed using the `setup_exp.sh` script on supported HPC platforms. Simply change the beginning of the script to reflect your HPC system and desired season.
+### Running a continuously cycled experiment
+
+The instructions listed above are for a partially cycled experiment. To run a continuously cycled experiment, follow the same steps as for a partially cycled experiment, but change the times in the `<cycledef></cycledef>` tags so that the workflow only runs for <= 12 hours. This is needed to spin up the continuously cycled experiment. Once that spinup time has passed, use the `xml/HRRR_retro.xml.<machine>.continuous` file to run the rest of the experiment.
 
 ## Input Data Formatting  
   
