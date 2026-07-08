@@ -33,7 +33,7 @@ Steps to run WRF_FCST_OSSE:
 
 ### Running a continuously cycled experiment
 
-The instructions listed above are for a partially cycled experiment. To run a continuously cycled experiment, follow the same steps as for a partially cycled experiment, but change the times in the `<cycledef></cycledef>` tags so that the workflow only runs for <= 12 hours. This is needed to spin up the continuously cycled experiment. Once that spinup time has passed, use the `xml/HRRR_retro.xml.<machine>.continuous` file to run the rest of the experiment.
+The instructions listed above are for a partially cycled experiment. To run a continuously cycled experiment, follow the same steps as for a partially cycled experiment, but change the times in the `<cycledef></cycledef>` tags so that the workflow only runs for 9-12 hours. This is needed to spin up the continuously cycled experiment. Once that spinup time has passed, use the `xml/HRRR_retro.xml.<machine>.continuous` file to run the rest of the experiment.
 
 ## Input Data Formatting  
   
