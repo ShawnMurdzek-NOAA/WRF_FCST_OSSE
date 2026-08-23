@@ -1,1 +1,1 @@
-build_hercules_intel.lua
+gsi_hercules.intel.lua

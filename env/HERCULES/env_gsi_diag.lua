@@ -1,1 +1,1 @@
-env_gsi.lua
+gsi_hercules.intel.lua
