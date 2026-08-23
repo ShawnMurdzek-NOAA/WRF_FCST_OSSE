@@ -5,7 +5,7 @@
 # Inputs
 
 machine='hercules'
-season='spring'
+season='winter'
 
 #===================================================================================================
 # You shouldn't need to change anything below here
@@ -13,20 +13,20 @@ season='spring'
 # Machine-specific options
 echo "Machine = ${machine}"
 if [[ ${machine} == 'hercules' ]]; then
-  gsi_exec=('/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/attempt2/hrrr_full_cycle_surface.fd/hrrr_full_cycle_surface.exe'
-	    '/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/attempt2/rrfs-workflow/exec/gsi.x'
-	    '/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/attempt2/hrrr_process_imssnow.fd/process_NESDIS_imssnow.exe'
-	    '/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/attempt2/hrrr_process_sst.fd/process_SST.exe'
-	    '/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/attempt2/GSI-utils/bin/bin/read_diag_conv.x')
+  gsi_exec=('/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/spack-stack-2.1.0/hrrr_full_cycle_surface.fd/hrrr_full_cycle_surface.exe'
+	    '/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/spack-stack-2.1.0/gsi/bin/bin/gsi.x'
+	    '/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/spack-stack-2.1.0/hrrr_process_imssnow.fd/process_NESDIS_imssnow.exe'
+	    '/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/spack-stack-2.1.0/hrrr_process_sst.fd/process_SST.exe'
+	    '/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/spack-stack-2.1.0/GSI-utils/bin/bin/read_diag_conv.x')
   pygraf_dir='/work/noaa/wrfruc/murdzek/HRRR_OSSE/exec/PYGRAF/pygraf'
-  upp_exec='/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/attempt2/UPP/exec/upp.x'
-  wps_exec=('/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/attempt2/hrrr_wps2.fd/WPSV3.9.1/geogrid.exe'
-	    '/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/attempt2/hrrr_wps2.fd/WPSV3.9.1/metgrid.exe'
+  upp_exec='/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/spack-stack-2.1.0/UPP/exec/upp.x'
+  wps_exec=('/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/spack-stack-2.1.0/hrrr_wps2.fd/WPSV3.9.1/geogrid.exe'
+	    '/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/spack-stack-2.1.0/hrrr_wps2.fd/WPSV3.9.1/metgrid.exe'
 	    '/work/noaa/wrfruc/murdzek/HRRR_OSSE/exec/WPS/ungrib.exe'
-	    '/work/noaa/epic/role-epic/spack-stack/hercules/spack-stack-1.6.0/envs/unified-env/install/intel/2021.9.0/wgrib2-2.0.8-53fnkln/bin/wgrib2')
-  wrf_exec=('/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/attempt2/hrrr_update_bc.fd/hrrr_update_bc.exe'
-	    '/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/attempt2/WRFV3.9_no_pnetcdf/main/real.exe'
-	    '/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/attempt2/WRFV3.9_no_pnetcdf/main/wrf.exe')
+	    '/apps/spack-managed/gcc-11.3.1/wgrib2-3.1.1-san54wih2x4r2vfpghqueep4nlwpoqic/bin/wgrib2'
+  wrf_exec=('/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/spack-stack-2.1.0/hrrr_update_bc.fd/hrrr_update_bc.exe'
+	    '/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/spack-stack-2.1.0/WRFV3.9_no_pnetcdf/main/real.exe'
+	    '/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/spack-stack-2.1.0/WRFV3.9_no_pnetcdf/main/wrf.exe')
   wps_static_dir='/work/noaa/wrfruc/murdzek/HRRR_OSSE/static/WPS'
   wrf_static_dir='/work/noaa/wrfruc/murdzek/HRRR_OSSE/static/WRF'
   geo_em_name='geo_em.d01_modis15s_lake_Saltlake_modisalb_newtopo_newsoil_lakemod.new_GWD_fields.nc'
