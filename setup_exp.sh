@@ -19,7 +19,7 @@ if [[ ${machine} == 'hercules' ]]; then
 	    '/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/spack-stack-2.1.0/hrrr_process_sst.fd/process_SST.exe'
 	    '/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/spack-stack-2.1.0/GSI-utils/bin/bin/read_diag_conv.x')
   pygraf_dir='/work/noaa/wrfruc/murdzek/HRRR_OSSE/exec/PYGRAF/pygraf'
-  upp_exec='/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/spack-stack-2.1.0/UPP/exec/upp.x'
+  upp_exec='/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/spack-stack-2.1.0/UPP/bin/bin/upp.x'
   wps_exec=('/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/spack-stack-2.1.0/hrrr_wps2.fd/WPSV3.9.1/geogrid.exe'
 	    '/work2/noaa/wrfruc/murdzek/src/HRRR/hercules/spack-stack-2.1.0/hrrr_wps2.fd/WPSV3.9.1/metgrid.exe'
 	    '/work/noaa/wrfruc/murdzek/HRRR_OSSE/exec/WPS/ungrib.exe'
