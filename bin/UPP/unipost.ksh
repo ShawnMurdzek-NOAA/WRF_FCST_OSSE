@@ -186,7 +186,13 @@ elif [ "${MODEL}" == "WRF-RR NMM" ]; then
   ln -s ${STATICWRF_DIR}/run/ETAMPNEW_DATA eta_micro_lookup.dat
 fi
 
-# Link all binary files instead of doing each on individually
+# Link all binary files instead of doing each one individually
+# Use crtm-fix module from spack-stack for CRTM fix files
+CRTM="${crtm_fix_ROOT}/fix"
+if [ ! -d ${CRTM} ]; then
+  ${ECHO} "ERROR: CRTM fix directory, '${CRTM}', does not exist"
+  exit 1
+fi
 ln -snf ${CRTM}/*bin ./
 
 #ln -s ${CRTM}/imgr_g11.SpcCoeff.bin imgr_g11.SpcCoeff.bin

@@ -71,8 +71,6 @@
 <!ENTITY DATAROOT_BC "&DATABASE_DIR;/run">
 <!ENTITY DATAROOT_PCYC "&DATABASE_DIR;/run">
 
-<!ENTITY CRTM_DIR "/work2/noaa/wrfruc/murdzek/RRFS_input_data/FIX_RRFS/crtm/CRTM_v2.3.0">
-
 <!ENTITY GSI_DIAG_PLOTS_DIR "&HOMEBASE_DIR;/exec/GSI_DIAG_PLOTS">
 <!ENTITY PYGRAF_DIR "&HOMEBASE_DIR;/exec/PYGRAF/pygraf">
 <!ENTITY PYGRAF_DEFAULT_SPECS_FILE "&HOMEBASE_DIR;/static/PYGRAF/default_specs.yml">
@@ -1469,10 +1467,6 @@
       <value>&STATIC_DIR;/UPP</value>
     </envar>
     <envar>
-      <name>CRTM</name>
-      <value>&CRTM_DIR;</value>
-    </envar>
-    <envar>
       <name>MACHINE</name>
       <value>&MACHINE;</value>
     </envar>
@@ -1539,10 +1533,6 @@
       <envar>
         <name>STATIC_DIR</name>
         <value>&STATIC_DIR;/UPP</value>
-      </envar>
-      <envar>
-        <name>CRTM</name>
-        <value>&CRTM_DIR;</value>
       </envar>
       <envar>
         <name>MACHINE</name>
@@ -1613,10 +1603,6 @@
       <envar>
         <name>STATIC_DIR</name>
         <value>&STATIC_DIR;/UPP</value>
-      </envar>
-      <envar>
-        <name>CRTM</name>
-        <value>&CRTM_DIR;</value>
       </envar>
       <envar>
         <name>MACHINE</name>
