@@ -1370,10 +1370,10 @@
           <!-- Continue spinup cycle -->
           <and>
             <datadep age="00:00:01:00"><cyclestr offset="-1:00:00">&DATAROOT;/@Y@m@d@H/wrfprd_spinup/</cyclestr><cyclestr>wrfout_d01_@Y-@m-@d_@H_@M_@S</cyclestr></datadep>
-            <or>
+            <and>
               <strneq><left>03</left><right><cyclestr>@H</cyclestr></right></strneq>
               <strneq><left>15</left><right><cyclestr>@H</cyclestr></right></strneq>
-            </or>
+            </and>
           </and>
         </or>
         <taskdep task="conventional_gsi"/>
@@ -1384,6 +1384,20 @@
         <or>
           <taskdep task="wrf_arw_long"/>
           <taskdep task="wrf_arw_short"/>
+        </or>
+	<!-- Check that HRRR soil state is properly copied over before soil surgery -->
+        <or>
+          <and>
+            <taskdep task="HRRR_soilsave_01" cycle_offset="-01:00:00"/>
+            <or>
+              <streq><left>04</left><right><cyclestr>@H</cyclestr></right></streq>
+              <streq><left>16</left><right><cyclestr>@H</cyclestr></right></streq>
+            </or>
+          </and>
+          <and>
+            <strneq><left>04</left><right><cyclestr>@H</cyclestr></right></strneq>
+            <strneq><left>16</left><right><cyclestr>@H</cyclestr></right></strneq>
+          </and>
         </or>
       </and>
     </dependency>
