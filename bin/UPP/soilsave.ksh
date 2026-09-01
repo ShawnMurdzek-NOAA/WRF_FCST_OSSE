@@ -93,11 +93,19 @@ ${ECHO} "    FCST_TIME = ${FCST_TIME}"
 timestr=`${DATE} +%Y-%m-%d_%H_%M_%S -d "${START_TIME}  ${FCST_TIME} hours"`
 
 # Save files for land surface cycling  and after long outages in full cycle
+WRFOUT="${DATAWRFHOME}/wrfout_d01_${timestr}"
+SFC_STATE="${DATAROOT}/surface/wrfout_sfc_${timeHH}"
 if [[ ${FCST_TIME} -lt '18' ]]; then
   timeHH=`${DATE} +%H -d "${START_TIME} ${FCST_TIME} hours"`
-  ${ECHO} "Copying ${DATAWRFHOME}/wrfout_d01_${timestr} ${DATAROOT}/surface/wrfout_sfc_${timeHH}_temp"
-  cp ${DATAWRFHOME}/wrfout_d01_${timestr} ${DATAROOT}/surface/wrfout_sfc_${timeHH}_temp
-  mv ${DATAROOT}/surface/wrfout_sfc_${timeHH}_temp ${DATAROOT}/surface/wrfout_sfc_${timeHH}
+  ${ECHO} "Copying ${WRFOUT} ${DATAROOT}/surface/wrfout_sfc_${timeHH}_temp"
+  cp ${WRFOUT} ${DATAROOT}/surface/wrfout_sfc_${timeHH}_temp
+  mv ${DATAROOT}/surface/wrfout_sfc_${timeHH}_temp ${SFC_STATE}
+fi
+
+# Check to ensure that file was copied properly
+if ! cmp -s "${WRFOUT}" "${SFC_STATE}"; then
+  echo "ERROR: HRRR soil state not properly copied"
+  exit 1
 fi
 
 ${ECHO} "soilsave.ksh completed at `${DATE}`"
